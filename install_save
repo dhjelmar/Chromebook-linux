@@ -18,8 +18,11 @@ mkdir GitHub_repos
 cd GitHub_repos
 ! git clone https://github.com/dhjelmar/Chromebook-linux
 ! git clone https://github.com/dhjelmar/R-setup
-# later to update repos from inside R-setup folder
-#    ! git pull
+# Other commands
+#    ! git pull              # update repos from inside repos folder
+#    ! git add file1 file2   # stage files for commit (may not need with -a option on commit)
+#    ! git commit -am "commit message"   # commit all changes with a message
+#    ! git push              # upload committed changes to GitHub
 
 #----------------------
 # EMACS
