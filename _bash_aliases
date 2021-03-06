@@ -1,0 +1,94 @@
+#------------------------------------------
+# dlh additions
+alias lsl="ls -alF"
+alias lsd="ls -d */"
+alias pd="pushd"
+alias pp="popd"
+alias ff="find . -print | grep -i"
+# linux version, lv
+alias lv="lsb_release -a"
+alias rmold="rm *~"
+
+#------------------------
+## BAOBAB
+alias bb="baobab &"
+
+#------------------------
+# EMACS
+# sudo apt-get install emacs
+# 80x33 size works; 0,0 position should be upper left but does not work
+alias e="emacs . -geometry 80x33+0+0 &"
+
+#------------------------
+# MINICONDA
+
+# Get conda running in the base environment, activate sub-environment
+source /opt/miniconda3/bin/activate
+conda activate py37rc
+export XDG_RUNTIME_DIR=""
+
+# conda commands
+#    conda activate py37rc
+#    conda env list
+#    conda env remove --name conda_env
+#    conda list      # lists packages and version
+#    conda install packagename
+#    conda install --offline C:\pymc-2.3.5-np110py35_0.tar.bz2
+#    conda update  packagename
+#    export / import environments
+#       conda env export > environment.yml 
+#       conda env create -f ml_mython_2020.yml 
+#       conda activate ml_python_2020
+
+
+#------------------------
+# JypterLab, Jupyter Notebook, Spyder, R, rstudio
+
+# location of the following set using conda and depends on the environment
+# location: /opt/miniconda3/envs/py37rc/bin/
+alias jl="jupyter lab &"
+alias jn="jupyter notebook &"
+alias sp="spyder &"
+alias R="R --no-save --no-restore-data --quiet"
+alias r="R"
+alias rs="rstudio &"
+
+#------------------------
+# PyCHARM
+
+# pycharm installed here
+#    /opt/pycharm-community-2020.1/bin/pycharm.sh
+#    executable script: /usr/local/bin/charm
+alias charm="charm &"
+
+
+
+
+# failed attempt
+#   conda install -c r rstudio
+# 
+# downloaded rstudio-1.2.5042-amd64-debian.tar.gz
+# upacked in /opt folder using following
+#   sudo tar xfz rstudio-1.2.5042-amd64-debian.tar.gz -C /opt/
+#alias rstudio="/opt/rstudio-1.2.5042/bin/rstudio rstudio &"
+# get following error: 
+#   libssl.so.1.0.2: cannot open shared object file: No such file or directory
+# attempted install with each of the following but no luck
+#   sudo apt-get install libxslt1-dev
+#   sudo apt-get install libssl1.0.2
+#   sudo apt-get install libssl1.0.2-udeb#
+#
+# downloaded rstudio-1.2.5033-amd64.deb
+#   sudo apt-get update
+#   sudo apt-get install r-base r-base-dev
+#   sudo apt-get install gdebi-core
+#   sudo gdebi rstudio-1.2.5033-amd64.deb 
+# created R, Rscript, and rstudio in /usr/bin
+# same error with rstudio so deleted /usr/bin directories
+#
+# downloaded libssl1.0.2 from below
+# http://ftp.br.debian.org/debian/pool/main/o/openssl1.0/libssl1.0.2_1.0.2u-1~deb9u1_amd64.deb
+# installed with
+#    sudo dpkg -i libssl1.0.2_1.0.2u-1_deb9u1_amd64.deb 
+# got me past the libssl.so.1.0.2 error, but now I am missing libsmime3.so.
+# Time to give up.
