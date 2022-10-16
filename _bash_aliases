@@ -1,0 +1,117 @@
+
+#------------------------------------------
+# notes
+# following will reinitialize terminal
+# exec bash
+# Ctrl--       to zoom out in XFCE terminal (Ctrl-- in Chrome)
+# Ctrl-shift-+ to zoom in  in XFCE terminal (Ctrl-+ in Chrome)
+
+
+#------------------------------------------
+alias lsl="ls -alF"
+alias lsd="ls -d */"
+alias pd="pushd"
+alias pp="popd"
+alias ff="find . -print | grep -i"
+# linux version, lv
+alias lv="lsb_release -a"
+alias rmold="rm *~"
+# change to last modified folder
+cdl () {
+    local lastfolderv=`ls -dltr */ | tail -n 1`
+    local lastfolder=`echo ${lastfolderv##* }`
+    cd $lastfolder
+}
+
+
+#------------------------
+## BAOBAB              <-- not installed
+alias bb="baobab &"
+
+#------------------------
+# EMACS
+# sudo apt-get install emacs
+# 80x33 size works; 0,0 position should be upper left but does not work
+e () { emacs $1 -geometry 103x52+0+0 & }
+
+#------------------------
+# ZOOM
+# just type:  zoom
+
+#------------------------
+# YouTube Downloader
+# https://ostechnix.com/youtube-dl-tutorial-with-examples-for-beginners/
+# bash does not allow variable to be passed to an alias so instead define function
+ytdl () {
+   # download url as mp4 and rename
+   local url="$1"
+   local fn="$2"
+   if [ -z "$fn" ]
+   then
+      /usr/local/bin/youtube-dl $url &          # file name will be 1st argument (i.e., url)
+   else
+      /usr/local/bin/youtube-dl -o $fn $url &   # file name will be 2nd argument
+   fi
+}
+
+
+#------------------------
+# MINICONDA
+
+## Get conda running in the base environment, activate sub-environment
+## source /opt/miniconda3/bin/activate
+## conda activate py39r
+## export XDG_RUNTIME_DIR="/tmp/runtime-dhjelmar"
+##export RUNLEVEL=3
+## execute following to set default to either activate or not with true or false
+## do not execute this every time the bash alias file gets run
+##      conda config --set auto_activate_base true
+
+# conda commands
+#    conda create -n py39
+#    conda activate py39
+#    conda deactivate
+#    conda env list
+#    conda env remove --name conda_env
+#    conda list      # lists packages and version
+#    conda install packagename
+#    conda install --offline C:\pymc-2.3.5-np110py35_0.tar.bz2
+#    conda update  packagename
+#    export / import environments
+#       conda env export > environment.yml 
+#       conda env create -f ml_mython_2020.yml 
+#       conda activate ml_python_2020
+#       conda deactive
+
+
+#------------------------
+# VS Code, JypterLab, R, rstudio
+# location of the following set using conda and depends on the environment
+# location: /opt/miniconda3/envs/py37rc/bin/
+vs () { code $1 & }
+jl () { jupyter lab $1 & }
+rs () { rstudio $1 & }
+alias R="R --no-save --no-restore-data --quiet"
+alias r="R"
+
+#------------------------
+# Git
+alias reindex='rm -f .git/index; git reset'
+
+#------------------------
+# PICTURE TOOLS
+# exiftool to edit picture meta data
+# downloaded Linux version of exiftool (on Windows, download Windows version even though run in Git Bash)
+# dlh script to use folder names to rename pictures and add metadata tags
+alias exiftool='/c/Windows/exiftool.exe'
+exifname () {
+    # script to rename pictures based on folders
+    ~/GitHub_repos/Chromebook-linux/exifname.sh
+}
+alias exdirclean='rm -r *.jpg_original'
+
+#------------------------
+<<mycommentblock
+this line is part of the comment block
+so is this one
+mycommentblock

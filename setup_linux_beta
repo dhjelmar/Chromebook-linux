@@ -1,0 +1,444 @@
+##----------------------
+## determine linux version is installed
+lsb_release -a
+
+#----------------------
+# update apt-get
+sudo apt-get update && sudo apt-get upgrade
+
+#----------------------
+# GitHub
+# https://www.techrepublic.com/article/how-to-use-github-in-chrome-os/
+sudo apt-get install git
+git config --global user.name dlhjel
+git config --global user.email dlhjel@gmail.com
+git config --global color.ui true
+git config --global core.editor emacs
+mkdir GitHub_repos
+cd GitHub_repos
+! git clone https://github.com/dhjelmar/Chromebook-linux
+! git clone https://github.com/dhjelmar/R-setup
+# Other commands
+#    ! git pull              # update repos from inside repos folder
+#    ! git add file1 file2   # stage files for commit (may not need with -a option on commit)
+#    ! git commit -am "commit message"   # commit all changes with a message
+#    ! git push              # upload committed changes to GitHub
+
+#----------------------
+# EMACS
+cd ~/
+ln -s GitHub_repos/Chromebook-linux/_bash_aliases .bash_aliases
+ln -s GitHub_repos/Chromebook-linux/_emacs        .emacs
+sudo apt-get install emacs
+
+#----------------------
+# BAOBAB - Disk Usage Analyzer (185 MB)
+sudo apt-get install baobab
+
+#----------------------
+# MINICONDA, Python, R, rstudio, Jupyter Notebook, JupyterLab
+# https://installpython3.com/chromebook/
+# https://alex.miller.im/posts/data-science-chromebook-pixelbook-jupyter-python-r/  
+
+# install miniconda
+# first download miniconda installation script from online
+sudo bash Miniconda3-latest-Linux-x86_64.sh
+# when prompted, enter /opt/miniconda3 for installation location
+sudo chown -R dlhjel /opt/miniconda3
+
+# create py37r environment that includes R, rstudio, and Python version 3.7
+conda create --name py37rc rstudio python=3.7
+source /opt/miniconda3/bin/activate          # see .bash_aliases additions
+conda activate py37rc
+#conda install r-irkernel
+conda install -c r r-irkernel   # this seems to bring in R and rstudio
+
+# install python packages
+conda install pandas numpy matplotlib seaborn
+# for python packages that do not load with conda, try conda pip
+conda install pip    # puts pip in venv directory
+# machine learning (https://scikit-learn.org/stable/)
+/opt/miniconda3/envs/py37rc/bin/pip install sklearn
+				    
+# install r packages
+# note: conda commands from terminal
+#       install.packages commands inside R or rstudio
+# conda install r-qualityTools                  # did not work
+# conda install -c conda-forge r-qualityTools   # did not work
+install.packages("qualityTools")              # worked inside JL or rstudio
+conda install r-readxl r-ggplot2 r-plotly r-RColorBrewer r-dplyr r-reticulate r-matlib
+# machine learning packages
+#   conda install r-superml     # failed on windows
+    install.packages("superml") # worked inside R
+#   conda install r-caret       # installed but library failed
+    install.packages("caret")   # installed and library worked
+#   conda install r-essentials  # not sure how much this adds that do not need
+#   conda install r-cluster       # for machine learning
+#   conda install r-devtools
+#   conda install r-feather
+# tolerance package for tolerance limits (following installs all failed on chrome)
+#   conda install r-tolerance
+#   conda install -c r r-tolerance
+#   conda install -c conda-forge r-tolerance
+#   install.packages("tolerance")    # this one worked on windows within R
+#   gave up on chrome and sourced R files instead (see setup.r)
+# fractional factorial design package failed on chrome
+#   conda install r-FrF2        # I think this worked on windows
+#   conda install -c r r-FrF2
+#   install.packages("FrF2)     # this may have worked on chrome
+# factorial design package did install
+#   install.packages("FactoMineR")   # did not try with conda
+#   install.packages("factoextra")   # did not try with conda
+
+## R rgl package failed with following error:
+##    configure: error: X11 not found but required, configure aborted.
+##    ERROR: configuration failed for package ‘rgl’
+## following run to attempt to fix it
+##    sudo apt-get install xorg 
+##    sudo apt-get install libx11-dev 
+##    sudo apt-get install libglu1-mesa-dev 
+##    sudo apt-get install libfreetype6-dev
+## then inside R tried the following but it still failed
+##    install.packages("rgl")
+
+## at some point, may want to fix R to save previous plots but then clear the workspace when close
+## see following including the warning at the end
+##     http://mikemeredith.net/blog/2016/View_previous_graph_Windows.htm#:~:text=To%20start%20recording%20plots%2C%20go,PgUp%20and%20PgDn%20arrow%20keys.
+## on Linux, the following suggestion
+##     alias R="R --no-save --no-restore-data --quiet"
+## was made here
+##     https://community.rstudio.com/t/how-to-clear-the-r-environment/14303/7
+
+## if reinstall R, also update packages
+## update.packages(checkBuilt = TRUE)
+
+## install jupyter notebook  <-- can probably skip if rather use jupyterlab
+#conda install jupyter
+#jupyter notebook --generate-config
+
+# install jupyterlab
+conda config --add channels conda-forge
+conda install -c conda-forge jupyterlab  # not sure if need generate-config line also
+# install toc extension inside JL but first need nodejs
+#     conda install nodejs
+#     above worked on Windows and installed on Chromebook but JL did not recognize it on Chromebook
+# found instructions to get toc here:
+#     https://khalido.org/chromebooks/2019/01/setup-crostini-chromebook
+#     install nvm which is a script to install nodejs
+         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+#     restart terminal so nvm command is available
+         nvm install node
+#     install toc extension
+         jupyter labextension install @jupyterlab/toc
+# to be able to select a specific environment in jupyterlab
+      conda install nb_conda_kernels
+      conda install ipykernel 
+
+# install nbconvert so can export jupyterlab to PDF
+# looks like this takes about 1GB of space though so may not want on Chromebook
+# https://nbconvert.readthedocs.io/en/latest/install.html
+conda install nbconvert
+sudo apt-get install pandoc
+# following for linux
+sudo apt-get install texlive-xetex texlive-fonts-recommended texlive-generic-recommended
+# following for Windows: MixTex instead of xetex
+
+
+### install Spyder <-- DO NOT BOTHER
+##conda install -c anaconda spyder 
+
+#----------------------
+# Connect google drive to jupyterlab
+# https://towardsdatascience.com/integrate-jupyterlab-with-google-drive-98d13e340c63
+# run following in linux shell on chromebook or anaconda prompt in windows
+jupyter labextension install @jupyterlab/google-drive
+# Additional instructions created google developer console project with
+#    Client ID: 258740377349-5smj6m17i0h21imnlsatc4929tguoq3j.apps.googleusercontent.com
+#    Client Secret: TzUqjEMp-5svhDU5n4jhuvO1
+
+
+#----------------------
+# P2J
+pip install p2j
+# usage: p2j mycode.py        # converts py to ipynb
+#        p2j -r mycode.ipynb  # converts ipynb to py
+# options: -r = reverse
+#          -o = overwrite
+
+#----------------------
+# PyCharm - DID NOT INSTALL THIS AGAIN YET
+# download tar file from JetBrains
+sudo tar xfz pycharm-community-2020.1.tar.gz -C /opt/
+/opt/pycharm-community-2020.1/bin/pycharm.sh 
+# Options to create launcher script in /usr/local/bin and to install R 
+mkdir PycharmProject
+# Missing dist.utils when tried to set up environment so entered: 
+sudo apt-get install python3-distutils 
+# when setting up a project, use the conda interpreter 
+# rather than the default so can access the conda environments
+
+
+
+#--------------------------------------------------------------------------
+##-------------------------------------------------------
+## STOPPED HERE (instructinos to install PyCharm are still below)
+##-------------------------------------------------------
+#--------------------------------------------------------------------------
+
+
+          ## FOLLOWING ATTEMPTS TO FIX R IN CONDA FAILED TO LOAD TOLERANCE
+          ## NOW TRYING INSTALLATION SEPARATE FROM CONDA
+          ##In R: 
+          ##.libPaths()
+          
+          ## cannot install qualityTools, tolerance, or rgl packages for R using conda
+          ## Windows:    Had success with install.packages within Rstudio
+          ## Chromebook: same approach did not work.
+          ##             Downloaded from Cran into Programs/R_packages
+          ##             Added this folder to libPaths in .Renviron
+          ##             tar xfz tolerance_2.0.0.tar.gz
+          ##             conda install ~/ProgramFiles/R_packages/qualityTools_1.55.tar.
+          
+          ##
+          ##           In terminal
+          ##             conda skeleton cran r-rgl          <-- may not need this first
+          ##             conda skeleton cran r-tolerance
+          ##             conda build r-tolerance
+          ##             conda install -c local r-tolerance
+          ##             conda install r-crosstalk       # needed for tolerance
+          ##           In R
+          ##             install.packages("tolerance")
+          ##             install.packages("vctrs")       # needed for plotly
+
+
+##----------------------dlh
+## R and rstudio
+
+## https://community.rstudio.com/t/rstudio-desktop-on-a-chromebook-without-crouton-using-new-linux-beta-option/17393
+
+## installing basic R package and the development package
+sudo apt-get install r-base r-base-dev
+
+## install "gdebi" to install the downloaded install package
+sudo apt-get install gdebi-core
+
+## install wget to actually get the file first
+sudo apt-get install wget
+
+## this one library was missing and needs to be installed prior to rstudio
+sudo apt-get install libxslt1.1
+
+## download rstudio (CHANGE TO BE MOST RECENT VERSION)
+sudo wget https://download1.rstudio.org/rstudio-xenial-1.1.463-amd64.deb
+
+## installed the keyring (think this was superfluous to be honest, but I did it and am including it just in case...) per https://www.rstudio.com/code-signing/
+sudo apt-get install dpkg-sig
+gpg --keyserver keys.gnupg.net --recv-keys 3F32EE77E331692F
+dpkg-sig --verify rstudio-xenial-1.1.463-amd64.deb
+
+## install Rstudio...
+sudo gdebi rstudio-xenial-1.1.463-amd64.deb
+
+## clean it up...
+rm rstudio-xenial-1.1.463-amd64.deb
+
+## UPDATE:  Needed to add write permissions to the R folders as follows:
+sudo chmod -R 777 /usr/lib/R
+sudo chmod -R 777 /usr/share/R
+
+##----------------------
+
+## https://blog.sellorm.com/2018/12/20/installing-r-and-rstudio-on-a-chromebook/
+sudo apt update
+sudo apt upgrade
+sudo apt install -y gnupg2
+sudo apt-key adv --keyserver keys.gnupg.net --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF'
+## add following to /etc/apt/sources.list file:
+##    deb https://cran.rstudio.com/bin/linux/debian stretch-cran35
+sudo apt install -y r-base r-base-dev
+sudo apt install -y libgstreamer1.0 libgstreamer-plugins-base1.0 libxslt-dev
+## replace following with recent rstudio version
+curl -o rstudio.deb https://download1.rstudio.org/rstudio-xenial-1.1.463-amd64.deb
+dpkg -i rstudio.deb
+
+
+##----------------------
+
+## https://github.com/jennybc/operation-chromebook#links-re-r-and-rstudio
+sudo apt-get update
+sudo apt-get install r-base r-base-dev
+## things needed for rstudio
+wget http://ftp.ca.debian.org/debian/pool/main/g/gstreamer0.10/libgstreamer0.10-0_0.10.36-1.5_amd64.deb
+wget http://ftp.ca.debian.org/debian/pool/main/g/gst-plugins-base0.10/libgstreamer-plugins-base0.10-0_0.10.36-2_amd64.deb
+sudo dpkg -i libgstreamer0.10-0_0.10.36-1.5_amd64.deb
+sudo dpkg -i libgstreamer-plugins-base0.10-0_0.10.36-2_amd64.deb
+sudo apt-mark hold libgstreamer-plugins-base0.10-0
+sudo apt-mark hold libgstreamer0.10
+sudo apt-mark showhold
+## install various libraries needed for other things
+sudo apt-get install libjpeg62
+sudo apt-get install libxslt1-dev
+sudo apt-get install libssl-dev
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libssh2-1-dev
+sudo apt-get install pandoc
+sudo apt-get install texlive-latex-base
+sudo apt-get install qpdf
+## download rstudio IDE daily build and install
+wget https://s3.amazonaws.com/rstudio-dailybuilds/rstudio-1.4.255-amd64.deb
+sudo dpkg -i rstudio-1.1.299-amd64.deb
+
+
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
+# BELOW IS LIKELY ALL GARBAGE. CREATED ABOVE AFTER FIGURING OUT USING BELOW.
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
+
+#          #----------------------
+#          # INSTEAD OF ABOVE, THIS IS MORE WHAT I DID SO KEEPING IN CASE ABOVE DOES NOT WORK
+#          
+#          # MINICONDA, Jupyter Notebook, R
+#          
+#          # install miniconda
+#          sudo bash Miniconda3-latest-Linux-x86_64.sh 
+#          sudo chown -R dlhjel /opt/miniconda3
+#          conda create --name conda_env
+#          # could have specified version of python in environment with:
+#          # conda create --name conda_env python=3.7
+#           source /opt/miniconda3/bin/activate
+#          # https://alex.miller.im/posts/data-science-chromebook-pixelbook-jupyter-python-r/
+#          # Install new Python packages using conda, e.g.: 
+#          conda install numpy pandas 
+#          
+#          # create python environment
+#          conda create --name conda_env
+#          conda activate conda_env
+#          conda config --add channels conda-forge
+#          
+#          # install jupyter notebook
+#          conda install jupyter
+#          jupyter notebook --generate-config
+#          
+#          # create Jupyter notebook area
+#          mkdir JUPYTER_NOTEBOOK
+#          # run using: jupyter notebook &
+#          # see jn alias in .bash_aliases
+#          
+#          # install R kernel for juptyer notebook
+#          conda install r-irkernel    # R package so need to add "r-"
+#          conda install r-essentials
+#          conda install rpy2          # python package so do not need "r-"
+#          
+#          # failed attempt to install rstudio
+#          # conda install -c r rstudio
+#          
+#          ## some conda commands
+#          ## conda create --name py37 python=3.7   # creates py37 environment with python v3.7
+#          #conda env list
+#          #conda list -n conda_env     # conda_env is an environment I created
+#          #conda info
+#          #conda env remove --name conda_env   # removes conda_env
+#          
+#          #----------------------
+#          # RSTUDIO
+#          
+#          # Try the following and if that does not work then do the indented thing I did last time
+#          #     conda create --name rstudio rstudio python=3.7
+#          
+#          ###           Download of borked label rstudio from https://anaconda.org/r/rstudio/files
+#          ###           I copied the downloaded file to a new folder and went there
+#          ###                cp rstudio-1.1.423-hcfd39f1_0.tar.bz2  temp
+#          ###                cd temp
+#          ###                #   conda install -c r studio                       # failed
+#          ###                #   conda install -c r/label/borked rstudio         # falied also I think
+#          ###                conda create --name rstudio rstudio python=3.7   # success
+#          
+#          # dlh
+#          # Change to base environment and install R packages
+#          # https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/
+#          # put all r packages into rstudio environment
+#          # create new environment from rstudio for use with python?
+#          # use rstudio for python and R and Rstudio?
+#          # conda install r-essentials
+#          
+#          
+#          #----------------------
+#          # FOLLOWING ARE ALL COMMENTED OUT, MOSTLY FAILED ATTEMPTS TO GET RSTUDIO TO WORK
+#          
+#          ## tried using conda; this just hangs
+#          #conda install -c r rstudio
+#          #conda create --name rstudio rstudio
+#          ##
+#          ## tried using sudo; this looks like it works but is missing libraries
+#          #sudo tar xfz rstudio-1.2.5042-amd64-debian.tar.gz -C /opt/
+#          ## following are failed attempts to get missing library
+#          #sudo apt-get install libxslt1-dev
+#          #sudo apt-get install libssl1.0.0 libssl-dev
+#          #sudo apt-get install libxslt1-dev
+#          #sudo apt-get install libssl.so.1.0.2
+#          #sudo apt install libssl1.0-dev
+#          #sudo apt install libssl1.1
+#          #sudo apt install libssl1.0.2
+#          #sudo apt-get install libssl1.0.2
+#          #sudo apt-get install libssl1.0.2-udeb
+#          
+#          ## try again using deb file rather than tar.gz file
+#          #sudo apt-get update
+#          ## since rstudio needs r, first installed r
+#          ## sudo seems to put files in /usr/bin
+#          #sudo apt-get install r-base r-base-dev
+#          #sudo apt-get install gdebi-core
+#          #sudo gdebi rstudio-1.2.5033-amd64.deb 
+#          ## at this point rstudio was installed now in /usr/bin (and also in /opt)
+#          
+#          ## following failed to find borked
+#          ## conda install -c r/label/borked rstudio
+#          
+#          ## try again with download of borked label rstudio from https://anaconda.org/r/rstudio/files
+#          ## I copied the downloaded file to a new folder and went there
+#          #      cp rstudio-1.1.423-hcfd39f1_0.tar.bz2  temp
+#          #      cd temp
+#          ##      conda install -c r studio                       # failed
+#          ##      conda install -c r/label/borked rstudio         # falied also I think
+#          #      conda create --name rstudio rstudio python=3.7   # success
+#          
+#          # remove version installed with sudo
+#          #dpkg --list | grep rstudio
+#          #sudo apt-get --purge remove
+
+
+
+# TRY THIS FIRST
+# install r and rstudio in /usr/bin
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install r-base r-base-dev
+sudo apt-get install wget
+sudo apt-get install libxslt1.1
+##sudo wget https://download1.rstudio.org/rstudio-1.2.5042-amd64.deb
+##sudo wget https://rstudio.com/products/rstudio/download/rstudio-1.2.5042-amd64.deb
+## instead of the above, downloaded rstudio-1.2.5042-amd64.deb
+# from https://rstudio.com/products/rstudio/download/#download
+## copied into ~/ProgramFiles
+cd ~/ProgramFiles
+sudo apt-get install gdebi-core
+sudo gdebi rstudio-1.2.5042-amd64.deb 
+
+sudo apt-get install libsmime3.so
+
+#rm rstudio-1.2.5042-amd64.deb
+sudo chmod -R 777 /usr/lib/R
+sudo chmod -R 777 /usr/share/R
+
+
+
+sudo apt-get install libjpeg62
+sudo apt-get install libxslt1-dev
+sudo apt-get install libssl-dev
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libssh2-1-dev
+sudo apt-get install pandoc
+sudo apt-get install texlive-latex-base
+sudo apt-get install qpdf
+
+##----------------------
