@@ -355,6 +355,42 @@ zoom   # to launch
 sudo curl -o /etc/fonts/local.conf https://pastebin.com/raw/atfUQQ2j
 
 
+
+##-----------------------------------------------------------------------------
+## CHEESE - program needed for endoscope to work
+## launch with "cheese"
+
+
+
+##-----------------------------------------------------------------------------
+## DROPBOX
+## https://vitux.com/how-to-install-dropbox-on-debian-10/
+cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf –
+~/.dropbox-dist/dropboxd
+
+## https://linuxhint.com/install_dropbox_debian_10/
+## download Ubuntu 64-bit from dropbox site
+##     https://www.dropbox.com/install-linux
+cd ~/Downloads
+sudo apt update
+sudo apt install ./dropbox_2020.03.04_amd64.deb
+sudo apt install python3-gpg
+sudo reboot
+
+## ## if need to close Dropbox and reopen
+## sudo pgrep -lfa dropbox   # checks if running
+## sudo pkill dropbox
+## ## restart from application menu
+
+
+##-----------------------------------------------------------------------------
+## KEEPASS
+sudo apt-get update
+sudo apt-get install keepass2
+## launch with "keepass2" or "kp" alias
+
+
+
 ##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
 # To update system
