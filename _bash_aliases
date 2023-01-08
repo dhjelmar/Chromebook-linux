@@ -1,5 +1,4 @@
-
-#------------------------------------------
+#------------------------
 # notes
 # following will reinitialize terminal
 # exec bash
@@ -7,7 +6,7 @@
 # Ctrl-shift-+ to zoom in  in XFCE terminal (Ctrl-+ in Chrome)
 
 
-#------------------------------------------
+#------------------------
 alias lsl="ls -alF"
 alias lsd="ls -d */"
 alias pd="pushd"
@@ -21,6 +20,38 @@ cdl () {
     local lastfolderv=`ls -dltr */ | tail -n 1`
     local lastfolder=`echo ${lastfolderv##* }`
     cd $lastfolder
+}
+
+
+#------------------------
+# MOUNT USB DRIVE
+# https://askubuntu.com/questions/37767/how-to-access-a-usb-flash-drive-from-the-terminal
+alias disks="lsblk"    # list disks; USB will likely be sda or something similar
+mount () { 
+    # Usage example: mount sda
+    udisksctl mount --block-device /dev/$1
+}
+unmount(){
+    # Function that unmounts, if needed, then powers off a USB drive
+    # Usage example: unmount sda
+
+    # # original simple unmount and power off function
+    # udisksctl unmount -b /dev/$1 && udisksctl power-off -b /dev/$1
+
+    disk=`lsblk | grep $1`                    # find target disk
+    mounted="$(echo $disk | cut -d' ' -f7)"   # parse to find mountpoint (6th column)
+    echo "disk = " $disk
+    echo "mounted = " $mounted
+    if [ -z "$mounted" ]
+    then
+        # $var is empty so just power off drive
+	echo "Power off drive $1"
+	udisksctl power-off -b /dev/$1
+    else
+        # $var is not empty so unmount and power off drive
+	echo "Unmount and power off drive $1"
+        udisksctl unmount -b /dev/$1 && udisksctl power-off -b /dev/$1
+    fi
 }
 
 
@@ -99,6 +130,10 @@ alias r="R"
 alias reindex='rm -f .git/index; git reset'
 
 #------------------------
+# KeePass
+alias kp="keepass2 &"
+
+#------------------------
 # PICTURE TOOLS
 # exiftool to edit picture meta data
 # downloaded Linux version of exiftool (on Windows, download Windows version even though run in Git Bash)
@@ -106,7 +141,7 @@ alias reindex='rm -f .git/index; git reset'
 alias exiftool='/c/Windows/exiftool.exe'
 exifname () {
     # script to rename pictures based on folders
-    ~/GitHub_repos/Chromebook-linux/exifname.sh
+    ~/Documents/GitHub_repos/Chromebook-linux/exifname.sh
 }
 alias exdirclean='rm -r *.jpg_original'
 
