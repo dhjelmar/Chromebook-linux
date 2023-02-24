@@ -55,6 +55,13 @@ unmount(){
 }
 
 
+
+#------------------------
+## KeePassXC
+alias kp2="keepass2 &"
+alias kpx="keepassxc &"
+
+
 #------------------------
 ## BAOBAB              <-- not installed
 alias bb="baobab &"
