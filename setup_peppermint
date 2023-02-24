@@ -387,8 +387,9 @@ sudo reboot
 ## KEEPASS
 sudo apt-get update
 sudo apt-get install keepass2
-## launch with "keepass2" or "kp" alias
-
+## launch with "keepass2" or "kp2" alias
+sudo apt-get install keepassxc
+## launch with "keepassxc" or "kpx" alias
 
 
 ##-----------------------------------------------------------------------------
