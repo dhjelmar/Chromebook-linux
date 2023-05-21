@@ -11,6 +11,7 @@ alias lsl="ls -alF"
 alias lsd="ls -d */"
 alias pd="pushd"
 alias pp="popd"
+alias cdr="cd ~/Documents/GitHub_repos"
 alias ff="find . -print | grep -i"
 # linux version, lv
 alias lv="lsb_release -a"
@@ -141,6 +142,10 @@ alias reindex='rm -f .git/index; git reset'
 alias kp="keepass2 &"
 
 #------------------------
+# FireFox
+alias ff="/opt/firefox/./firefox &"
+
+#------------------------
 # PICTURE TOOLS
 # exiftool to edit picture meta data
 # downloaded Linux version of exiftool (on Windows, download Windows version even though run in Git Bash)
@@ -151,6 +156,24 @@ exifname () {
     ~/Documents/GitHub_repos/Chromebook-linux/exifname.sh
 }
 alias exdirclean='rm -r *.jpg_original'
+
+
+#------------------------
+# UPDATE SYSTEM
+update () {
+    # sudo apt update
+    upgrade_list=`apt list --upgradable`
+    if [ ${upgrade_list} == "Listing..." ]
+    then
+        echo "nothing to upgrade"
+    else
+        echo "upgrade everything"
+        sudo apt upgrade -y
+        echo "clean up"
+        sudo apt-get clean
+        sudo apt-get autoclean
+    fi
+}
 
 #------------------------
 <<mycommentblock
