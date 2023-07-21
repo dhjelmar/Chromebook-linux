@@ -402,6 +402,28 @@ sudo apt-get install keepassxc
 
 
 ##-----------------------------------------------------------------------------
+## Foxit PDF reader
+## download tar file from https://www.foxit.com/downloads/pdf-reader-thanks.html?product=Foxit-Reader&platform=Linux-64-bit&version=&package_type=&language=English&formId=download-reader
+pd ~/Downloads
+tar xzvf FoxitReader*.tar.gz
+sudo chmod a+x FoxitReader*.run
+sudo ./FoxitReader*.run
+## usage: FoxitReader &
+## to uninstall:
+##    sudo /opt/foxitsoftware/foxitreader/maintenancetool
+
+
+##-----------------------------------------------------------------------------
+## OCRmyPDF
+## install ghostscript (required)
+????????????
+## install tesseract (required)
+???????????
+## install ocrmypdf
+sudo apt install ocrmypdf
+
+
+##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
 # To update system
 # try peppermint_hub / hardware & software / update manager
@@ -422,3 +444,4 @@ sudo apt-get clean
 sudo apt-get autoclean
 
 ## automatic method
+## programmed into update function in _bash_aliases
