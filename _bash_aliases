@@ -12,7 +12,7 @@ alias lsd="ls -d */"
 alias pd="pushd"
 alias pp="popd"
 alias cdr="cd ~/Documents/GitHub_repos"
-alias ff="find . -print | grep -i"
+alias findit="find . -print | grep -i"
 # linux version, lv
 alias lv="lsb_release -a"
 alias rmold="rm *~"
@@ -134,16 +134,23 @@ alias R="R --no-save --no-restore-data --quiet"
 alias r="R"
 
 #------------------------
-# Git
-alias reindex='rm -f .git/index; git reset'
-
-#------------------------
 # KeePass
 alias kp="keepass2 &"
 
 #------------------------
 # FireFox
 alias ff="/opt/firefox/./firefox &"
+
+
+#------------------------
+# Foxit
+foxit () { FoxitReader $1 & }
+
+
+#------------------------
+## OCRmyPDF
+ocr () { ocrmypdf --force-ocr $1 $2 & }
+
 
 #------------------------
 # PICTURE TOOLS
@@ -156,6 +163,26 @@ exifname () {
     ~/Documents/GitHub_repos/Chromebook-linux/exifname.sh
 }
 alias exdirclean='rm -r *.jpg_original'
+
+
+
+
+#------------------------
+# Git
+alias reindex='rm -f .git/index; git reset'
+gitu () {
+    ## remove file from git index and keep in working area
+    ## usage: gitu filename
+    git rm --cached $1
+}
+giti () {
+    echo 'Git instructions:'
+    echo '    reindex = resets index of cached git repository if messed up'
+    echo '            = alias to "rm -f .git/index; git reset"'
+    echo '    gitu fn = to undo commit of file fn'
+    echo '            = alias to "git rm --cached $1" to undo commit of file $1'
+}
+
 
 
 #------------------------
