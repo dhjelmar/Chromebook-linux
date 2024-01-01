@@ -12,7 +12,7 @@ alias lsd="ls -d */"
 alias pd="pushd"
 alias pp="popd"
 alias cdr="cd ~/Documents/GitHub_repos"
-alias findit="find . -print | grep -i"
+alias ff="find . -print | grep -i"
 # linux version, lv
 alias lv="lsb_release -a"
 alias rmold="rm *~"
@@ -71,11 +71,13 @@ alias bb="baobab &"
 # EMACS
 # sudo apt-get install emacs
 # 80x33 size works; 0,0 position should be upper left but does not work
-e () { emacs $1 -geometry 103x52+0+0 & }
+## alias e="emacs . -geometry 103x52+0+0 &"
+e () { emacs -itype -load ~/.emacs.d/init.el "$@" & }
+
 
 #------------------------
 # ZOOM
-# just type:  zoom
+alias zoom="zoom &"
 
 #------------------------
 # YouTube Downloader
@@ -97,6 +99,13 @@ ytdl () {
 #------------------------
 # MINICONDA
 
+## following may just be for PC
+# Get conda running in the base environment, activate sub-environment
+source /opt/miniconda3/bin/activate
+conda activate py39r
+export XDG_RUNTIME_DIR=""
+
+## following may not be needed for PC or linux
 ## Get conda running in the base environment, activate sub-environment
 ## source /opt/miniconda3/bin/activate
 ## conda activate py39r
@@ -116,7 +125,8 @@ ytdl () {
 #    conda install packagename
 #    conda install --offline C:\pymc-2.3.5-np110py35_0.tar.bz2
 #    conda update  packagename
-#    export / import environments
+#
+#    to export / import environments
 #       conda env export > environment.yml 
 #       conda env create -f ml_mython_2020.yml 
 #       conda activate ml_python_2020
@@ -160,7 +170,7 @@ ocr () { ocrmypdf --force-ocr $1 $2 & }
 alias exiftool='/c/Windows/exiftool.exe'
 exifname () {
     # script to rename pictures based on folders
-    ~/Documents/GitHub_repos/Chromebook-linux/exifname.sh
+    ~/GitHub_repos/photo_organize/exifname.sh
 }
 alias exdirclean='rm -r *.jpg_original'
 
