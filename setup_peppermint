@@ -424,6 +424,13 @@ sudo apt install ocrmypdf
 
 
 ##-----------------------------------------------------------------------------
+## command line fuzzy finder
+## https://github.com/junegunn/fzf#using-linux-package-managers
+## following did not work so commented out and instead wrote fh function
+## sudo apt install fzf
+## copy shell/key-bindings.bash into fuzzy_finder.bash
+
+##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
 # To update system
 # try peppermint_hub / hardware & software / update manager
