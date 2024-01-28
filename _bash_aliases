@@ -11,6 +11,7 @@ alias lsl="ls -alF"
 alias lsd="ls -d */"
 alias pd="pushd"
 alias pp="popd"
+alias psa='ps -e'   # all processes
 alias cdr="cd ~/Documents/GitHub_repos"
 alias ff="find . -print | grep -i"
 # linux version, lv
@@ -149,7 +150,7 @@ alias kp="keepass2 &"
 
 #------------------------
 # FireFox
-alias ff="/opt/firefox/./firefox &"
+alias fox="/opt/firefox/./firefox &"
 
 
 #------------------------
@@ -194,6 +195,15 @@ giti () {
 }
 
 
+#------------------------
+# fuzzy finder
+# does not seem to be updated for debian 11 so commented out the following
+# source ~/Documents/GitHub_repos/Chromebook-linux/fuzzy_finder.bash
+# alias fuz='fzf'
+
+# find history (since the above does not work
+fh () { history | grep -i $1 & }
+
 
 #------------------------
 # UPDATE SYSTEM
@@ -212,8 +222,21 @@ update () {
     fi
 }
 
+update () {
+    # sudo apt update
+    apt list --upgradable
+    sudo apt upgrade -y
+    echo "clean up"
+    sudo apt-get clean
+    sudo apt-get autoclean
+}
+
+
+
+
 #------------------------
 <<mycommentblock
 this line is part of the comment block
 so is this one
 mycommentblock
+
