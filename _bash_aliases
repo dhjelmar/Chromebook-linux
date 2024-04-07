@@ -56,11 +56,20 @@ unmount(){
     fi
 }
 
+# automounting usb drives
+# https://github.com/Ferk/udev-media-automount
+
+
+
+
+#------------------------
+# KeePass
+alias kp="keepass2 &"
+alias kp2="keepass2 &"
 
 
 #------------------------
 ## KeePassXC
-alias kp2="keepass2 &"
 alias kpx="keepassxc &"
 
 
@@ -144,9 +153,6 @@ rs () { rstudio $1 & }
 alias R="R --no-save --no-restore-data --quiet"
 alias r="R"
 
-#------------------------
-# KeePass
-alias kp="keepass2 &"
 
 #------------------------
 # FireFox
@@ -208,22 +214,7 @@ fh () { history | grep -i $1 & }
 #------------------------
 # UPDATE SYSTEM
 update () {
-    # sudo apt update
-    upgrade_list=`apt list --upgradable`
-    if [ ${upgrade_list} == "Listing..." ]
-    then
-        echo "nothing to upgrade"
-    else
-        echo "upgrade everything"
-        sudo apt upgrade -y
-        echo "clean up"
-        sudo apt-get clean
-        sudo apt-get autoclean
-    fi
-}
-
-update () {
-    # sudo apt update
+    sudo apt update
     apt list --upgradable
     sudo apt upgrade -y
     echo "clean up"
