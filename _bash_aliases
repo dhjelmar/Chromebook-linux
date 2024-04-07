@@ -58,8 +58,10 @@ unmount(){
 
 # automounting usb drives
 # https://github.com/Ferk/udev-media-automount
-
-
+# to list disks: disks
+# to access a specific disk, use the location identified as the mountpoint
+# e.g., cd '/media/Samsung USB.exfat'
+#       cd  /media/Samsung\ USB.exfat
 
 
 #------------------------
