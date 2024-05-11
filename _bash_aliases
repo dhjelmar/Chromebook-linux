@@ -214,6 +214,10 @@ fh () { history | grep -i $1 & }
 
 
 #------------------------
+# OpenSCAD
+os () { openscad $1 & }
+
+#------------------------
 # UPDATE SYSTEM
 update () {
     sudo apt update
