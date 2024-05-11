@@ -30,12 +30,12 @@ cdl () {
 # https://askubuntu.com/questions/37767/how-to-access-a-usb-flash-drive-from-the-terminal
 alias disks="lsblk"    # list disks; USB will likely be sda or something similar
 mount () { 
-    # Usage example: mount sda
+    # Usage example: mount sda1
     udisksctl mount --block-device /dev/$1
 }
 unmount(){
     # Function that unmounts, if needed, then powers off a USB drive
-    # Usage example: unmount sda
+    # Usage example: unmount sda1
 
     # # original simple unmount and power off function
     # udisksctl unmount -b /dev/$1 && udisksctl power-off -b /dev/$1
@@ -114,7 +114,7 @@ ytdl () {
 ## following may just be for PC
 # Get conda running in the base environment, activate sub-environment
 source /opt/miniconda3/bin/activate
-conda activate py39r
+## conda activate py39r
 export XDG_RUNTIME_DIR=""
 
 ## following may not be needed for PC or linux
