@@ -1,4 +1,12 @@
 ##-----------------------------------------------------------------------------
+# Description
+# Linux Peppermint OS with XFCE desktop environment
+
+# XFCE terminal shortcuts
+# - C-S-c = copy
+# - C-S-v = paste
+
+##-----------------------------------------------------------------------------
 # install operating system
 # https://www.ifixit.com/Guide/How+to+convert+a+generic+Chromebook+to+Linux+OS/108259
 # in last step, selected to install full UEFI ROM firmware
@@ -133,7 +141,7 @@ ln -s ~/GitHub_repos/Chromebook-linux/_emacs ~/.emacs
 # volume
 # google search for "linux volume command line"
 # https://megamorf.gitlab.io/2018/12/16/set-audio-volume-from-command-line/#:~:text=One%20can%20set%20%E2%80%9CSuper%20%26%20%2B,%2D%E2%80%9C%20key%20to%20decrease%20volume.
-# steps: settings / hardware / keyboard / application shortcuts
+# steps: settings manager / hardware / keyboard / application shortcuts
 #        enter command: amixer set Master 2%-
 #        select down-volume key when prompted
 #        repeat above but with 2%+ and up-volume key and again with 0% for mute
@@ -482,3 +490,9 @@ sudo apt-get autoclean
 
 ## automatic method
 ## programmed into update function in _bash_aliases
+
+
+##-----------------------------------------------------------------------------
+## OpenSCAD
+## https://openscad.org/downloads.html
+sudo apt-get install openscad
