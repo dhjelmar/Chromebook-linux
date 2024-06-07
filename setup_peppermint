@@ -469,6 +469,17 @@ sudo udevadm trigger
 
 
 ##-----------------------------------------------------------------------------
+## OpenSCAD
+## https://openscad.org/downloads.html
+sudo apt-get install openscad
+
+
+##-----------------------------------------------------------------------------
+## SSH - install as client (i.e., not the server)
+sudo apt install openssh-client
+
+
+##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
 # To update system
 # try peppermint_hub / hardware & software / update manager
@@ -490,9 +501,3 @@ sudo apt-get autoclean
 
 ## automatic method
 ## programmed into update function in _bash_aliases
-
-
-##-----------------------------------------------------------------------------
-## OpenSCAD
-## https://openscad.org/downloads.html
-sudo apt-get install openscad
