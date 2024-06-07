@@ -24,6 +24,7 @@ alias lsl="ls -alF"
 alias lsd="ls -d */"
 alias pd="pushd"
 alias pp="popd"
+alias psa='ps -e'   # all processes
 alias cdr="cd ~/Documents/GitHub_repos"   # used on linux
 alias gith="cd $git_path"                 # used on Windows
 alias gitw="cd $git_path/../GitHub_work"  # used on Windows
@@ -50,12 +51,12 @@ cdl () {
 # https://askubuntu.com/questions/37767/how-to-access-a-usb-flash-drive-from-the-terminal
 alias disks="lsblk"    # list disks; USB will likely be sda or something similar
 mount () { 
-    # Usage example: mount sda
+    # Usage example: mount sda1
     udisksctl mount --block-device /dev/$1
 }
 unmount(){
     # Function that unmounts, if needed, then powers off a USB drive
-    # Usage example: unmount sda
+    # Usage example: unmount sda1
 
     # # original simple unmount and power off function
     # udisksctl unmount -b /dev/$1 && udisksctl power-off -b /dev/$1
@@ -76,11 +77,22 @@ unmount(){
     fi
 }
 
+# automounting usb drives
+# https://github.com/Ferk/udev-media-automount
+# to list disks: disks
+# to access a specific disk, use the location identified as the mountpoint
+# e.g., cd '/media/Samsung USB.exfat'
+#       cd  /media/Samsung\ USB.exfat
+
+
+#------------------------
+# KeePass
+alias kp="keepass2 &"
+alias kp2="keepass2 &"
 
 
 #------------------------
 ## KeePassXC
-alias kp2="keepass2 &"
 alias kpx="keepassxc &"
 
 
@@ -180,12 +192,14 @@ jl () { jupyter lab $1 & }
 rs () { rstudio $1 & }
 alias R="R --no-save --no-restore-data --quiet"
 alias r="R"
+
 # alias rs="C:/Program Files/RStudio/bin/rstudio.exe"
 
 # run "code ~/.bashrc" in bash to open the file in VS Code
 # https://code.visualstudio.com/docs/terminal/shell-integration
 # Note: as of 1/3/24, use in Git Bash is experimental
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
+
 
 #------------------------
 # KeePass
@@ -236,23 +250,33 @@ giti () {
 }
 
 
+#------------------------
+# fuzzy finder
+# does not seem to be updated for debian 11 so commented out the following
+# source ~/Documents/GitHub_repos/Chromebook-linux/fuzzy_finder.bash
+# alias fuz='fzf'
+
+# find history (since the above does not work
+fh () { history | grep -i $1 & }
+
+
+#------------------------
+# OpenSCAD
+os () { openscad $1 & }
 
 #------------------------
 # UPDATE SYSTEM
 update () {
-    # sudo apt update
-    upgrade_list=`apt list --upgradable`
-    if [ ${upgrade_list} == "Listing..." ]
-    then
-        echo "nothing to upgrade"
-    else
-        echo "upgrade everything"
-        sudo apt upgrade -y
-        echo "clean up"
-        sudo apt-get clean
-        sudo apt-get autoclean
-    fi
+    sudo apt update
+    apt list --upgradable
+    sudo apt upgrade -y
+    echo "clean up"
+    sudo apt-get clean
+    sudo apt-get autoclean
 }
+
+
+
 
 #------------------------
 <<mycommentblock

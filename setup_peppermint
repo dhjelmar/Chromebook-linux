@@ -1,4 +1,12 @@
 ##-----------------------------------------------------------------------------
+# Description
+# Linux Peppermint OS with XFCE desktop environment
+
+# XFCE terminal shortcuts
+# - C-S-c = copy
+# - C-S-v = paste
+
+##-----------------------------------------------------------------------------
 # install operating system
 # https://www.ifixit.com/Guide/How+to+convert+a+generic+Chromebook+to+Linux+OS/108259
 # in last step, selected to install full UEFI ROM firmware
@@ -133,7 +141,7 @@ ln -s ~/GitHub_repos/Chromebook-linux/_emacs ~/.emacs
 # volume
 # google search for "linux volume command line"
 # https://megamorf.gitlab.io/2018/12/16/set-audio-volume-from-command-line/#:~:text=One%20can%20set%20%E2%80%9CSuper%20%26%20%2B,%2D%E2%80%9C%20key%20to%20decrease%20volume.
-# steps: settings / hardware / keyboard / application shortcuts
+# steps: settings manager / hardware / keyboard / application shortcuts
 #        enter command: amixer set Master 2%-
 #        select down-volume key when prompted
 #        repeat above but with 2%+ and up-volume key and again with 0% for mute
@@ -382,9 +390,26 @@ sudo reboot
 ## sudo pkill dropbox
 ## ## restart from application menu
 
+## to uninstall
+## some of the following may not be needed
+dropbox stop
+dropbox status  # Should report "not running"
+rm -rf ~/.dropbox-dist
+rm -rf /var/lib/dropbox
+rm -rf ~/.dropbox*
+sudo apt-get remove nautilus-dropbox
+sudo apt-get remove dropbox
+sudo apt-get autoremove
+rm /etc/apt/source.d/dropbox
+
+#------------------------
+## KeePassXC
+
 
 ##-----------------------------------------------------------------------------
 ## KEEPASS
+## keyanywhere plugin does not seem to work on Linux so cannot link to dropbox
+## could map to dropbox but I do not want to because of space issues
 sudo apt-get update
 sudo apt-get install keepass2
 ## launch with "keepass2" or "kp2" alias
@@ -421,6 +446,37 @@ sudo ./FoxitReader*.run
 ???????????
 ## install ocrmypdf
 sudo apt install ocrmypdf
+
+
+##-----------------------------------------------------------------------------
+## command line fuzzy finder
+## https://github.com/junegunn/fzf#using-linux-package-managers
+## following did not work so commented out and instead wrote fh function
+## sudo apt install fzf
+## copy shell/key-bindings.bash into fuzzy_finder.bash
+
+
+##-----------------------------------------------------------------------------
+##-----------------------------------------------------------------------------
+## auto-mount usb drives
+# https://github.com/Ferk/udev-media-automount
+# download: https://github.com/Ferk/udev-media-automount/archive/refs/heads/master.zip
+unzip master.zip
+cd udev-media-automount-master
+sudo make install
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+
+
+##-----------------------------------------------------------------------------
+## OpenSCAD
+## https://openscad.org/downloads.html
+sudo apt-get install openscad
+
+
+##-----------------------------------------------------------------------------
+## SSH - install as client (i.e., not the server)
+sudo apt install openssh-client
 
 
 ##-----------------------------------------------------------------------------
