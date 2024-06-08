@@ -478,6 +478,51 @@ sudo apt-get install openscad
 ## SSH - install as client (i.e., not the server)
 sudo apt install openssh-client
 
+## On Windows, follow instructions here:
+## https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=gui
+## Username can be found by entering following in Windows PowerShell
+##      $env:USERNAME
+## and servername can be found by entering following in Windows PowerShell
+##      ipconfig | select-string  ('(\s)+IPv4.+\s(?<IP>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))(\s)*') -AllMatches | %{ $_.Matches } | % { $_.Groups["IP"]} | %{ $_.Value }
+## Log into remote PC from linux using password at the prompt (e.g., ssh jack@192.168.1.101):
+##      ssh username@servername
+## The above does not work with MS Account. Need stand alone account. Grrr#!!**!
+## https://answers.microsoft.com/en-us/windows/forum/all/ssh-login-to-microsoft-account-linked-windows/69ea0428-5b06-401c-bb86-e45228709e0b
+##
+
+## IDEA:
+##    - Create local admin account
+##    - Change MS linked account to "standard user"
+##    - ssh into local admin account (or would it be better to ssh into local standard user account?)
+
+## If can log in using the above, can replace password to ssh with a keypair. 
+## On Linux, generate new ssh keypair
+## (https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux)
+## From terminal where found username@servername on Windows from above: 
+##      cd ~/.ssh
+##      ssh-keygen -t ed25519 -C "username@servername"
+## Name the key, e.g., id_ed25519_keyname (creates id_ed25519_keyname and id_ed25519_keyname.pub).
+## Recommended to add a pin for the key.
+## Start ssh agent
+##      eval "$(ssh-agent -s)"
+## Add private key to agent
+##      ssh-add ~/.ssh/id_ed25519_keyname
+## To remove private key from agent
+##      ssh-add -d ~/.ssh/id_ed25519_keyname
+## From Linux while logged into Windows PC through ssh, enter the following in terminal
+## to add the public key to Windows in ~/.ssh/authorized_keys file.
+##      ssh-copy-id -i ~/.ssh/id_ed25519_keyname.pub username@servername
+## above step failed so tried looking here:
+## https://superuser.com/questions/1451241/command-to-copy-client-public-key-to-windows-openssh-sftp-ssh-server-authorized
+## and used manual process:
+##     - Copy xxxxxx.pub file to windows server at location C:\Users\username\.ssh\authorized_keys
+##     - Update ACL on windows server using command
+##             icacls.exe "C:\Users\username\.ssh" /inheritance:r /gr
+## Still not able to log in with keypair.
+## Again tried following which automatically created authorized_keys file
+##     - In Windows C:/Users/username, moved manually created authorized_keys file to authorized_keys_junk
+##     - In Linux ssh session, entered: ssh-copy-id username@servername
+## Next ssh should only require pin and not password, but it still is asking for a password.
 
 ##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
