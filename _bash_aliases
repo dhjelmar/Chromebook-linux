@@ -1,4 +1,16 @@
 #------------------------
+# the following really only needs to be in the higher level source call and can be commented out here
+if [[ "$OSTYPE" == "msys"* ]]; then
+    # operating system is Windows through Git Bash
+    git_path="f:/Documents/01_Dave/Programs/GitHub_home/"
+else
+    # operating system on Linux
+    git_path="~/Documents/GitHub_repos/"
+fi
+
+
+
+#------------------------
 # notes
 # following will reinitialize terminal
 # exec bash
@@ -7,22 +19,31 @@
 
 
 #------------------------
+alias bashrc="source $HOME/.bashrc"
 alias lsl="ls -alF"
 alias lsd="ls -d */"
 alias pd="pushd"
 alias pp="popd"
 alias psa='ps -e'   # all processes
-alias cdr="cd ~/Documents/GitHub_repos"
+alias cdr="cd ~/Documents/GitHub_repos"   # used on linux
+alias gith="cd $git_path"                 # used on Windows
+alias gitw="cd $git_path/../GitHub_work"  # used on Windows
 alias ff="find . -print | grep -i"
+alias pictures="pd 'F:\\MY Pictures'"     # only need in Git Bash
 # linux version, lv
 alias lv="lsb_release -a"
 alias rmold="rm *~"
-# change to last modified folder
+# same as "tree" command in unix
+alias tree="tree.com //a //f"
+# to only list directors (same as "tree -d" command in unix)
+alias treed="tree.com //a"
 cdl () {
+    # change to last modified folder
     local lastfolderv=`ls -dltr */ | tail -n 1`
     local lastfolder=`echo ${lastfolderv##* }`
     cd $lastfolder
 }
+
 
 
 #------------------------
@@ -83,8 +104,14 @@ alias bb="baobab &"
 # EMACS
 # sudo apt-get install emacs
 # 80x33 size works; 0,0 position should be upper left but does not work
-## alias e="emacs . -geometry 103x52+0+0 &"
-e () { emacs -itype -load ~/.emacs.d/init.el "$@" & }
+if [[ "$OSTYPE" == "msys"* ]]; then
+    # operating system is Windows through Git Bash
+    e () { "C:/Program Files/Emacs/emacs-28.2/bin/runemacs.exe" -itype -load ~/.emacs.d/init.el "$@" & }
+else
+    # operating system on Linux
+    ## alias e="emacs . -geometry 103x52+0+0 &"
+    e () { emacs -itype -load ~/.emacs.d/init.el "$@" & }
+fi
 
 
 #------------------------
@@ -113,9 +140,20 @@ ytdl () {
 
 ## following may just be for PC
 # Get conda running in the base environment, activate sub-environment
-source /opt/miniconda3/bin/activate
-## conda activate py39r
+if [[ "$OSTYPE" = "msys"* ]]; then
+    ## enable use of miniconda from within Git Bash
+    . C:/Users/dlhje/anaconda3/etc/profile.d/conda.sh
+    conda activate py39
+else
+    # operating system is Linux (not Git Bash in Windows)
+    source /opt/miniconda3/bin/activate
+    conda activate py39r
+fi
 export XDG_RUNTIME_DIR=""
+## conda activate
+## conda env list
+## conda activate py39
+## conda deactivate
 
 ## following may not be needed for PC or linux
 ## Get conda running in the base environment, activate sub-environment
@@ -155,6 +193,17 @@ rs () { rstudio $1 & }
 alias R="R --no-save --no-restore-data --quiet"
 alias r="R"
 
+# alias rs="C:/Program Files/RStudio/bin/rstudio.exe"
+
+# run "code ~/.bashrc" in bash to open the file in VS Code
+# https://code.visualstudio.com/docs/terminal/shell-integration
+# Note: as of 1/3/24, use in Git Bash is experimental
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
+
+
+#------------------------
+# KeePass
+alias kp="keepass2 &"
 
 #------------------------
 # FireFox
@@ -191,8 +240,6 @@ exifname () {
     ~/GitHub_repos/photo_organize/exifname.sh
 }
 alias exdirclean='rm -r *.jpg_original'
-
-
 
 
 #------------------------
@@ -246,3 +293,7 @@ this line is part of the comment block
 so is this one
 mycommentblock
 
+
+#------------------------
+echo source $git_path"photo_organize/_bashrc_exiftool.sh"
+     source $git_path"photo_organize/_bashrc_exiftool.sh"
