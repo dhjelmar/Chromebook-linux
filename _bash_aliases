@@ -1,11 +1,10 @@
 #------------------------
-# the following really only needs to be in the higher level source call and can be commented out here
 if [[ "$OSTYPE" == "msys"* ]]; then
     # operating system is Windows through Git Bash
     git_path="f:/Documents/01_Dave/Programs/GitHub_home/"
 else
     # operating system on Linux
-    git_path="~/Documents/GitHub_repos/"
+    git_path="~/Documents/GitHub/"
 fi
 
 
@@ -25,7 +24,7 @@ alias lsd="ls -d */"
 alias pd="pushd"
 alias pp="popd"
 alias psa='ps -e'   # all processes
-alias cdr="cd ~/Documents/GitHub_repos"   # used on linux
+alias cdr="cd ~/Documents/GitHub"         # used on linux
 alias gith="cd $git_path"                 # used on Windows
 alias gitw="cd $git_path/../GitHub_work"  # used on Windows
 alias ff="find . -print | grep -i"
@@ -136,40 +135,29 @@ ytdl () {
 
 
 #------------------------
-# MINICONDA
+# CONDA (Anaconda or Miniconda)
 
-## following may just be for PC
-# Get conda running in the base environment, activate sub-environment
 if [[ "$OSTYPE" = "msys"* ]]; then
+    # Get conda running in the base environment, activate sub-environment
+    ## system is Windows (not sure this is needed; it probably gets run through .profile)
     ## enable use of miniconda from within Git Bash
     . C:/Users/dlhje/anaconda3/etc/profile.d/conda.sh
+    # change to a specific enviroment
     conda activate py39
-else
-    # operating system is Linux (not Git Bash in Windows)
-    source /opt/miniconda3/bin/activate
-    conda activate py39r
 fi
 export XDG_RUNTIME_DIR=""
-## conda activate
-## conda env list
-## conda activate py39
-## conda deactivate
-
-## following may not be needed for PC or linux
-## Get conda running in the base environment, activate sub-environment
-## source /opt/miniconda3/bin/activate
-## conda activate py39r
-## export XDG_RUNTIME_DIR="/tmp/runtime-dhjelmar"
-##export RUNLEVEL=3
-## execute following to set default to either activate or not with true or false
-## do not execute this every time the bash alias file gets run
-##      conda config --set auto_activate_base true
+# may not need following
+conda init
+# The base environment is activated by default (can change this to False)
+conda config --set auto_activate_base True
+# alias to start anaconda
+alias an='anaconda-navigator &'
 
 # conda commands
+#    conda env list
 #    conda create -n py39
 #    conda activate py39
 #    conda deactivate
-#    conda env list
 #    conda env remove --name conda_env
 #    conda list      # lists packages and version
 #    conda install packagename
