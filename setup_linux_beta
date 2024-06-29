@@ -14,8 +14,8 @@ git config --global user.name dlhjel
 git config --global user.email dlhjel@gmail.com
 git config --global color.ui true
 git config --global core.editor emacs
-mkdir GitHub_repos
-cd GitHub_repos
+mkdir GitHub
+cd GitHub
 ! git clone https://github.com/dhjelmar/Chromebook-linux
 ! git clone https://github.com/dhjelmar/R-setup
 # Other commands
@@ -27,8 +27,8 @@ cd GitHub_repos
 #----------------------
 # EMACS
 cd ~/
-ln -s GitHub_repos/Chromebook-linux/_bash_aliases .bash_aliases
-ln -s GitHub_repos/Chromebook-linux/_emacs        .emacs
+ln -s GitHub/Chromebook-linux/_bash_aliases .bash_aliases
+ln -s GitHub/Chromebook-linux/_emacs        .emacs
 sudo apt-get install emacs
 
 #----------------------
