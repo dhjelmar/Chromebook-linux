@@ -172,6 +172,15 @@ ocr () { ocrmypdf --force-ocr $1 $2 & }
 
 
 #------------------------
+## OnlyOffice
+oo () { desktopeditors $1 & }
+#echo timestamp=$(date+%s)
+#echo timestamp=$(date+%S)
+#echo timestamp=$(date+_%Y-%m-%d_%H-%M-%S_%s)
+#export XDG_RUNTIME_DIR=/tmp/onlyoffice
+#export RUNLEVEL=3
+
+#------------------------
 # PICTURE TOOLS
 # exiftool to edit picture meta data
 # downloaded Linux version of exiftool (on Windows, download Windows version even though run in Git Bash)
