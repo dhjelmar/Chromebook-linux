@@ -1,0 +1,444 @@
+##-----------------------------------------------------------------------------
+# Description
+# Linux Mint LMDE
+
+# terminal shortcuts
+# - C-S-c = copy to clipboard
+# - C-S-v = C-S-insert = paste from clipboard
+# -   S-v =   S-insert = paste what is highlighted
+
+
+##-----------------------------------------------------------------------------
+# install operating system
+# 
+
+
+##-----------------------------------------------------------------------------
+# determine which linux version is installed
+# open terminal
+lsb_release -a
+
+
+##-----------------------------------------------------------------------------
+# update apt-get
+sudo apt-get update && sudo apt-get upgrade -y
+# if need root access at some point, enter in shell: sudo -i
+
+
+##-----------------------------------------------------------------------------
+# firewall
+# search / firewall
+# slide status to on
+# incoming=Deny
+# outgoing=Allow
+
+
+##-----------------------------------------------------------------------------
+# install chrome
+# search / software manager / chrome
+
+
+##-----------------------------------------------------------------------------
+# GitHub
+# https://www.techrepublic.com/article/how-to-use-github-in-chrome-os/
+sudo apt-get install git
+git config --global user.name dlhjel
+git config --global user.email dlhjel@gmail.com
+git config --global color.ui true
+git config --global core.editor emacs
+cd ~/
+## create SSH keys
+ssh-keygen -t ed25519 -C dlhjel@gmail.com
+## hit enter twice after above command
+## copy the contents of the ~/.ssh/*pub key and add it to GitHub
+mkdir ~/Documents/GitHub
+cd ~/Documents/GitHub
+git clone git@github.com:dhjelmar/Chromebook-linux.git
+git clone git@github.com:dhjelmar/R-setup.git
+# Other commands
+#    ! git pull              # update repos from inside repos folder
+#    ! git add file1 file2   # stage files for commit (may not need with -a option on commit)
+#    ! git commit -am "commit message"   # commit all changes with a message
+#    ! git push              # upload committed changes to GitHub
+
+
+##-----------------------------------------------------------------------------
+# Use info from info Chromebook-linux repository
+# add following to bottom of ~/.bash_aliases
+#        source ~/GitHub/Chromebook-linux/_bash_aliases
+cp _emacs_peppermint _emacs_mint
+ln -s ~/Documents/GitHub/Chromebook-linux/_emacs_mint ~/init.el
+
+
+##-----------------------------------------------------------------------------
+# EMACS
+# search / software manager / emacs
+# added statistical mode
+# search / software manager / elpa-ess
+e .
+
+
+##-----------------------------------------------------------------------------
+# VLC
+sudo apt-get install vlc
+
+
+
+###-----------------------------------------------------------------------------
+## YouTube-DL (requires Python to run)
+#sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+#sudo chmod a+rx /usr/local/bin/youtube-dl
+
+
+##-----------------------------------------------------------------------------
+# Anaconda
+# installation instructions: https://docs.anaconda.com/anaconda/install/linux/
+sudo apt-get install libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
+cd ~/Downloads
+curl -O https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh
+# compared following to expected shasum here: https://repo.anaconda.com/archive/
+shasum -a 256 Anaconda3-2024.06-1-Linux-x86_64.sh
+bash Anaconda3-2024.06-1-Linux-x86_64.sh
+# install to /home/<USER>/anaconda3
+source ~/anaconda3/bin/activate 
+conda init
+
+
+
+##################################################
+# dlh stopped here
+##################################################
+
+
+##----------------------------------------------------------------------------
+## OnlyOffice
+## Add GPG key:
+mkdir -p -m 700 ~/.gnupg
+gpg --no-default-keyring --keyring gnupg-ring:/tmp/onlyoffice.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
+chmod 644 /tmp/onlyoffice.gpg
+sudo chown root:root /tmp/onlyoffice.gpg
+sudo mv /tmp/onlyoffice.gpg /usr/share/keyrings/onlyoffice.gpg
+## Add desktop editors repository:
+echo 'deb [signed-by=/usr/share/keyrings/onlyoffice.gpg] https://download.onlyoffice.com/repo/debian squeeze main' | sudo tee -a /etc/apt/sources.list.d/onlyoffice.list
+## Update the package manager cache:
+sudo apt-get update
+## Now the editors can be easily installed using the following command:
+sudo apt-get install onlyoffice-desktopeditors
+
+
+#------------------------
+# VS Code (Microsoft Visual Studio Code) (31 GB = 62% full before install; xxxx after install)
+# https://www.linuxcapable.com/how-to-install-microsoft-visual-studio-code-on-debian-11/
+# update system to avoid conflicts
+sudo apt update && sudo apt upgrade -y
+# install package to assist in installing software
+sudo apt install software-properties-common apt-transport-https wget -y
+# import Microsoft GPG key
+wget -O- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/vscode.gpg
+# import Michrosoft Visual Source Repository
+echo deb [arch=amd64 signed-by=/usr/share/keyrings/vscode.gpg] https://packages.microsoft.com/repos/vscode stable main | sudo tee /etc/apt/sources.list.d/vscode.list
+# update system again
+sudo apt update
+# install VS Code
+sudo apt install code -y
+
+# launch
+# code
+
+# to remove
+# sudo apt remove code --purge
+# sudo rm /etc/apt/sources.list.d/vscode.list
+# sudo rm /usr/share/keyrings/vscode.gpg
+
+
+
+##-----------------------------------------------------------------------------
+# R and RSTUDIO
+# https://in2techs.com/how-to-install-uninstall-r-and-rstudio-in-linux/?doing_wp_cron=1658515336.9373800754547119140625
+# https://www.charlesbordet.com/en/how-to-upgrade-to-R-4-0-0-on-debian/#the-good-solution
+# https://cran.r-project.org/bin/linux/debian/#debian-bullseye
+
+# install tool to add repositories to systems file /etc/apt/sources.list
+sudo apt install software-properties-common
+sudo add-apt-repository "deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/"
+
+# install key to repository
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
+
+# need cmake to install some packages
+sudo apt     install cmake                 # could probably use apt-get
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libssl-dev
+
+# install R
+sudo apt-get install r-base      # R version 4.0.4
+# install Rstudio
+# download deb file and run with dpkg (or double click in file manager to install)
+# deb files here: 
+sudo dpkg -i ~/Downloads/rstudio-2022.07.0-548-amd64.deb
+
+# avaliable packages: https://cran.rstudio.com/
+# install packages (use R rather than Rstudio for speed)
+/usr/bin/R
+#
+# qualityTools (needed for qqplot)
+# install.packages('qualityTools')  # not available for R v4.0.4
+install.packages('remotes')
+remotes::install_version('qualityTools', '1.55')  # google search shows v1.55 is latest
+install.packages('matlib')
+install.packages('tibble')
+install.packages('readxl')
+install.packages('ggplot2')
+install.packages('plotly')         # required above openssl install
+install.packages('RColorBrewer')   # required above libcurl4 install
+install.packages('dplyr')
+install.packages('reticulate')
+install.packages('superml')
+install.packages('DT')
+install.packages('stringi')
+install.packages('stringr')
+install.packages('tolerance')
+install.packages('rgl')
+install.packages('IAPWS95')
+install.packages('maxLik')         # maximum likelihood estimation
+install.packages('SuppDists')      # statistical package
+install.packages('ExtDist')        # statistical package
+
+# downloaded source packages should get removed automatically at some point
+# if not, look here and in similar folders
+# rm -r /tmp/RtmpXCABpo/downloaded_packages
+
+# to remove:
+# sudo apt-get remove rstudio      # rstudio
+# rm -r ~/.local/share/rstudio     # rstudio settings
+# sudo apt-get remove r-base       # R packages
+# sudo apt-get remove r-base-core  # R and possibly some packages
+
+
+##-----------------------------------------------------------------------------
+# install jupyterlab
+conda config --add channels conda-forge
+conda install -c conda-forge jupyterlab  # not sure if need generate-config line also
+# install toc extension inside JL but first need nodejs
+#     conda install nodejs
+#     above worked on Windows and installed on Chromebook but JL did not recognize it on Chromebook
+# found instructions to get toc here:
+#     https://khalido.org/chromebooks/2019/01/setup-crostini-chromebook
+#     install nvm which is a script to install nodejs
+         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+#     restart terminal so nvm command is available
+         nvm install node
+#     install toc extension
+         jupyter labextension install @jupyterlab/toc
+# to be able to select a specific environment in jupyterlab
+      conda install nb_conda_kernels
+      conda install ipykernel 
+
+# install nbconvert so can export jupyterlab to PDF
+# looks like this takes about 1GB of space though so may not want on Chromebook
+# https://nbconvert.readthedocs.io/en/latest/install.html
+conda install nbconvert
+sudo apt-get install pandoc
+# following for linux
+sudo apt-get install texlive-xetex texlive-fonts-recommended texlive-generic-recommended
+# following for Windows: MixTex instead of xetex
+
+
+##-----------------------------------------------------------------------------
+# Create ICE applications:
+# ICE enables container to be made for a site (e.g., Google Docs)
+# and adds it to menu so it pops up w/o some of the browser stuff like URL
+# Create for: Outlook
+
+
+##-----------------------------------------------------------------------------
+# Zoom
+wget https://zoom.us/client/latest/zoom_amd64.deb
+sudo apt install ./zoom_amd64.deb
+zoom   # to launch
+# sudo apt remove zoom
+
+
+
+##-----------------------------------------------------------------------------
+## CHEESE - program needed for endoscope to work
+## launch with "cheese"
+
+
+
+##-----------------------------------------------------------------------------
+## DROPBOX
+## https://vitux.com/how-to-install-dropbox-on-debian-10/
+cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf –
+~/.dropbox-dist/dropboxd
+
+## https://linuxhint.com/install_dropbox_debian_10/
+## download Ubuntu 64-bit from dropbox site
+##     https://www.dropbox.com/install-linux
+cd ~/Downloads
+sudo apt update
+sudo apt install ./dropbox_2020.03.04_amd64.deb
+sudo apt install python3-gpg
+sudo reboot
+
+## ## if need to close Dropbox and reopen
+## sudo pgrep -lfa dropbox   # checks if running
+## sudo pkill dropbox
+## ## restart from application menu
+
+## to uninstall
+## some of the following may not be needed
+dropbox stop
+dropbox status  # Should report "not running"
+rm -rf ~/.dropbox-dist
+rm -rf /var/lib/dropbox
+rm -rf ~/.dropbox*
+sudo apt-get remove nautilus-dropbox
+sudo apt-get remove dropbox
+sudo apt-get autoremove
+rm /etc/apt/source.d/dropbox
+
+#------------------------
+## KeePassXC
+
+
+##-----------------------------------------------------------------------------
+## KEEPASS
+## keyanywhere plugin does not seem to work on Linux so cannot link to dropbox
+## could map to dropbox but I do not want to because of space issues
+sudo apt-get update
+sudo apt-get install keepass2
+## launch with "keepass2" or "kp2" alias
+sudo apt-get install keepassxc
+## launch with "keepassxc" or "kpx" alias
+
+
+##-----------------------------------------------------------------------------
+## QUARTO
+## installed as extension within vscode so do not think I need the following
+## download deb file from web
+## sudo dpkg -i ~/Downloads/quarto-1.3.290-linux-amd64.deb
+## to remove quarto
+## sudo apt-get remove quarto
+
+
+##-----------------------------------------------------------------------------
+## Foxit PDF reader
+## download tar file from https://www.foxit.com/downloads/pdf-reader-thanks.html?product=Foxit-Reader&platform=Linux-64-bit&version=&package_type=&language=English&formId=download-reader
+pd ~/Downloads
+tar xzvf FoxitReader*.tar.gz
+sudo chmod a+x FoxitReader*.run
+sudo ./FoxitReader*.run
+## usage: FoxitReader &
+## to uninstall:
+##    sudo /opt/foxitsoftware/foxitreader/maintenancetool
+
+
+##-----------------------------------------------------------------------------
+## OCRmyPDF
+## install ghostscript (required)
+????????????
+## install tesseract (required)
+???????????
+## install ocrmypdf
+sudo apt install ocrmypdf
+
+
+##-----------------------------------------------------------------------------
+## command line fuzzy finder
+## https://github.com/junegunn/fzf#using-linux-package-managers
+## following did not work so commented out and instead wrote fh function
+## sudo apt install fzf
+## copy shell/key-bindings.bash into fuzzy_finder.bash
+
+
+###-----------------------------------------------------------------------------
+###-----------------------------------------------------------------------------
+### auto-mount usb drives
+## https://github.com/Ferk/udev-media-automount
+## download: https://github.com/Ferk/udev-media-automount/archive/refs/heads/master.zip
+#unzip master.zip
+#cd udev-media-automount-master
+#sudo make install
+#sudo udevadm control --reload-rules
+#sudo udevadm trigger
+
+
+##-----------------------------------------------------------------------------
+## OpenSCAD
+## https://openscad.org/downloads.html
+sudo apt-get install openscad
+
+
+##-----------------------------------------------------------------------------
+## SSH - install as client (i.e., not the server)
+sudo apt install openssh-client
+
+## On Windows, follow instructions here:
+## https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=gui
+## Username can be found by entering following in Windows PowerShell
+##      $env:USERNAME
+## and servername can be found by entering following in Windows PowerShell
+##      ipconfig | select-string  ('(\s)+IPv4.+\s(?<IP>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))(\s)*') -AllMatches | %{ $_.Matches } | % { $_.Groups["IP"]} | %{ $_.Value }
+## Log into remote PC from linux using password at the prompt (e.g., ssh jack@192.168.1.101):
+##      ssh username@servername
+## The above does not work with MS Account. Need stand alone account. Grrr#!!**!
+## https://answers.microsoft.com/en-us/windows/forum/all/ssh-login-to-microsoft-account-linked-windows/69ea0428-5b06-401c-bb86-e45228709e0b
+##
+
+## IDEA:
+##    - Create local admin account
+##    - Change MS linked account to "standard user"
+##    - ssh into local admin account (or would it be better to ssh into local standard user account?)
+
+## If can log in using the above, can replace password to ssh with a keypair. 
+## On Linux, generate new ssh keypair
+## (https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux)
+## From terminal where found username@servername on Windows from above: 
+##      cd ~/.ssh
+##      ssh-keygen -t ed25519 -C "username@servername"
+## Name the key, e.g., id_ed25519_keyname (creates id_ed25519_keyname and id_ed25519_keyname.pub).
+## Recommended to add a pin for the key.
+## Start ssh agent
+##      eval "$(ssh-agent -s)"
+## Add private key to agent
+##      ssh-add ~/.ssh/id_ed25519_keyname
+## To remove private key from agent
+##      ssh-add -d ~/.ssh/id_ed25519_keyname
+## From Linux while logged into Windows PC through ssh, enter the following in terminal
+## to add the public key to Windows in ~/.ssh/authorized_keys file.
+##      ssh-copy-id -i ~/.ssh/id_ed25519_keyname.pub username@servername
+## above step failed so tried looking here:
+## https://superuser.com/questions/1451241/command-to-copy-client-public-key-to-windows-openssh-sftp-ssh-server-authorized
+## and used manual process:
+##     - Copy xxxxxx.pub file to windows server at location C:\Users\username\.ssh\authorized_keys
+##     - Update ACL on windows server using command
+##             icacls.exe "C:\Users\username\.ssh" /inheritance:r /gr
+## Still not able to log in with keypair.
+## Again tried following which automatically created authorized_keys file
+##     - In Windows C:/Users/username, moved manually created authorized_keys file to authorized_keys_junk
+##     - In Linux ssh session, entered: ssh-copy-id username@servername
+## Next ssh should only require pin and not password, but it still is asking for a password.
+
+##-----------------------------------------------------------------------------
+##-----------------------------------------------------------------------------
+# To update system
+# try peppermint_hub / hardware & software / update manager
+# or manual or automatic method described at: 
+#     https://www.fosslinux.com/49955/keep-your-debian-updated.htm
+
+## manual method
+sudo apt update
+apt list --upgradable
+# if above only returns "Listing... Done" then there is nothing to update
+# to upgrade a specific package
+sudo apt --only-upgrade install <package_name>
+# to upgrade everything
+sudo apt upgrade -y
+# clean up when done
+sudo apt-get clean
+# also run the following
+sudo apt-get autoclean
+
+## automatic method
+## programmed into update function in _bash_aliases
