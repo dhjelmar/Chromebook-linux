@@ -60,25 +60,6 @@ curl -o '/tmp/hblock.#1' 'https://raw.githubusercontent.com/hectorm/hblock/v3.4.
 
 
 ##-----------------------------------------------------------------------------
-# Flatpak and LibreOffice
-# https://www.linuxcapable.com/how-to-install-libreoffice-on-debian-11-bullseye/
-
-## recommended rather than command line to install LibreOffice
-## to avoid complications like missing icons and other things
-sudo apt install flatpak -y
-sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-reboot
-
-# install LibreOffice 1.55 GB
-# should probably have installed when installed peppermint since it was an option in distribution
-flatpak install flathub org.libreoffice.LibreOffice -y
-# can use following to start LibreOffice or can use menu
-# flatpak run org.libreoffice.LibreOffice
-
-# if want to remove flatpak
-# sudo apt autoremove flatpak* -y
-
-##-----------------------------------------------------------------------------
 # install chrome
 # download deb file from internet search
 # open file manager (lower left on screen); double click deb file
