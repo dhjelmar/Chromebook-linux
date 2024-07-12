@@ -145,7 +145,6 @@ if [[ "$OSTYPE" = "msys"* ]]; then
     # change to a specific enviroment
     conda activate py39
 fi
-export XDG_RUNTIME_DIR=""
 
 # may not need following
 #conda init
@@ -212,12 +211,23 @@ ocr () { ocrmypdf --force-ocr $1 $2 & }
 
 #------------------------
 ## OnlyOffice
-oo () { desktopeditors $1 & }
+if [[ "$DESKTOP_SESSION" != "xfce" ]]; then
+    ## using Mint LMDE on tower
+    oo () { desktopeditors $1 & }
+else
+    ## using Peppermint on laptop
+    oo () {
+       ## above throws throws nonfatal errors on Peppermint
+       ## so replaced with following to suppress errors
+       env -u SESSION_MANAGER desktopeditors &>/dev/null & disown
+    }
+fi
+
 #echo timestamp=$(date+%s)
 #echo timestamp=$(date+%S)
 #echo timestamp=$(date+_%Y-%m-%d_%H-%M-%S_%s)
-#export XDG_RUNTIME_DIR=/tmp/onlyoffice
-#export RUNLEVEL=3
+export XDG_RUNTIME_DIR=/tmp/onlyoffice
+export RUNLEVEL=3
 
 #------------------------
 # PICTURE TOOLS
