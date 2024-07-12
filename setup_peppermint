@@ -24,6 +24,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 # if need root access at some point, enter in shell: sudo -i
 
 
+
 ##-----------------------------------------------------------------------------
 # firewall
 # https://wiki.debian.org/Uncomplicated%20Firewall%20%28ufw%29
@@ -76,7 +77,7 @@ curl -o '/tmp/hblock.#1' 'https://raw.githubusercontent.com/hectorm/hblock/v3.4.
 # version that installs R within emacs
 # https://packages.debian.org/bullseye/all/elpa-ess/download
 # recommended to install with synaptic and not manually
-# in synamptic, search for elpa-ess, mark for installation, then apply
+# in synaptic, search for elpa-ess, mark for installation, then apply
 
 emacs &
 
@@ -457,18 +458,28 @@ sudo apt-get install openscad
 
 ##----------------------------------------------------------------------------
 ## OnlyOffice
+## https://helpcenter.onlyoffice.com/installation/desktop-install-ubuntu.aspx
+
 ## Add GPG key:
 mkdir -p -m 700 ~/.gnupg
 gpg --no-default-keyring --keyring gnupg-ring:/tmp/onlyoffice.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
 chmod 644 /tmp/onlyoffice.gpg
 sudo chown root:root /tmp/onlyoffice.gpg
 sudo mv /tmp/onlyoffice.gpg /usr/share/keyrings/onlyoffice.gpg
+
 ## Add desktop editors repository:
 echo 'deb [signed-by=/usr/share/keyrings/onlyoffice.gpg] https://download.onlyoffice.com/repo/debian squeeze main' | sudo tee -a /etc/apt/sources.list.d/onlyoffice.list
+
 ## Update the package manager cache:
 sudo apt-get update
+
 ## Now the editors can be easily installed using the following command:
 sudo apt-get install onlyoffice-desktopeditors
+
+## to remove
+## sudo apt purge onlyoffice-dsktopeditors
+
+
 
 
 ##-----------------------------------------------------------------------------
@@ -543,3 +554,12 @@ sudo apt-get autoclean
 
 ## automatic method
 ## programmed into update function in _bash_aliases
+
+## if get a failure using sudo apt update due to expired key
+## https://stackoverflow.com/questions/66400254/invalid-signature-for-mysql-repository
+## sudo apt-key list     # to see keys
+## the key with following, e.g.:
+## sudo apt-key del '859B E8D7 C586 F538 430B  19C2 467B 942D 3A79 BD29'
+## add new key with, e.g.:
+## sudo apt-key adv --keyserver pgp.mit.edu --recv-keys B7B3B788A8D3785C
+
