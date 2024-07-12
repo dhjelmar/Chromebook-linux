@@ -10,7 +10,46 @@
 
 ##-----------------------------------------------------------------------------
 # install operating system
-# 
+
+# Useful videos
+# https://www.youtube.com/watch?v=J2sRqICVi7Y
+# https://www.youtube.com/watch?v=QKT-hXLfN2c
+
+# rough steps
+# - Create bootable USB with operating system
+#   - Download iso
+#   - Install on USB using Etcher (https://www.balena.io/etcher/)
+#   - Flash ios to USB
+# - In Windows
+#   - Install MiniTool Disk Partition Manager
+#   - Create unallocated free space on disk for LMDE
+#     (if needed, delete partition will unallocate the space)
+# - Boot from USB
+#   - Enter BIOS with, e.g., F2 or Del during boot
+#     - Go to exit
+#     - Select usb entry for debian
+#   - Install LMDE
+#     - Select installation icon on desktop
+#     - When asked about partitions, select "other" rather than "automatic"
+#
+#       - Automatic would have created following 3 partitions
+#         - /dev/sdb1
+#           - EFI Boot loader: 286 MB fat32 partition; mount point /boot/EFI
+#         - /dev/sdb2
+#           - boot (??): 977 MB ext4 partition, mount point /boot
+#             (Timeshift: just uses space in /boot (filled up quickly using default settings))
+#         - /dev/sdb3
+#           - Root (system files): 1.8 TB ext4 logical partition, mount point /
+#             (Home (personal files): logical partition within root, mount point /home/<user>)
+#           - swap: 15 GB ext4 logical partition (seems counter to what I read that says auto intall makes a swap file)
+#
+#        - Manual setup of 5 partitions
+#         - EFI Boot loader: 286 MB fat32 primary partition; mount point /boot/EFI
+#         - Root (system files): 50 GB ext4 primary partition, mount point /
+#         - Home (personal files): 434 GB ext4 primary partition, mount point /home/<user>
+#         - swap: 16 GB ext4 logical partition
+#         - Timeshift: 100 GB primary partition on some other drive
+
 
 
 ##-----------------------------------------------------------------------------
@@ -150,6 +189,24 @@ sudo apt install code -y
 # sudo rm /etc/apt/sources.list.d/vscode.list
 # sudo rm /usr/share/keyrings/vscode.gpg
 
+
+
+##-----------------------------------------------------------------------------
+# SIGNAL FOR POTENTIAL USE AS GROUP VIDEO CONFERENCE
+# https://signal.org/download/linux/
+# NOTE: These instructions only work for 64-bit Debian-based
+# Linux distributions such as Ubuntu, Mint etc.
+
+# 1. Install our official public software signing key:
+wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+
+# 2. Add our repository to your list of repositories:
+echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+  sudo tee /etc/apt/sources.list.d/signal-xenial.list
+
+# 3. Update your package database and install Signal:
+sudo apt update && sudo apt install signal-desktop
 
 
 ##-----------------------------------------------------------------------------
