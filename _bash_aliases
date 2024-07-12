@@ -1,10 +1,10 @@
 #------------------------
 if [[ "$OSTYPE" == "msys"* ]]; then
     # operating system is Windows through Git Bash
-    git_path="f:/Documents/01_Dave/Programs/GitHub_home/"
+    git_path="f:/Documents/01_Dave/Programs/GitHub_home"
 else
     # operating system on Linux
-    git_path="~/Documents/GitHub/"
+    git_path="$HOME/Documents/GitHub"
 fi
 
 
@@ -42,7 +42,7 @@ cdl () {
     local lastfolder=`echo ${lastfolderv##* }`
     cd $lastfolder
 }
-
+alias ram="free -h"     # shows available RAM
 
 
 #------------------------
@@ -146,10 +146,12 @@ if [[ "$OSTYPE" = "msys"* ]]; then
     conda activate py39
 fi
 export XDG_RUNTIME_DIR=""
+
 # may not need following
-conda init
+#conda init
 # The base environment is activated by default (can change this to False)
-conda config --set auto_activate_base True
+# conda config --set auto_activate_base True
+
 # alias to start anaconda
 alias an='anaconda-navigator &'
 
@@ -283,5 +285,5 @@ mycommentblock
 
 
 #------------------------
-echo source $git_path"photo_organize/_bashrc_exiftool.sh"
-     source $git_path"photo_organize/_bashrc_exiftool.sh"
+echo "source $git_path/photo_organize/_bashrc_exiftool.sh"
+     source "$git_path/photo_organize/_bashrc_exiftool.sh"
