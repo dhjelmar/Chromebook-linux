@@ -74,7 +74,9 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 ##-----------------------------------------------------------------------------
 # install chrome
-# search / software manager / chrome
+# could not find in software manager
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
 
 # if slow, try suggestions here
 # https://forums.linuxmint.com/viewtopic.php?t=302023
@@ -107,22 +109,29 @@ git clone git@github.com:dhjelmar/R-setup.git
 ##-----------------------------------------------------------------------------
 # Use info from info Chromebook-linux repository
 # add following to bottom of ~/.bash_aliases
-#        source ~/GitHub/Chromebook-linux/_bash_aliases
-cp _emacs_peppermint _emacs_mint
-ln -s ~/Documents/GitHub/Chromebook-linux/_emacs_mint ~/init.el
-
+#        source ~/Documents/GitHub/Chromebook-linux/_bash_aliases
 
 ##-----------------------------------------------------------------------------
 # EMACS
+
 # search / software manager / emacs
+
 # added statistical mode
 # search / software manager / elpa-ess
-e .
+
+# .emacs file
+ln -s ~/Documents/GitHub/Chromebook-linux/_emacs_mint ~/.emacs.d/init.el
+
+# run with
+# e .
 
 
 ##-----------------------------------------------------------------------------
 # VLC
-sudo apt-get install vlc
+# installed with software manager
+
+# alternately could use
+# sudo apt-get install vlc
 
 
 
@@ -142,8 +151,17 @@ curl -O https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh
 shasum -a 256 Anaconda3-2024.06-1-Linux-x86_64.sh
 bash Anaconda3-2024.06-1-Linux-x86_64.sh
 # install to /home/<USER>/anaconda3
-source ~/anaconda3/bin/activate 
-conda init
+# choose yes to automatically activate conda
+# should not need the following
+#    source ~/anaconda3/bin/activate 
+#    conda init
+
+
+
+
+##################################################
+# dlh stopped here
+##################################################
 
 
 #------------------------
@@ -179,13 +197,6 @@ sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://b
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 sudo apt update
 sudo apt install brave-browser
-
-
-
-##################################################
-# dlh stopped here
-##################################################
-
 
 ##----------------------------------------------------------------------------
 ## OnlyOffice
