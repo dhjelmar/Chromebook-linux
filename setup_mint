@@ -158,7 +158,11 @@ ln -s ~/Documents/GitHub/Chromebook-linux/_emacs_mint ~/.emacs.d/init.el
 #    cd chrome
 #    ln -s ~/Documents/GitHub/Chromebook-linux/setup_mint_files/userChrome.css userChrome.css
 
-# launch with: thunderbird &
+# https://superuser.com/questions/13518/change-the-default-sorting-order-in-thunderbird
+# go into settings / config editor (advanced preferences) / mailnews.default
+# see above to change default: sort order (2  = decending)
+#                              sort type  (21 = based on order received)
+#                              sort flag  (0  = unthreaded)
 
 ##-----------------------------------------------------------------------------
 # VLC
