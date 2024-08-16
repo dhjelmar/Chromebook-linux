@@ -1,9 +1,15 @@
 #------------------------
 if [[ "$OSTYPE" == "msys"* ]]; then
     # operating system is Windows through Git Bash
-    git_path="f:/Documents/01_Dave/Programs/GitHub_home"
+    os='windows'
+    git_path="D:/Documents/01_Dave/Programs/GitHub_home"
 else
     # operating system on Linux
+    if [[ "$XDG_SESSION_DESKTOP" == "cinnamon" ]]; then
+        os='mint'        # linux mint debian addition on tower
+    else
+	os='peppermint'  # linux peppermint on laptop
+    fi	
     git_path="$HOME/Documents/GitHub"
 fi
 
@@ -24,14 +30,25 @@ alias lsd="ls -d */"
 alias pd="pushd"
 alias pp="popd"
 alias psa='ps -e'   # all processes
-alias cdr="cd ~/Documents/GitHub"         # used on linux
 alias gith="cd $git_path"                 # used on Windows
 alias gitw="cd $git_path/../GitHub_work"  # used on Windows
 alias ff="find . -print | grep -i"
-alias pictures="pd 'F:\\MY Pictures'"     # only need in Git Bash
+if [[ "$os" == 'windows' ]]; then
+    alias pictures="pd 'D:\\MY Pictures'"     # only need in Git Bash
+elif [[ "$os" == "mint" ]]; then
+    alias pictures="$HOME/Pictures"
+    alias hdd="cd /mnt/HDD_backup_ntfs/"
+    alias ntfs="cd /mnt/LMDE_SDD_ntfs/"
+    alias windows="cd /mnt/Windows_SSD_ntfs"
+    alias wdoc="cd /mnt/Windows_SSD_ntfs/Documents"
+    alias wdave="cd /mnt/Windows_SSD_ntfs/Documents/01_Dave"
+    alias wpict="cd /mnt/Windows_SSD_ntfs/My Pictures"
+else
+    alias pictures="$HOME/Pictures"
+fi
 # linux version, lv
 alias lv="lsb_release -a"
-alias rmold="rm *~"
+lias rmold="rm *~"
 # same as "tree" command in unix
 alias tree="tree.com //a //f"
 # to only list directors (same as "tree -d" command in unix)
@@ -110,6 +127,8 @@ else
     # operating system on Linux
     ## alias e="emacs . -geometry 103x52+0+0 &"
     e () { emacs -itype -load ~/.emacs.d/init.el "$@" & }
+    ## following fails if add & because user needs to add password
+    se () { sudo emacs -itype -load ~/.emacs.d/init.el "$@" ; }
 fi
 
 
@@ -295,5 +314,9 @@ mycommentblock
 
 
 #------------------------
+# set terminal colors
+eval "$(dircolors $git_path/Chromebook-linux/setup_mint_files/.dircolors)"
+
+# define other aliases and functions for use with photos
 echo "source $git_path/photo_organize/_bashrc_exiftool.sh"
      source "$git_path/photo_organize/_bashrc_exiftool.sh"
