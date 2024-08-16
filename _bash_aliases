@@ -48,7 +48,7 @@ else
 fi
 # linux version, lv
 alias lv="lsb_release -a"
-lias rmold="rm *~"
+alias rmold="rm *~"
 # same as "tree" command in unix
 alias tree="tree.com //a //f"
 # to only list directors (same as "tree -d" command in unix)
@@ -60,6 +60,11 @@ cdl () {
     cd $lastfolder
 }
 alias ram="free -h"     # shows available RAM
+
+
+#------------------------
+# thunderbird
+alias tb='thunderbird &'
 
 
 #------------------------
