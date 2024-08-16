@@ -23,7 +23,7 @@
 # - In Windows
 #   - Install MiniTool Disk Partition Manager
 #   - Create unallocated free space on disk for LMDE
-#     (if needed, delete partition will unallocate the space)
+#     (if needed, delete partition in either MiniTool on Windows or Gparted on install disk will unallocate the space)
 # - Boot from USB
 #   - Enter BIOS with, e.g., F2 or Del during boot
 #     - Go to exit
@@ -31,25 +31,25 @@
 #   - Install LMDE
 #     - Select installation icon on desktop
 #     - When asked about partitions, select "other" rather than "automatic"
-#
-#       - Automatic would have created following 3 partitions
-#         - /dev/sdb1
-#           - EFI Boot loader: 286 MB fat32 partition; mount point /boot/EFI
-#         - /dev/sdb2
-#           - boot (??): 977 MB ext4 partition, mount point /boot
-#             (Timeshift: just uses space in /boot (filled up quickly using default settings))
-#         - /dev/sdb3
-#           - Root (system files): 1.8 TB ext4 logical partition, mount point /
-#             (Home (personal files): logical partition within root, mount point /home/<user>)
-#           - swap: 15 GB ext4 logical partition (seems counter to what I read that says auto intall makes a swap file)
-#
-#        - Manual setup of 5 partitions
-#         - EFI Boot loader: 286 MB fat32 primary partition; mount point /boot/EFI
-#         - Root (system files): 50 GB ext4 primary partition, mount point /
-#         - Home (personal files): 434 GB ext4 primary partition, mount point /home/<user>
-#         - swap: 16 GB ext4 logical partition
-#         - Timeshift: 100 GB primary partition on some other drive
-
+#        - Manual setup of 3 partitions on new SSD
+#           - EFI Boot loader: 100 MB fat32 primary partition; mount point /boot/EFI
+#           - Root (system files): 100 GB ext4 primary partition, mount point /
+#              - swap: using swap file under root rather than 16 GB ext4 logical partition
+#           - Home (personal files): 400 GB ext4 primary partition, mount point /home/<user>
+#        - Manual setup of 1 partition on a separate drive
+#           - Timeshift: 300 GB (3x the root partition size) primary partition on some other drive
+#              - Search / Timeshift (or can find as "System Snapshots" in the welcome window
+#              - rsync is the only option for Debian
+#              - Select the ext4 partition that I created on a separate drive
+#              - Snapshot leves
+#                 - weekly: keep 2
+#                 - boot  : keep 3
+#              - Description: Snapshots are not scheduled at fixed times.
+#                             A maintenance task runs once overy hour and creates snapshots as needed.
+#                             Boot snapshots are created with a delay of 10 minutes after system startup.
+#              - User home directories (options: exclude all files; include only hidden files; include all files)
+#                 - /home/david: exclude all files (default)
+#                 - /root      : exclude all files (default)
 
 
 ##-----------------------------------------------------------------------------
@@ -59,7 +59,24 @@ lsb_release -a
 
 
 ##-----------------------------------------------------------------------------
+# Software Installation in order of preference:
+#   (1) Flatpack (Flathub)
+#   (2) System package
+#   (3) deb file
+#
+# My understanding on Flatpack (Flathub) vs. system versions of packages:
+#       Flatpack is bigger because it is more sandboxed by including all system dependencies
+#       regardless of whether they already exist.
+#       Flatpack is generally a more recent version.
+#
+# Flatpack and System packages are both better than deb file installations because
+# they are automatically included in system software updates. Not sure if this
+# is true of deb files based on instructions I've worked through.
+
+
+##-----------------------------------------------------------------------------
 # update apt-get
+
 sudo apt-get update && sudo apt-get upgrade -y
 # if need root access at some point, enter in shell: sudo -i
 
@@ -127,6 +144,23 @@ ln -s ~/Documents/GitHub/Chromebook-linux/_emacs_mint ~/.emacs.d/init.el
 
 
 ##-----------------------------------------------------------------------------
+# Thunderbird
+# it came already installed on LMDE
+
+# needed to change so unread email would be magenta
+# in "advanced preferences, search for userprof and toggle:
+#     toolkit.legacyUserProfileCustomizations.stylesheets to true
+# 
+# put symbolic link tothis file in folder: ~/.thunderbird/<profile name>/chrome
+# example:
+#    cd ~/.thunderbird/lszg1so8.default-default
+#    mkdir chrome
+#    cd chrome
+#    ln -s ~/Documents/GitHub/Chromebook-linux/setup_mint_files/userChrome.css userChrome.css
+
+# launch with: thunderbird &
+
+##-----------------------------------------------------------------------------
 # VLC
 # installed with software manager
 
@@ -157,11 +191,33 @@ bash Anaconda3-2024.06-1-Linux-x86_64.sh
 #    conda init
 
 
+#------------------------
+# Brave
+# https://brave.com/linux/
+sudo apt install curl
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+sudo apt update
+sudo apt install brave-browser
 
 
-##################################################
-# dlh stopped here
-##################################################
+#------------------------
+# auto-mount ntfs drives
+# https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/
+sudo apt-get install ntfs-3g
+# find UUIDs of drives
+lsblk
+sudo blkid /dev/sda2
+sudo blkid /dev/sdb1
+# modify /etc/fstab; see copy at $github_path/setup_mint_files/fstab
+# test mount
+sudo /usr/bin/mount -a   # this failed with insufficient permission
+
+# hard to see NTFS files because of green background when use ls command
+# fixed creating and evaluating .dircolors file
+# first found current settings with: dircolors -p > ~/.dircolors
+# modified .dircolors file and executed by adding following to _bash_aliases
+eval "$(dircolors $git_path/Chromebook-linux/setup_mint_files/.dircolors)"
 
 
 #------------------------
@@ -189,15 +245,6 @@ sudo apt install code -y
 # sudo rm /usr/share/keyrings/vscode.gpg
 
 
-#------------------------
-# Brave
-# https://brave.com/linux/
-sudo apt install curl
-sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-sudo apt update
-sudo apt install brave-browser
-
 ##----------------------------------------------------------------------------
 ## OnlyOffice
 ## Add GPG key:
@@ -213,6 +260,17 @@ sudo apt-get update
 ## Now the editors can be easily installed using the following command:
 sudo apt-get install onlyoffice-desktopeditors
 
+
+#------------------------
+# digikam
+# installed with search / software manager (not synaptic package manager)
+# installed the system version rather than Flathub
+
+
+#------------------------
+# Gimp
+# installed with search / software manager (not synaptic package manager)
+# installed Flatpack rather than system version
 
 
 ##-----------------------------------------------------------------------------
@@ -234,7 +292,123 @@ sudo apt update && sudo apt install signal-desktop
 
 
 ##-----------------------------------------------------------------------------
+# Zoom
+cd ~/Downloads
+wget https://zoom.us/client/latest/zoom_amd64.deb
+sudo apt install ./zoom_amd64.deb
+# zoom   # to launch
+# sudo apt remove zoom
+
+
+#------------------------
+# rsnapshot
+# https://rsnapshot.org/faq.html
+# https://www.tecmint.com/rsnapshot-a-file-system-backup-utility-for-linux/
+sudo apt-get install rsnapshot
+
+# modify /etc/rsnapshot.conf file
+# (1) changed location of snapshot_root as follows
+#   snapshot_root   /home/david/.rsnapshot
+#
+# (2) added the following
+#   #########################################
+#   #           BACKUP INTERVALS            #
+#   # Must be unique and in ascending order #
+#   # i.e. hourly, daily, weekly, etc.      #
+#   #########################################
+#   
+#   interval        hourly  6
+#   interval        daily   7
+#   interval        weekly  4
+#   interval        monthly 3
+
+# test configuration file with following
+rsnapshot configtest
+
+mkdir $HOME/.rsnapshot
+
+
+
+
+
+##################################################
+# dlh stopped here
+##################################################
+
+error if run
+rsnapshot hourly
+
+when fix above, need to continue from step 6 automating section of the help page
+https://www.tecmint.com/rsnapshot-a-file-system-backup-utility-for-linux/
+
+
+
+
+
+##-----------------------------------------------------------------------------
 # R and RSTUDIO
+# first, note that I installed LMDE 6 which is based on Debian 12 Bookworm
+
+# first attempt messed up system and had to roll back using TimeShift
+# not sure yet what of the stuff below to use
+
+
+# https://linuxcapable.com/how-to-install-r-programming-language-on-debian-linux/
+# update system
+sudo apt update && sudo apt upgrade
+# intall required packages
+sudo apt install dirmngr apt-transport-https ca-certificates software-properties-common -y
+# import cran repository
+gpg --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
+gpg --armor --export '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' | gpg --dearmor | sudo tee /usr/share/keyrings/cran.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/cran.gpg] https://cloud.r-project.org/bin/linux/debian bookworm-cran40/" | sudo tee /etc/apt/sources.list.d/cran.list
+# update system again
+sudo apt update
+# install R
+sudo apt install r-base r-base-dev
+
+
+
+
+
+
+# https://computingforgeeks.com/how-to-install-r-and-rstudio-on-debian/
+# https://ahmorris.org/post/2023-09-16-install-rstudio-on-debian-12-bookworm/
+# https://cloud.r-project.org/bin/linux/debian/
+
+# update system
+sudo apt update
+sudo /usr/bin/apt -y upgrade
+
+# install R (r-base and r-base-dev)
+sudo apt -y install r-base
+sudo apt install r-base r-base-dev
+
+
+# install RStudio
+cd ~/Downloads
+sudo apt -y install wget
+# change below for the appropriate deb file from https://posit.co/download/rstudio-desktop/
+wget https://download1.rstudio.org/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb
+
+# or this one?
+sudo apt install libssl-dev libclang-dev
+sudo dpkg -i ./rstudio-2024.04.2-764-amd64.deb
+
+
+
+# this one?
+sudo apt install -f ./rstudio-2024.04.2-764-amd64.deb
+# if get dependency problems, run
+# sudo apt -f install
+
+# launch RStudio
+rstudio
+
+
+
+##------------ OLD
+
 # https://in2techs.com/how-to-install-uninstall-r-and-rstudio-in-linux/?doing_wp_cron=1658515336.9373800754547119140625
 # https://www.charlesbordet.com/en/how-to-upgrade-to-R-4-0-0-on-debian/#the-good-solution
 # https://cran.r-project.org/bin/linux/debian/#debian-bullseye
@@ -244,7 +418,8 @@ sudo apt install software-properties-common
 sudo add-apt-repository "deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/"
 
 # install key to repository
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
+# following is outdated because apt-key is depricated
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
 
 # need cmake to install some packages
 sudo apt     install cmake                 # could probably use apt-get
@@ -290,54 +465,13 @@ install.packages('ExtDist')        # statistical package
 # rm -r /tmp/RtmpXCABpo/downloaded_packages
 
 # to remove:
-# sudo apt-get remove rstudio      # rstudio
-# rm -r ~/.local/share/rstudio     # rstudio settings
-# sudo apt-get remove r-base       # R packages
-# sudo apt-get remove r-base-core  # R and possibly some packages
-
-
-##-----------------------------------------------------------------------------
-# install jupyterlab
-conda config --add channels conda-forge
-conda install -c conda-forge jupyterlab  # not sure if need generate-config line also
-# install toc extension inside JL but first need nodejs
-#     conda install nodejs
-#     above worked on Windows and installed on Chromebook but JL did not recognize it on Chromebook
-# found instructions to get toc here:
-#     https://khalido.org/chromebooks/2019/01/setup-crostini-chromebook
-#     install nvm which is a script to install nodejs
-         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-#     restart terminal so nvm command is available
-         nvm install node
-#     install toc extension
-         jupyter labextension install @jupyterlab/toc
-# to be able to select a specific environment in jupyterlab
-      conda install nb_conda_kernels
-      conda install ipykernel 
-
-# install nbconvert so can export jupyterlab to PDF
-# looks like this takes about 1GB of space though so may not want on Chromebook
-# https://nbconvert.readthedocs.io/en/latest/install.html
-conda install nbconvert
-sudo apt-get install pandoc
-# following for linux
-sudo apt-get install texlive-xetex texlive-fonts-recommended texlive-generic-recommended
-# following for Windows: MixTex instead of xetex
-
-
-##-----------------------------------------------------------------------------
-# Create ICE applications:
-# ICE enables container to be made for a site (e.g., Google Docs)
-# and adds it to menu so it pops up w/o some of the browser stuff like URL
-# Create for: Outlook
-
-
-##-----------------------------------------------------------------------------
-# Zoom
-wget https://zoom.us/client/latest/zoom_amd64.deb
-sudo apt install ./zoom_amd64.deb
-zoom   # to launch
-# sudo apt remove zoom
+remove_r() {
+   sudo apt-get remove rstudio      # rstudio
+   rm -r ~/.local/share/rstudio     # rstudio settings
+   sudo apt-get remove r-base       # R packages
+   sudo apt-get remove r-base-core  # R and possibly some packages
+}
+# remove_r
 
 
 
