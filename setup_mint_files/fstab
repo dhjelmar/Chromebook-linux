@@ -1,0 +1,36 @@
+#### Static Filesystem Table File
+proc	/proc	proc	defaults	0	0
+# /dev/nvme0n1p2
+UUID=ef7ed36e-6bbf-4051-a96c-5502df446dac	/	ext4	rw,errors=remount-ro	0	1
+# /dev/nvme0n1p4
+UUID=d87c4042-8b16-4a8e-b28d-aa3bf7857aae	/home	ext4	rw,errors=remount-ro	0	0
+# /dev/nvme0n1p3
+UUID=0307-FED2	/boot/efi	vfat	defaults	0	1
+# /dev/nvme1n1p1
+UUID=106B-9258	/boot/efi	vfat	defaults	0	1
+#
+# dlh
+# auto-mount ntfs drives
+# https://man7.org/linux/man-pages/man5/fstab.5.html
+# find UUID using, e.g.,: lsblk
+#                         sudo blkid /dev/sda2
+# permissions: umask-0222 = r-xr-xr-x (i.e., like chmod 555)
+#                    0000 = rwxrwxrwx (i.e., like chmod 777)
+#                    0022 = rwxr-xr-x (i.e., like chmod 755)
+#(base) david@tower:/$ lsblk
+#(base) david@tower:~$ sudo blkid /dev/nvme0n1p5
+#/dev/nvme0n1p5: LABEL="NTFS backup" BLOCK_SIZE="512" UUID="460155A0314B03D3" TYPE="ntfs" PARTLABEL="NTFS backup" PARTUUID="c9961a1c-c30e-4978-a4ef-cac8a6e7a66a"
+#UUID="460155A0314B03D3" /mnt/LMDE_SSD_ntfs/ ntfs nls-utf8,umask-0022,uid-1000,gid-1000,ro 0 0
+#UUID="460155A0314B03D3" /mnt/LMDE_SSD_ntfs   ntfs    windows_names,auto,users,uid=1000,gid=1000,noatime 0 2
+#(base) david@tower:/$ sudo blkid /dev/sda2
+#/dev/sda2: LABEL="SSD Personal Files" BLOCK_SIZE="512" UUID="6248DC0048DBD0C1" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="f261efe1-4339-4fb1-a9a1-6545fd670404"
+#UUID="6248DC0048DBD0C1" /mnt/Windows_SSD_ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+#(base) david@tower:/$ sudo blkid /dev/sdb1
+#/dev/sdb1: LABEL="HDD backup storage" BLOCK_SIZE="512" UUID="01DADF95638D80B0" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="f4c6ad83-389d-43ae-a394-43a738a4424a"
+#UUID="01DADF95638D80B0" /mnt/HDD_backup_ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+#
+# https://wiki.debian.org/fstab
+# defaults = rw,suid,dev,exec,auto,nouser,async
+UUID="460155A0314B03D3" /mnt/LMDE_SSD_ntfs    ntfs defaults 0 2
+UUID="6248DC0048DBD0C1" /mnt/Windows_SSD_ntfs ntfs defaults 0 2
+UUID="01DADF95638D80B0" /mnt/HDD_backup_ntfs  ntfs defaults 0 2

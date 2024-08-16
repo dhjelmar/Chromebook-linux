@@ -1,0 +1,19 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* Thunderbird config file: userChrome.css */
+
+/*
+in "advanced preferences, search for userprof and toggle:
+     toolkit.legacyUserProfileCustomizations.stylesheets to true
+
+put symbolic link tothis file in folder: ~/.thunderbird/<profile name>/chrome
+example:
+   cd ~/.thunderbird/lszg1so8.default-default
+   mkdir chrome
+   cd chrome
+   ln -s ~/Documents/GitHub/Chromebook-linux/setup_mint_files/userChrome.css userChrome.css
+*/
+
+*|*:root {
+  --thread-pane-unread-color: magenta !important;
+}
