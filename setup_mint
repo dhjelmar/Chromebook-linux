@@ -1,6 +1,6 @@
 ##-----------------------------------------------------------------------------
 # Description
-# Linux Mint LMDE
+# Linux Mint LMDE (based on Debian 11)
 
 # terminal shortcuts
 # - C-S-c = copy to clipboard
@@ -304,7 +304,19 @@ sudo apt install ./zoom_amd64.deb
 # sudo apt remove zoom
 
 
-#------------------------
+##-----------------------------------------------------------------------------
+# Wine and PLayOnLinux (PlayOnLinux is a frontend for Wine)
+# install Wine then PlayOnLinux from "Software Manager"; installed system package
+
+
+##-----------------------------------------------------------------------------
+## OpenSCAD
+# used "Software Manager" to install system package instead of the commands below
+## https://openscad.org/downloads.html
+# sudo apt-get install openscad
+
+
+##-----------------------------------------------------------------------------
 # rsnapshot
 # https://rsnapshot.org/faq.html
 # https://www.tecmint.com/rsnapshot-a-file-system-backup-utility-for-linux/
@@ -480,7 +492,7 @@ remove_r() {
 
 
 ##-----------------------------------------------------------------------------
-## CHEESE - program needed for endoscope to work
+## CHEESE - program needed for endoscope to work on Chromebook
 ## launch with "cheese"
 
 
@@ -581,12 +593,6 @@ sudo apt install ocrmypdf
 #sudo make install
 #sudo udevadm control --reload-rules
 #sudo udevadm trigger
-
-
-##-----------------------------------------------------------------------------
-## OpenSCAD
-## https://openscad.org/downloads.html
-sudo apt-get install openscad
 
 
 ##-----------------------------------------------------------------------------
