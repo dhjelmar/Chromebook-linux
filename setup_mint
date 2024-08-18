@@ -1,6 +1,7 @@
 ##-----------------------------------------------------------------------------
 # Description
-# Linux Mint LMDE (based on Debian 11)
+# Linux Mint LMDE 6 faye (based on Debian 12 bookworm)
+# see that with: cat /etc/os-release
 
 # terminal shortcuts
 # - C-S-c = copy to clipboard
@@ -316,6 +317,41 @@ sudo apt install ./zoom_amd64.deb
 # sudo apt-get install openscad
 
 
+
+##-----------------------------------------------------------------------------
+# RSTUDIO (R was preinstalled with LMDE)
+# first, note that I installed LMDE 6 which is based on Debian 12 Bookworm
+
+# https://linuxcapable.com/how-to-install-r-programming-language-on-debian-linux/
+# update system
+sudo apt update
+sudo apt upgrade
+
+
+# https://computingforgeeks.com/how-to-install-r-and-rstudio-on-debian/
+# https://ahmorris.org/post/2023-09-16-install-rstudio-on-debian-12-bookworm/
+# https://cloud.r-project.org/bin/linux/debian/
+
+# install RStudio
+cd ~/Downloads
+sudo apt -y install wget
+# downloaded deb file from https://posit.co/download/rstudio-desktop/
+wget https://download1.rstudio.org/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb
+
+# obtain public key
+gpg --keyserver keys.openpgp.org --search-keys 51C0B5BB19F92D60
+# asked to "Enger number(s), N)ext, or Q)uit". I entered 1.
+
+# validate signture
+gpg --verify rstudio-download-1.2.3.deb
+
+# install
+sudo apt install -f ./rstudio-2024.04.2-764-amd64.deb
+
+# launch RStudio
+rstudio
+
+
 ##-----------------------------------------------------------------------------
 # rsnapshot
 # https://rsnapshot.org/faq.html
@@ -359,95 +395,8 @@ https://www.tecmint.com/rsnapshot-a-file-system-backup-utility-for-linux/
 
 
 
-
-
-##-----------------------------------------------------------------------------
-# R and RSTUDIO
-# first, note that I installed LMDE 6 which is based on Debian 12 Bookworm
-
-# first attempt messed up system and had to roll back using TimeShift
-# not sure yet what of the stuff below to use
-
-
-# https://linuxcapable.com/how-to-install-r-programming-language-on-debian-linux/
-# update system
-sudo apt update && sudo apt upgrade
-# intall required packages
-sudo apt install dirmngr apt-transport-https ca-certificates software-properties-common -y
-# import cran repository
-gpg --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
-gpg --armor --export '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' | gpg --dearmor | sudo tee /usr/share/keyrings/cran.gpg > /dev/null
-echo "deb [signed-by=/usr/share/keyrings/cran.gpg] https://cloud.r-project.org/bin/linux/debian bookworm-cran40/" | sudo tee /etc/apt/sources.list.d/cran.list
-# update system again
-sudo apt update
-# install R
-sudo apt install r-base r-base-dev
-
-
-
-
-
-
-# https://computingforgeeks.com/how-to-install-r-and-rstudio-on-debian/
-# https://ahmorris.org/post/2023-09-16-install-rstudio-on-debian-12-bookworm/
-# https://cloud.r-project.org/bin/linux/debian/
-
-# update system
-sudo apt update
-sudo /usr/bin/apt -y upgrade
-
-# install R (r-base and r-base-dev)
-sudo apt -y install r-base
-sudo apt install r-base r-base-dev
-
-
-# install RStudio
-cd ~/Downloads
-sudo apt -y install wget
-# change below for the appropriate deb file from https://posit.co/download/rstudio-desktop/
-wget https://download1.rstudio.org/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb
-
-# or this one?
-sudo apt install libssl-dev libclang-dev
-sudo dpkg -i ./rstudio-2024.04.2-764-amd64.deb
-
-
-
-# this one?
-sudo apt install -f ./rstudio-2024.04.2-764-amd64.deb
-# if get dependency problems, run
-# sudo apt -f install
-
-# launch RStudio
-rstudio
-
-
-
-##------------ OLD
-
-# https://in2techs.com/how-to-install-uninstall-r-and-rstudio-in-linux/?doing_wp_cron=1658515336.9373800754547119140625
-# https://www.charlesbordet.com/en/how-to-upgrade-to-R-4-0-0-on-debian/#the-good-solution
-# https://cran.r-project.org/bin/linux/debian/#debian-bullseye
-
-# install tool to add repositories to systems file /etc/apt/sources.list
-sudo apt install software-properties-common
-sudo add-apt-repository "deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/"
-
-# install key to repository
-# following is outdated because apt-key is depricated
-#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
-
-# need cmake to install some packages
-sudo apt     install cmake                 # could probably use apt-get
-sudo apt-get install libcurl4-openssl-dev
-sudo apt-get install libssl-dev
-
-# install R
-sudo apt-get install r-base      # R version 4.0.4
-# install Rstudio
-# download deb file and run with dpkg (or double click in file manager to install)
-# deb files here: 
-sudo dpkg -i ~/Downloads/rstudio-2022.07.0-548-amd64.deb
+#-----------------------------------------------------------------------------
+# install common packages for R
 
 # avaliable packages: https://cran.rstudio.com/
 # install packages (use R rather than Rstudio for speed)
