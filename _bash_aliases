@@ -36,7 +36,7 @@ alias ff="find . -print | grep -i"
 if [[ "$os" == 'windows' ]]; then
     alias pictures="pd 'D:\\MY Pictures'"     # only need in Git Bash
 elif [[ "$os" == "mint" ]]; then
-    alias pictures="$HOME/Pictures"
+    alias pictures="cd $HOME/Pictures"
     alias hdd="cd /mnt/HDD_backup_ntfs/"
     alias ntfs="cd /mnt/LMDE_SDD_ntfs/"
     alias windows="cd /mnt/Windows_SSD_ntfs"
