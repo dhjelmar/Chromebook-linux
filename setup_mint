@@ -60,6 +60,21 @@ lsb_release -a
 
 
 ##-----------------------------------------------------------------------------
+# DUAL BOOT MESSED UP WINDOWS / LINUX TIME (may have been messing up Brave and causing "Aw, Snap!)
+# https://itsfoss.com/wrong-time-dual-boot/
+# At bootup, the computer uses the hardware clock to set the system clock.
+# After that, the system clock is used to track time.
+# By default, Windows assumes the time stored on the hardware clock is the local time.
+# By default, Linux assumes the time stored on the hardware clock is UTC, not local time.
+# Any change in Windows or Linux to the system clock is used to set the hardware clock.
+
+# The following should make Linux use local time for the hardware clock.
+# (Could have done something different, but this is recommended as easiest.)
+timedatectl set-local-rtc 1
+
+
+
+##-----------------------------------------------------------------------------
 # Software Installation in order of preference:
 #   (1) Flatpack (Flathub)
 #   (2) System package
@@ -327,6 +342,30 @@ sudo apt install ./zoom_amd64.deb
 sudo apt update
 sudo apt upgrade
 
+# update version of R
+apt remove r-base-core
+apt install -t bookworm-cran40 r-base
+
+
+# https://cran.r-project.org/bin/linux/debian/
+# https://rpubs.com/hrpunio/1153216
+# install required packages
+sudo apt install dirmngr apt-transport-https ca-certificates software-properties-common -y
+# import CRAN respository
+R=https://cloud.r-project.org/bin/linux/debian bookworm-cran40/
+echo "deb [signed-by=/usr/share/keyrings/cran.gpg] ${R}" | sudo tee /etc/apt/sources.list.d/cran.list
+# update R packages
+apt install libv8-dev
+apt install lib-sodium.h
+apt install libopenblas-dev
+update.packages(ask = FALSE)
+sudo apt install r-base-core r-base-dev
+
+
+# deb http://cloud.r-project.org/bin/linux/debian bookworm-cran40/
+# sudo apt install r-base
+# R --version
+
 
 # https://computingforgeeks.com/how-to-install-r-and-rstudio-on-debian/
 # https://ahmorris.org/post/2023-09-16-install-rstudio-on-debian-12-bookworm/
@@ -350,6 +389,20 @@ sudo apt install -f ./rstudio-2024.04.2-764-amd64.deb
 
 # launch RStudio
 rstudio
+
+# install a couple things needed to support various packages (RTools not needed on Linux, only Windows)
+sudo apt install libcurl4-openssl-dev
+sudo apt install cmake
+
+
+##-----------------------------------------------------------------------------
+# Nomacs picture viewer
+flatpak install flathub org.nomacs.ImageLounge
+
+
+##-----------------------------------------------------------------------------
+# Shotwell picture viewer
+# installed from "Software Manager"
 
 
 ##-----------------------------------------------------------------------------
