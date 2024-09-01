@@ -1,0 +1,57 @@
+# transfer windows 10 new motherboard
+
+https://answers.microsoft.com/en-us/windows/forum/all/transfer-windows-10-to-new-motherboard/eee49b69-6830-4942-a19d-b6eac63f7249
+
+License type:
+
+1. Click Start > type CMD> Right click on "Command Prompt" and select Run as administrator > and type in the following command:
+slmgr.vbs /dlv
+2. A "Windows Script Host" box will pop-up
+3. Check "Product Key Channel". IT should tell you what type of license do you have
+
+There are 3 types of Windows licenses (OEM, Retail & Volume)
+
+MS Support
+https://partner.support.services.microsoft.com/en-us/contactus/windows/account/
+https://support.microsoft.com/en-us/help/13948/global-customer-service-phone-numbers
+
+
+
+To transfer:
+see:
+
+   #############################################################################
+   # LOOK FOR PRODUCT KEY AT HOME
+   #############################################################################
+
+   https://www.groovypost.com/howto/transfer-windows-10-license-new-pc/
+
+
+
+#############################################################################
+
+ALTERNATE BUT PROBABLY LESS GOOD INSTRUCTIONS
+---------------------------------------------
+
+https://support.microsoft.com/en-ph/help/20530
+
+- home PC
+  - look for product key
+
+- old PC
+  - Start / Settings / update and security / activation
+  - Get product key
+
+  Or possibly:
+
+  - Uninstall key
+      - cmd / run as administrator / slmgr.vbs -upk
+      
+- new PC
+      - Start / Settings / update and security / activation / change product key
+      - following may be helpful
+        https://support.microsoft.com/en-us/account-billing/find-and-install-your-microsoft-downloads-from-microsoft-store-9ee788eb-280a-7d3e-fa8e-0418c71af495
+
+  Or possibly use following to reactivate by chat support:
+      - https://partner.support.services.microsoft.com/en-us/contact/menu/software/windows/setup/
+	
