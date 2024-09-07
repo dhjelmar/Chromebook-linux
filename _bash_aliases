@@ -68,6 +68,11 @@ alias tb='thunderbird &'
 
 
 #------------------------
+# Brave
+alias brave='brave-browser &'
+
+
+#------------------------
 # MOUNT USB DRIVE
 # https://askubuntu.com/questions/37767/how-to-access-a-usb-flash-drive-from-the-terminal
 alias disks="lsblk"    # list disks; USB will likely be sda or something similar
