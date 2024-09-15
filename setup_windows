@@ -16,42 +16,19 @@ https://partner.support.services.microsoft.com/en-us/contactus/windows/account/
 https://support.microsoft.com/en-us/help/13948/global-customer-service-phone-numbers
 
 
-
-To transfer:
-see:
-
-   #############################################################################
-   # LOOK FOR PRODUCT KEY AT HOME
-   #############################################################################
-
-   https://www.groovypost.com/howto/transfer-windows-10-license-new-pc/
+##########################
 
 
+LV internet PC has
+- full retail license for Windows 11 that can be activated from my microsoft account
+  - did not need to uninstall first on old PC
+  - if I was not scrapping the old motherboard, it would be a problem if that old PC tried to use the internet
+- full retail license for Word 2016 that can be activated from my microsoft account
 
-#############################################################################
 
-ALTERNATE BUT PROBABLY LESS GOOD INSTRUCTIONS
----------------------------------------------
+##########################
 
-https://support.microsoft.com/en-ph/help/20530
-
-- home PC
-  - look for product key
-
-- old PC
-  - Start / Settings / update and security / activation
-  - Get product key
-
-  Or possibly:
-
-  - Uninstall key
-      - cmd / run as administrator / slmgr.vbs -upk
-      
-- new PC
-      - Start / Settings / update and security / activation / change product key
-      - following may be helpful
-        https://support.microsoft.com/en-us/account-billing/find-and-install-your-microsoft-downloads-from-microsoft-store-9ee788eb-280a-7d3e-fa8e-0418c71af495
-
-  Or possibly use following to reactivate by chat support:
-      - https://partner.support.services.microsoft.com/en-us/contact/menu/software/windows/setup/
-	
+# Thunderbird
+# find profile here: hamburger / help / troubleshooting information
+# add folder "chrome"
+# add "userChrome.css" customization file within chrome folder
