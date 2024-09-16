@@ -300,6 +300,7 @@ sudo apt-get install onlyoffice-desktopeditors
 # Linux distributions such as Ubuntu, Mint etc.
 
 # 1. Install our official public software signing key:
+cd ~/Downloads
 wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
 cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
 
