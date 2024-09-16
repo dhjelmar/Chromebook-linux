@@ -42,7 +42,7 @@ elif [[ "$os" == "mint" ]]; then
     alias windows="cd /mnt/Windows_SSD_ntfs"
     alias wdoc="cd /mnt/Windows_SSD_ntfs/Documents"
     alias wdave="cd /mnt/Windows_SSD_ntfs/Documents/01_Dave"
-    alias wpict="cd /mnt/Windows_SSD_ntfs/My Pictures"
+    alias wpict="cd /mnt/Windows_SSD_ntfs/MY\ Pictures"
 else
     alias pictures="$HOME/Pictures"
 fi
