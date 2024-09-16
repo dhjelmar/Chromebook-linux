@@ -401,11 +401,6 @@ flatpak install flathub org.nomacs.ImageLounge
 
 
 ##-----------------------------------------------------------------------------
-# Shotwell picture viewer
-# installed from "Software Manager"
-
-
-##-----------------------------------------------------------------------------
 # rsnapshot
 # https://rsnapshot.org/faq.html
 # https://www.tecmint.com/rsnapshot-a-file-system-backup-utility-for-linux/
