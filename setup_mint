@@ -402,6 +402,13 @@ flatpak install flathub org.nomacs.ImageLounge
 
 
 ##-----------------------------------------------------------------------------
+# MEGA cloud storage
+cd ~/Downloads
+wget https://mega.nz/linux/repo/Debian_12/amd64/megasync-Debian_12_amd64.deb
+sudo apt install "$PWD/megasync-Debian_12_amd64.deb"
+
+
+##-----------------------------------------------------------------------------
 # rsnapshot
 # https://rsnapshot.org/faq.html
 # https://www.tecmint.com/rsnapshot-a-file-system-backup-utility-for-linux/
