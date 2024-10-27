@@ -263,6 +263,11 @@ fi
 export XDG_RUNTIME_DIR=/tmp/onlyoffice
 export RUNLEVEL=3
 
+
+#------------------------
+## LibraOffice
+lo () { libreoffice --calc $1 ; }
+
 #------------------------
 # PICTURE TOOLS
 # exiftool to edit picture meta data
