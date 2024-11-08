@@ -65,7 +65,7 @@ alias ram="free -h"     # shows available RAM
 #------------------------
 # thunderbird
 alias tb='thunderbird &'
-
+alias tb='flatpak run org.mozilla.Thunderbird 2>/dev/null &'
 
 #------------------------
 # Brave
