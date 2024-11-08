@@ -321,6 +321,7 @@ update () {
     echo "clean up"
     sudo apt-get clean
     sudo apt-get autoclean
+    sudo apt autoremove
 }
 
 
