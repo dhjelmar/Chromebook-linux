@@ -98,11 +98,14 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 
 ##-----------------------------------------------------------------------------
-# firewall
-# search / firewall
-# slide status to on
-# incoming=Deny
-# outgoing=Allow
+# firewall (UFW = Uncomplicated FireWall)
+# help.ubuntu.com/community/Gufw
+#    - Search / firewall
+#      - profile: Home
+#      - Status: Slide to on
+#      - Incoming: Deny (default)
+#      - Outgoing: Allow (default) <-- needed to, for example, send a request to the internet
+#      - Press Rule / + to open "Add a Firewall Rule" popup
 
 
 ##-----------------------------------------------------------------------------
@@ -161,15 +164,20 @@ ln -s ~/Documents/GitHub/Chromebook-linux/_emacs_mint ~/.emacs.d/init.el
 
 ##-----------------------------------------------------------------------------
 # Thunderbird
-# it came already installed on LMDE
+# uninstalled system version that came with LMDE to use flatpack instead
 
 # needed to change so unread email would be magenta
 # in "advanced preferences, search for userprof and toggle:
 #     toolkit.legacyUserProfileCustomizations.stylesheets to true
 # 
-# put symbolic link tothis file in folder: ~/.thunderbird/<profile name>/chrome
-# example:
+# if using system version of thunderbird (lsz* folder might have a different name):
 #    cd ~/.thunderbird/lszg1so8.default-default
+#    mkdir chrome
+#    cd chrome
+#    ln -s ~/Documents/GitHub/Chromebook-linux/setup_mint_files/userChrome.css userChrome.css
+#
+# if using flatpack version of thunderbird (lsz* folder might have a different name):
+#    cd ~/.var/app/org.mozilla.Thunderbird/.thunderbird/mfxq8yi7.default-esr
 #    mkdir chrome
 #    cd chrome
 #    ln -s ~/Documents/GitHub/Chromebook-linux/setup_mint_files/userChrome.css userChrome.css
@@ -435,6 +443,128 @@ rsnapshot configtest
 
 mkdir $HOME/.rsnapshot
 
+#-----------------------------------------------------------------------------
+# SSH Server
+# https://www.socketxp.com/iot/install-setup-ssh-server-client-iot-device/
+
+#----------------------
+# on server
+# install, enable, and run ssh server as a daemon in background
+sudo apt-get update
+sudo apt-get install openssh-server
+# to start on boot
+sudo systemctl enable ssh
+# to start service if needed
+sudo systemctl start ssh
+
+# to see status
+sudo systemctl status ssh
+
+
+#----------------------
+# on client
+# get ip address
+ip a
+# under <BROADCAST,MULTICAST,UP,LOWER_UP>, look for inet line:
+#       inet 192.168.0.31/16 brd 192.168.0.255 scope global dynamic noprefixroute enp0s3
+#            ------------                                                         ------
+# then short ip address would be:
+#       192.168.0.31
+# the long ip address would be:
+#       192.168.0.31/16
+# with network interface
+#       enp0s3
+
+
+#----------------------
+# on server
+# configure firewall to allow incoming connections on port 22 (default ssh port)
+# entered following but replaced the `192.168.0.31/16` with the long client ip address
+sudo ufw allow from 192.168.0.31/16 to any port 22
+
+
+#----------------------
+# on client
+
+# install ssh client
+sudo apt-get update
+sudo apt-get install openssh-client
+
+# on client, log into server with:
+ssh username_on_server@server_ip_address
+# Got a message that "The authenticity of host `server ip address` could not be established.
+# Asked if I wanted to continue connecting. Answer `yes`
+# Warning that the server ip was permanently added to list of known hosts [on client]
+# Enter server password.
+
+# on client, log out of server
+exit
+
+# setup ssh keys
+ssh-keygen -t rsa -C 'user_name_on_client@client_pc_name'
+# where user_name_on_client@client_pc_name from client terminal prompt
+# the -C comment may be unnecessary
+
+# copy the contents of the pub key to the ~/.ssh/authorized_keys file on the server
+# by entering the following on the client while still logged out of server
+ssh-copy-id -i mykey.pub username_on_server@server_ip_address
+# where user_name_on_server is from user_name_on_server@server_pc_name on server terminal prompt
+#       servier_ip_address is the short version of the ip (e.g., 192.168.0.31)
+
+
+#----------------------
+# on server
+# disable password authentication
+# open ssh server config file
+sudo emacs /etc/ssh/sshd_config
+# search for following keywords and set no/yes as follows
+#    PasswordAuthentication no
+#    PubkeyAuthentication yes
+# restart service
+sudo service ssh restart
+
+# if mess up sshd_config file, will get a "start request repeated too quickly" error as the system
+# attempts and reattempts to restart. Find details of the error by inspecting output from:
+#      journalctl -e
+# then manually start service again and check status
+#      sudo systemctl start ssh
+#      sudo systemctl status ssh
+
+
+#----------------------
+# on client
+
+# attempt to log into server with ssh key
+ssh -i ~/.ssh/mykey username_on_server@server_ip_address
+# where mykey is the name of the key that was created earlier (do not include `.pub`)
+
+# simplify login by creating config file
+# create ~/.ssh/config file containing the following
+Host host_name
+     HostName server_ip_address
+     User username_on_server
+     IdentityFile ~/.ssh/mykey
+# where host_name can probably be anything (e.g., tower) or possibly needs to be
+# server_pc_name which was found above
+
+# attempt to log into server with simpler ssh command
+ssh host_name
+
+
+#----------------------
+# to enable running GUI on server with X11 forwarding
+
+#-----
+# on server
+# in /etc/ssh/sshd_config, set
+#     X11Forwarding yes                  <-- this was already set
+# restart the sshd daemon (only if it was not already set)
+sudo systemctl restart ssh
+
+#-----
+# on client to start ssh with X11 forwarding
+# run ssh using -X
+ssh -X tower
 
 
 
