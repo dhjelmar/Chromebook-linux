@@ -499,9 +499,10 @@ sudo apt-get install onlyoffice-desktopeditors
 
 ##-----------------------------------------------------------------------------
 ## SSH - install as client (i.e., not the server)
-sudo apt install openssh-client
+# see instructions in setup_mint
 
-## On Windows, follow instructions here:
+## On Windows, was able to access files but not start GUI programs likely because do not have Windows Server
+## Attempted to follow instructions here:
 ## https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=gui
 ## Username can be found by entering following in Windows PowerShell
 ##      $env:USERNAME
@@ -512,14 +513,14 @@ sudo apt install openssh-client
 ## The above does not work with MS Account. Need stand alone account. Grrr#!!**!
 ## https://answers.microsoft.com/en-us/windows/forum/all/ssh-login-to-microsoft-account-linked-windows/69ea0428-5b06-401c-bb86-e45228709e0b
 ##
-
+##
 ## IDEA:
 ##    - Create local admin account
 ##    - Change MS linked account to "standard user"
 ##    - ssh into local admin account (or would it be better to ssh into local standard user account?)
-
+#
 ## If can log in using the above, can replace password to ssh with a keypair. 
-## On Linux, generate new ssh keypair
+## On Linux client laptop, generate new ssh keypair
 ## (https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux)
 ## From terminal where found username@servername on Windows from above: 
 ##      cd ~/.ssh
