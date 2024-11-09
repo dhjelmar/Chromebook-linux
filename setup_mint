@@ -569,6 +569,12 @@ ssh -X tower
 
 
 
+##-----------------------------------------------------------------------------
+# DROPBOX
+# installed system package with Software Manager
+
+
+
 ##################################################
 # dlh stopped here
 ##################################################
@@ -630,39 +636,6 @@ remove_r() {
 ## CHEESE - program needed for endoscope to work on Chromebook
 ## launch with "cheese"
 
-
-
-##-----------------------------------------------------------------------------
-## DROPBOX
-## https://vitux.com/how-to-install-dropbox-on-debian-10/
-cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf –
-~/.dropbox-dist/dropboxd
-
-## https://linuxhint.com/install_dropbox_debian_10/
-## download Ubuntu 64-bit from dropbox site
-##     https://www.dropbox.com/install-linux
-cd ~/Downloads
-sudo apt update
-sudo apt install ./dropbox_2020.03.04_amd64.deb
-sudo apt install python3-gpg
-sudo reboot
-
-## ## if need to close Dropbox and reopen
-## sudo pgrep -lfa dropbox   # checks if running
-## sudo pkill dropbox
-## ## restart from application menu
-
-## to uninstall
-## some of the following may not be needed
-dropbox stop
-dropbox status  # Should report "not running"
-rm -rf ~/.dropbox-dist
-rm -rf /var/lib/dropbox
-rm -rf ~/.dropbox*
-sudo apt-get remove nautilus-dropbox
-sudo apt-get remove dropbox
-sudo apt-get autoremove
-rm /etc/apt/source.d/dropbox
 
 #------------------------
 ## KeePassXC
