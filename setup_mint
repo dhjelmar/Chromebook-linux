@@ -566,7 +566,15 @@ sudo systemctl restart ssh
 # run ssh using -X
 ssh -X tower
 
+# to speed up x11 (very slow on old Chromebook)
+# good explanation of why X11 is slow here
+# https://superuser.com/questions/1217280/why-is-x11-forwarding-so-inefficient
+# try
+ssh -Y tower
+or set ForwardX11Trusted in SSH client configuration.
 
+try RDP, VNC, NX, x2go
+NX (https://www.nomachine.com/)
 
 
 ##################################################
