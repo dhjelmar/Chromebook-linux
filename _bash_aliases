@@ -78,6 +78,14 @@ alias signal='signal-desktop &'
 
 
 #------------------------
+# ThinLinc (uses ssh public key)
+# tlclient [options] [server][:port]
+tl () {
+  /opt/thinlinc/bin/tlclient-openconf config_file_maybe
+}
+
+
+#------------------------
 # MOUNT USB DRIVE
 # https://askubuntu.com/questions/37767/how-to-access-a-usb-flash-drive-from-the-terminal
 alias disks="lsblk"    # list disks; USB will likely be sda or something similar

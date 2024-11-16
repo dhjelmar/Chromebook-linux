@@ -443,6 +443,7 @@ rsnapshot configtest
 
 mkdir $HOME/.rsnapshot
 
+
 #-----------------------------------------------------------------------------
 # SSH Server
 # https://www.socketxp.com/iot/install-setup-ssh-server-client-iot-device/
@@ -562,11 +563,56 @@ ssh host_name
 sudo systemctl restart ssh
 
 #-----
-# on client to start ssh with X11 forwarding
+# on client to start ssh with X11 forwarding for displaying GUI from mint on remote
 # run ssh using -X
 ssh -X tower
 
+# X11 works but is very slow
 
+
+#-----------------------------------------------------------------------------
+# ThinLinc (an attempt to speed up ssh with GUI)
+# https://www.learnlinux.tv/thinlinc-overview-and-tutorial-how-to-install-and-utilize-this-linux-remote-desktop-solution/
+
+#------------------
+# SERVER
+
+# download thinlinc server software for administrators
+https://www.cendio.com/thinlinc/download/
+
+# extract from zip folder by selecting in file manager
+# double click on "Click to install" and follow prompts
+# options:
+#    - chose "Master" server rather than "Agent" server
+#    - Message that "ThinLinc Commands not in Sudo PATH" so need to specify complete path when running
+#      ThinLinc admin commands. Instructions to fix this in ThinLinc Administrator's Guide under
+#      Installation chapter, "Run ThinLinc administration commands using sudo".
+
+#------------------
+# CLIENT
+
+# install
+# on client, download thinlinc server software for users
+# https://www.cendio.com/thinlinc/download/
+# downloaded DEB version
+# open in file manager and double click to install
+
+# configure and connect
+# open "ThinLinc client" from start
+# Options / Security / Public key (since I already set up ssh)
+# entries:
+#    - server  : ip address
+#    - username: username on server
+#    - key     : full path to ssh key (do not add the .pub extension)
+
+# additional configuration
+# potential settings: https://www.cendio.com/resources/docs/tag/client_config_params.html
+# edit /opt/thinlinc/etc/tlclient.conf
+# set:
+#   ALLOW_HOSTKEY_UPDATE=publickey    # it was password
+#   AUTOLOGIN=0                       # was 0 but can set to 1 for autologin when open ThinLinc app
+
+# need to be logged out of server to connect with it using ThinLinc
 
 
 ##-----------------------------------------------------------------------------
