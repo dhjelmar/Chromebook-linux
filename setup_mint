@@ -28,10 +28,13 @@
 # - Boot from USB
 #   - Enter BIOS with, e.g., F2 or Del during boot
 #     - Go to exit
-#     - Select usb entry for debian
+#     - Select usb entry for debian UEFI
+#     - Start LMDE 6 64-bit
 #   - Install LMDE
 #     - Select installation icon on desktop
 #     - When asked about partitions, select "other" rather than "automatic"
+#
+#        TOWER
 #        - Manual setup of 3 partitions on new SSD
 #           - EFI Boot loader: 100 MB fat32 primary partition; mount point /boot/EFI
 #           - Root (system files): 100 GB ext4 primary partition, mount point /
@@ -51,6 +54,37 @@
 #              - User home directories (options: exclude all files; include only hidden files; include all files)
 #                 - /home/david: exclude all files (default)
 #                 - /root      : exclude all files (default)
+#
+#         TOWER2
+#         - Manual setup of 4 partitions on single SSD
+#	    - Use GParted to setup to create following partitions; used same thing for name and label of each partition
+#                                            size       format     partition typ      mount point    label and name
+#                                            ------     ------     --------------     -----------    --------------
+#              - EFI Boot loader:     	     100 MB     fat32	   primary	      /boot/EFI	     boot
+#              - Root (system files): 	     100 GB 	ext4 	   primary            /              root
+#                 - swap: using swap file under root rather than 16 GB ext4 logical partition
+#              - Timeshift: 		     300 GB     ext4	   primary			     timeshift
+#                                            (3x the root partition size)
+#              - Home (personal files):      balance	ext4 	   primary	      /home/<user>   home
+#              - no 16GB swap partion made; later will use a swap file under root instead
+#              
+#          - still in GParted, edit flags for EFI boot loader partition
+#	     - check the "boot" and "esp" fl
+#          - exit GParted
+#          - Refresh partitioning window in installer
+#          - Right click each created device and assign mount points
+#             - 100 MB fat32 to /boot/efi
+#             - 100 GB ext4  to /
+#             - 300 GB ext4  can leave blank for now
+#             - 594 GB ext4  to /home
+#
+#     - Grub menu needs to be the same partition as the boot partition
+
+#     - finish installation of LMDE letting it reboot when done
+#     - turn on firewall in "First Steps"
+#     - setup TimeShift in "First Steps" / TimeShift / Settings and create 1 snapshot
+#       - Type: rsync
+#       - Location: Select location that was created for timeshift on same or different drive
 
 
 ##-----------------------------------------------------------------------------
@@ -417,7 +451,7 @@ sudo apt install "$PWD/megasync-Debian_12_amd64.deb"
 
 
 ##-----------------------------------------------------------------------------
-# rsnapshot
+# rsnapshot (timeshift)
 # https://rsnapshot.org/faq.html
 # https://www.tecmint.com/rsnapshot-a-file-system-backup-utility-for-linux/
 sudo apt-get install rsnapshot
