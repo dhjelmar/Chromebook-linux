@@ -69,8 +69,7 @@ alias tb='flatpak run org.mozilla.Thunderbird 2>/dev/null &'
 
 #------------------------
 # Brave
-alias brave='brave-browser &'
-
+alias brave='brave-browser 2>/dev/null &'
 
 #------------------------
 # Signal
