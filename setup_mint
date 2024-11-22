@@ -254,13 +254,20 @@ bash Anaconda3-2024.06-1-Linux-x86_64.sh
 
 
 #------------------------
-# Brave
+# Brave (use this instead of flatpak)
 # https://brave.com/linux/
 sudo apt install curl
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 sudo apt update
 sudo apt install brave-browser
+
+## to remove
+#sudo apt purge brave-browser
+#sudo rm /etc/apt/sources.list.d/brave-browser-release.list
+#sudo apt-key del A8580BDC82D3DC6C
+#rm -rf ~/.config/BraveSoftware
+#rm -rf ~/.cache/BraveSoftware
 
 
 #------------------------
@@ -306,21 +313,22 @@ sudo apt install code -y
 # sudo rm /etc/apt/sources.list.d/vscode.list
 # sudo rm /usr/share/keyrings/vscode.gpg
 
-
 ##----------------------------------------------------------------------------
-## OnlyOffice
+## OnlyOffice <-- sofware manager / onlyoffice <-- flatpak available
+
+## or do it the old fashioned way
 ## Add GPG key:
-mkdir -p -m 700 ~/.gnupg
-gpg --no-default-keyring --keyring gnupg-ring:/tmp/onlyoffice.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
-chmod 644 /tmp/onlyoffice.gpg
-sudo chown root:root /tmp/onlyoffice.gpg
-sudo mv /tmp/onlyoffice.gpg /usr/share/keyrings/onlyoffice.gpg
-## Add desktop editors repository:
-echo 'deb [signed-by=/usr/share/keyrings/onlyoffice.gpg] https://download.onlyoffice.com/repo/debian squeeze main' | sudo tee -a /etc/apt/sources.list.d/onlyoffice.list
-## Update the package manager cache:
-sudo apt-get update
-## Now the editors can be easily installed using the following command:
-sudo apt-get install onlyoffice-desktopeditors
+#mkdir -p -m 700 ~/.gnupg
+#gpg --no-default-keyring --keyring gnupg-ring:/tmp/onlyoffice.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
+#chmod 644 /tmp/onlyoffice.gpg
+#sudo chown root:root /tmp/onlyoffice.gpg
+#sudo mv /tmp/onlyoffice.gpg /usr/share/keyrings/onlyoffice.gpg
+### Add desktop editors repository:
+#echo 'deb [signed-by=/usr/share/keyrings/onlyoffice.gpg] https://download.onlyoffice.com/repo/debian squeeze main' | sudo tee -a /etc/apt/sources.list.d/onlyoffice.list
+### Update the package manager cache:
+#sudo apt-get update
+### Now the editors can be easily installed using the following command:
+#sudo apt-get install onlyoffice-desktopeditors
 
 
 #------------------------
@@ -570,8 +578,8 @@ sudo service ssh restart
 # on client
 
 # attempt to log into server with ssh key
-ssh -i ~/.ssh/mykey username_on_server@server_ip_address
-# where mykey is the name of the key that was created earlier (do not include `.pub`)
+ssh -i ~/.ssh/mykey.pub username_on_server@server_ip_address
+# where mykey is the name of the key that was created earlier
 
 # simplify login by creating config file
 # create ~/.ssh/config file containing the following
