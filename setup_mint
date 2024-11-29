@@ -620,7 +620,7 @@ ssh -X tower
 # SERVER
 
 # download thinlinc server software for administrators
-https://www.cendio.com/thinlinc/download/
+# https://www.cendio.com/thinlinc/download/
 
 # extract from zip folder by selecting in file manager
 # double click on "Click to install" and follow prompts
@@ -628,7 +628,7 @@ https://www.cendio.com/thinlinc/download/
 #    - chose "Master" server rather than "Agent" server
 #    - Message that "ThinLinc Commands not in Sudo PATH" so need to specify complete path when running
 #      ThinLinc admin commands. Instructions to fix this in ThinLinc Administrator's Guide under
-#      Installation chapter, "Run ThinLinc administration commands using sudo".
+#      Installation chapter, "Run ThinLinc administration commands using sudo"
 
 #------------------
 # CLIENT
@@ -661,6 +661,37 @@ https://www.cendio.com/thinlinc/download/
 # DROPBOX
 # installed system package with Software Manager
 
+
+##-----------------------------------------------------------------------------
+# unified remote to use phone to control pc
+#https://www.unifiedremote.com/download/other#linux
+
+# install on phone through play store
+
+# install on server
+# download deb file
+# double click in file explorer
+#https://www.unifiedremote.com/tutorials/how-to-install-unified-remote-server-deb-via-terminal
+
+# in following, replace 192.168.1.0 with phone IP
+sudo ufw allow from 192.168.1.0/24 to any port 9511
+sudo ufw allow from 192.168.1.0/24 to any port 9512
+
+# start service on server
+alias urstart='/opt/urserver/urserver-start'
+alias urstop='/opt/urserver/urserver-stop'
+urstart
+
+# to uninstall, delete rules from firewall and run following
+# sudo dpkg -r urserver
+
+# not sure if I am going to keep this.
+
+#-----------------------------------------------------------------------------
+# fix overscan when connect HDMI to TV
+# added commands to this repo in setup_mint_files/startup.sh
+# made script executable
+# identified script in start / start applications
 
 
 ##################################################
