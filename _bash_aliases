@@ -80,9 +80,11 @@ alias signal='signal-desktop &'
 # ThinLinc (uses ssh public key)
 # tlclient [options] [server][:port]
 tl () {
-  /opt/thinlinc/bin/tlclient-openconf config_file_maybe
+  # launch ThinLinc client on server
+  # e.g., tl tower2
+  server = $1
+  /opt/thinlinc/bin/tlclient -u $USER $server
 }
-
 
 #------------------------
 # MOUNT USB DRIVE
