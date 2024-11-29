@@ -81,9 +81,11 @@ alias signal='signal-desktop &'
 # tlclient [options] [server][:port]
 tl () {
   # launch ThinLinc client on server
+  #    /opt/thinlinc/bin/tlclient -u $user $server
+  # without -u $user, default when setup standard launch through start is used
   # e.g., tl tower2
-  server = $1
-  /opt/thinlinc/bin/tlclient -u $USER $server
+  server="$1"
+  /opt/thinlinc/bin/tlclient $server &
 }
 
 #------------------------
