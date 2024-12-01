@@ -656,6 +656,14 @@ ssh -X tower
 
 # need to be logged out of server to connect with it using ThinLinc
 
+#------------------
+# CLIENT
+# If getting frequent requests on serer for password associated with issue with keyring login,
+# open 'start / passwords & keys when logged' into server. Right click 'Login' and change password
+# to be blank. The existing password should be the same as the login password. The issue seems to
+# be that the login keyring gets unlocked when manually logging into the server, but not
+# when automatially logging into the server.
+
 
 ##-----------------------------------------------------------------------------
 # DROPBOX
