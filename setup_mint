@@ -52,8 +52,8 @@
 #                             A maintenance task runs once overy hour and creates snapshots as needed.
 #                             Boot snapshots are created with a delay of 10 minutes after system startup.
 #              - User home directories (options: exclude all files; include only hidden files; include all files)
-#                 - /home/david: exclude all files (default)
-#                 - /root      : exclude all files (default)
+#                 - /home/username: exclude all files (default)
+#                 - /root         : exclude all files (default)
 #
 #         TOWER2
 #         - Manual setup of 4 partitions on single SSD
@@ -465,8 +465,8 @@ sudo apt install "$PWD/megasync-Debian_12_amd64.deb"
 sudo apt-get install rsnapshot
 
 # modify /etc/rsnapshot.conf file
-# (1) changed location of snapshot_root as follows
-#   snapshot_root   /home/david/.rsnapshot
+# (1) changed location of snapshot_root as follows where replace USER with value of $USER
+#   snapshot_root   /home/USER/.rsnapshot
 #
 # (2) added the following
 #   #########################################
@@ -560,11 +560,23 @@ ssh-copy-id -i mykey.pub username_on_server@server_ip_address
 # disable password authentication
 # open ssh server config file
 sudo emacs /etc/ssh/sshd_config
-# search for following keywords and set no/yes as follows
+# search for following keywords and set as follows
 #    PasswordAuthentication no
 #    PubkeyAuthentication yes
+#    MaxAuthTries 3
+
+# giving up on the following for now
+# https://goteleport.com/blog/ssh-hardening-to-prevent-brute-force-attacks/
+# the following provides backup protection to the same thing what was done in the firewall
+# in /etc/hosts.deny, set the following (everything was originally commented out)
+#    ALL: ALL
+# in /etc/hosts.allow, set the following were my_client_IP is replaced with the allowed client IP
+#    ALL: my_clisudent_IP
+
 # restart service
 sudo service ssh restart
+
+# reboot server
 
 # if mess up sshd_config file, will get a "start request repeated too quickly" error as the system
 # attempts and reattempts to restart. Find details of the error by inspecting output from:
