@@ -39,10 +39,10 @@ elif [[ "$os" == "mint" ]]; then
     alias pictures="cd $HOME/Pictures"
     alias hdd="cd /mnt/HDD_backup_ntfs/"
     alias ntfs="cd /mnt/LMDE_SDD_ntfs/"
-    alias windows="cd /mnt/Windows_SSD_ntfs"
-    alias wdoc="cd /mnt/Windows_SSD_ntfs/Documents"
-    alias wdave="cd /mnt/Windows_SSD_ntfs/Documents/01_Dave"
-    alias wpict="cd /mnt/Windows_SSD_ntfs/MY\ Pictures"
+    alias windows="cd $HOME/Windows_SSD_ntfs"
+    alias wdoc="cd $HOME/Windows_SSD_ntfs/Documents"
+    alias wdave="cd $HOME/Windows_SSD_ntfs/Documents/01_Dave"
+    alias wpict="cd $HOME/Windows_SSD_ntfs/MY\ Pictures"
 else
     alias pictures="$HOME/Pictures"
 fi
