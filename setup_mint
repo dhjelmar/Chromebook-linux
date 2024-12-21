@@ -664,6 +664,11 @@ ssh -X tower
 # be that the login keyring gets unlocked when manually logging into the server, but not
 # when automatially logging into the server.
 
+# suggestion not tried yet
+# https://www.reddit.com/r/debian/comments/mcxzp8/getting_rid_of_the_authentication_is_required/?rdt=42244
+# gsettings set org.gnome.software download-updates false
+
+
 
 ##-----------------------------------------------------------------------------
 # DROPBOX
