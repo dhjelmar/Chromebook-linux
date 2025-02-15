@@ -336,10 +336,15 @@ sudo apt-get install texlive-xetex texlive-fonts-recommended texlive-generic-rec
 
 ##-----------------------------------------------------------------------------
 # Zoom
+cd ~/Downloads
 wget https://zoom.us/client/latest/zoom_amd64.deb
 sudo apt install ./zoom_amd64.deb
 zoom   # to launch
 # sudo apt remove zoom
+
+# 'unsandboxed' warning when tried to update to new version
+# look here near or at bottom of postings for potential solution
+# https://forums.linuxmint.com/viewtopic.php?t=417856
 
 
 ##-----------------------------------------------------------------------------
@@ -547,6 +552,19 @@ sudo apt-get install onlyoffice-desktopeditors
 ##     - In Windows C:/Users/username, moved manually created authorized_keys file to authorized_keys_junk
 ##     - In Linux ssh session, entered: ssh-copy-id username@servername
 ## Next ssh should only require pin and not password, but it still is asking for a password.
+
+
+## useful commands to use over ssh
+sudo shutdown -h        # to shutdown server
+
+# play vlc on server TV, try this:
+export DISPLAY=:0         # original value was :0.0
+vlc -f file.mp4
+
+# show pictures on server TV, try this:
+
+
+
 
 ##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
