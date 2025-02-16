@@ -426,17 +426,17 @@ sudo apt install r-base-core r-base-dev
 cd ~/Downloads
 sudo apt -y install wget
 # downloaded deb file from https://posit.co/download/rstudio-desktop/
-wget https://download1.rstudio.org/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb
+wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2024.12.1-563-amd64.deb
 
 # obtain public key
 gpg --keyserver keys.openpgp.org --search-keys 51C0B5BB19F92D60
 # asked to "Enger number(s), N)ext, or Q)uit". I entered 1.
 
 # validate signture
-gpg --verify rstudio-download-1.2.3.deb
+gpg --verify rstudio-2024.12.1-563-amd64.deb
 
 # install
-sudo apt install -f ./rstudio-2024.04.2-764-amd64.deb
+sudo apt install -f ./rstudio-2024.12.1-563-amd64.deb
 
 # launch RStudio
 rstudio
@@ -676,9 +676,13 @@ ssh -X tower
 # be that the login keyring gets unlocked when manually logging into the server, but not
 # when automatially logging into the server.
 
+# Getting rid of the "Authentication is required to modify a system repository" dialogue.     # dlh error
 # suggestion not tried yet
 # https://www.reddit.com/r/debian/comments/mcxzp8/getting_rid_of_the_authentication_is_required/?rdt=42244
 # gsettings set org.gnome.software download-updates false
+
+# another suggestino
+# gsettings set org.gnome.software download-updates-notify false
 
 
 
