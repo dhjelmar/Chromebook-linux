@@ -94,7 +94,7 @@ fixgit () {
   pd ~/.ssh
   lsl
   ssh-add -L
-  echo "if needed, add key to ssh-add (e.g., "ssh-add myprivatekey"
+  echo "if needed, add key to ssh-add (e.g., 'ssh-add myprivatekey')"
 }
 
 #------------------------
