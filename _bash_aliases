@@ -88,6 +88,15 @@ tl () {
   /opt/thinlinc/bin/tlclient $server &
 }
 
+fixgit () {
+  # run this if git will not push or pull from repo
+  eval `ssh-agent`
+  pd ~/.ssh
+  lsl
+  ssh-add -L
+  echo "if needed, add key to ssh-add (e.g., "ssh-add myprivatekey"
+}
+
 #------------------------
 # MOUNT USB DRIVE
 # https://askubuntu.com/questions/37767/how-to-access-a-usb-flash-drive-from-the-terminal
