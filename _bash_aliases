@@ -232,11 +232,15 @@ alias an='anaconda-navigator &'
 # location: /opt/miniconda3/envs/py37rc/bin/
 vs () { code $1 & }
 jl () { jupyter lab $1 & }
-rs () { rstudio $1 & }
 alias R="R --no-save --no-restore-data --quiet"
 alias r="R"
+if [[ "$os" == 'windows' ]]; then
+   alias r="/c/Program\ Files/R/R-4.4.3/bin/R.exe"
+   alias rs="/c/Program\ Files/RStudio/rstudio.exe &"
+else
+   rs () { rstudio $1 & }
+fi
 
-# alias rs="C:/Program Files/RStudio/bin/rstudio.exe"
 
 # run "code ~/.bashrc" in bash to open the file in VS Code
 # https://code.visualstudio.com/docs/terminal/shell-integration
