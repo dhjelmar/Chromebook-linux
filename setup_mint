@@ -684,6 +684,17 @@ ssh -X tower
 # another suggestino
 # gsettings set org.gnome.software download-updates-notify false
 
+#------------------
+# getting Yubikey to work with ThinLinc
+
+https://bugzilla.cendio.com/show_bug.cgi?id=8251
+https://community.thinlinc.com/t/anyone-working-fido2-token-forwarding-support/904
+https://community.thinlinc.com/t/linux-remote-desktop-authentication-is-thinlinc-compatible-with-yubikey/280/2
+
+https://community.thinlinc.com/t/smartcard-export-no-longer-working/843/17
+# add following to bashrc
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/thinlinc/lib64:/opt/thinlinc/lib"
+
 
 
 ##-----------------------------------------------------------------------------
