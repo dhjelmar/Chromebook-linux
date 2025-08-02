@@ -913,6 +913,46 @@ sudo apt install openssh-client
 ## Next ssh should only require pin and not password, but it still is asking for a password.
 
 ##-----------------------------------------------------------------------------
+## Gramps
+
+# first tried system package
+# did not seem to include `edit/addon manager`. Did find addon manager in menu but nothing populated.
+
+# https://gramps-project.org/wiki/index.php/Installing_Gramps_for_Linux_computers#Debian_package
+sudo flatpak install flathub org.gramps_project.Gramps
+
+
+## alternately:
+Building from Source (Advanced Users):
+Install necessary dependencies:
+sudo apt install git
+sudo apt install python3-dev
+sudo apt install python3-pip
+sudo apt install build-essential
+sudo apt install libgspell-1-dev
+sudo apt install libxml2-dev
+sudo apt install libxslt-dev
+sudo apt install libglib2.0-dev
+sudo apt install libgdk-pixbuf2.0-dev
+sudo apt install libgtk2.0-dev
+sudo apt install libpango-dev
+sudo apt install libwebkitgtk-1.0-dev
+sudo apt install libsqlite3-dev
+sudo apt install libldap2-dev
+sudo apt install libpcre3-dev
+sudo apt install libffi-dev
+sudo apt install libpython3-dev
+sudo apt install python3-setuptools
+Clone the Gramps repository: git clone https://github.com/gramps-project/gramps.git Gramps
+Navigate to the Gramps directory: cd Gramps
+Create a build directory: mkdir build
+Navigate to the build directory: cd build
+Configure the build: cmake ..
+Build Gramps: make
+Install Gramps: sudo make install 
+
+
+##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
 # To update system
 # try peppermint_hub / hardware & software / update manager

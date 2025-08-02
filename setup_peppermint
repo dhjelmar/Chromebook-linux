@@ -10,6 +10,19 @@
 # install operating system
 # https://www.ifixit.com/Guide/How+to+convert+a+generic+Chromebook+to+Linux+OS/108259
 # in last step, selected to install full UEFI ROM firmware
+# create manual partitions following setup_mint instructions but using following sizes
+# STILL NEED TO MODIFY THE FOLLOWING SINCE THE DISK IS TOO SMALL FOR THIS
+#                                   size       format     partition typ      mount point    label and name
+#                                   ------     ------     --------------     -----------    --------------
+#     - EFI Boot loader:     	     100 MB     fat32	   primary	      /boot/EFI	     boot
+#     - Root (system files): 	     100 GB 	ext4 	   primary            /              root
+#        - swap: using swap file under root rather than 16 GB ext4 logical partition
+#     - Timeshift: 		     300 GB     ext4	   primary			     timeshift
+#                                   (3x the root partition size)
+#     - Home (personal files):      balance	ext4 	   primary	      /home/<user>   home
+#     - no 16GB swap partion made; later will use a swap file under root instead
+
+
 
 
 ##-----------------------------------------------------------------------------
