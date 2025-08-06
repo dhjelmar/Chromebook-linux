@@ -71,6 +71,7 @@
 (global-set-key "\C-xn" 'narrow-to-region)
 (global-set-key "\C-xw"    'widen)
 (global-set-key [M-left]  '(lambda() (interactive) (scroll-left 10))) ; executed as Alt-left arrow
+(global-set-key [M-right] '(lambda() (interactive) (scroll-right 10))) ; executed as Alt-right arrow
 (global-set-key [M-up]    '(lambda() (interactive) (scroll-down-command))) ; "page up" executed as Alt-up arrow1
 (global-set-key [M-down]  '(lambda() (interactive) (scroll-up-command))) ; "page down" executed as Alt-down arrow1
 
