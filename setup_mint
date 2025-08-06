@@ -163,8 +163,14 @@ git config --global core.editor emacs
 cd ~/
 ## create SSH keys
 ssh-keygen -t ed25519 -C dlhjel@gmail.com
-## hit enter twice after above command
+## hit enter twice after above command (provide a name when prompted like id_ed25519_github)
 ## copy the contents of the ~/.ssh/*pub key and add it to GitHub
+
+## start ssh agent if not already running (it is probably already running so command is commented out)
+##    eval "$(ssh-agent -s)"
+## add the key with
+ssh-add ~/.ssh/id_ed25519_github
+
 mkdir ~/Documents/GitHub
 cd ~/Documents/GitHub
 git clone git@github.com:dhjelmar/Chromebook-linux.git
