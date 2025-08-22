@@ -10,19 +10,14 @@
 # install operating system
 # https://www.ifixit.com/Guide/How+to+convert+a+generic+Chromebook+to+Linux+OS/108259
 # in last step, selected to install full UEFI ROM firmware
-# create manual partitions following setup_mint instructions but using following sizes
-# STILL NEED TO MODIFY THE FOLLOWING SINCE THE DISK IS TOO SMALL FOR THIS
-#                                   size       format     partition typ      mount point    label and name
-#                                   ------     ------     --------------     -----------    --------------
-#     - EFI Boot loader:     	     100 MB     fat32	   primary	      /boot/EFI	     boot
-#     - Root (system files): 	     100 GB 	ext4 	   primary            /              root
-#        - swap: using swap file under root rather than 16 GB ext4 logical partition
-#     - Timeshift: 		     300 GB     ext4	   primary			     timeshift
-#                                   (3x the root partition size)
-#     - Home (personal files):      balance	ext4 	   primary	      /home/<user>   home
-#     - no 16GB swap partion made; later will use a swap file under root instead
 
+# let installation automatically create partitions with box checked to create swap file
+#   - created new GPT partition table
+#   - created 300 MB partition for EFI boot (format fat32; mount point /boot/EFI)
+#     (I may have made this 100 MB but OK)
+#   - created 29 GB partition for root and personal files (format ext4)
 
+# above is not ideal if had bigger hard drive but it is good for tiny system
 
 
 ##-----------------------------------------------------------------------------
@@ -125,8 +120,16 @@ git config --global core.editor emacs
 cd ~/
 ## create SSH keys
 ssh-keygen -t ed25519 -C dlhjel@gmail.com
-## hit enter twice after above command
+## hit enter twice after above command or name it something like id_ed25519_github
 ## copy the contents of the ~/.ssh/*pub key and add it to GitHub
+
+## manually add ssh key to ssh agent
+ssh-add ~/.ssh/id_ed25519_github
+
+## will need to run the above every time you log in
+## instead, try following to make it persistent but may need to enter password each time
+echo "AddKeysToAgent yes" > ~/.ssh/config2
+
 mkdir GitHub_repos
 cd GitHub_repos
 git clone git@github.com:dhjelmar/Chromebook-linux.git
@@ -170,11 +173,11 @@ cp ~/GitHub_repos/Chromebook-linux/xorg.conf /etc/X11/
 # snap windows left/right/up/down
 # Menu / Settings / Window Manager / Keyboard
 # click on "Tile window to..." then bind as follows:
-##              full             left              right
-##    top       Ctrl+Super+Up    Shift+Super+Left  Shift+Super+Right
-##    bottom    Ctrl+Super+Down  Shift+Ctrl+Left   Shift+Ctrl+Right
-##    left      Ctrl+Super+Left
-##    right     Ctrl+Super+Right
+##              full        left              right
+##    top       Super+Up    Shift+Super+Left  Shift+Super+Right
+##    bottom    Super+Down  Shift+Ctrl+Left   Shift+Ctrl+Right
+##    left      Super+Left
+##    right     Super+Right
 #
 # delete key
 # http://www.afterstep.org/keyboard.html
@@ -190,8 +193,8 @@ sudo chmod a+rx /usr/local/bin/youtube-dl
 ##-----------------------------------------------------------------------------
 # MINICONDA, Python
 # first download miniconda installation script from online
-sudo bash Miniconda3-latest-Linux-x86_64.sh
-# when prompted for installation location, use /opt/miniconda3
+# install to /opt/miniconda3
+sudo bash Miniconda3-latest-Linux-x86_64.sh -b -u -p /opt/miniconda3
 # close and reopen terminal to activate conda
 # test a conda command
 source /opt/miniconda3/bin/activate          # see .bash_aliases additions
