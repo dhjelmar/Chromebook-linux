@@ -1,0 +1,8 @@
+[Nemo Action]
+Active=true
+Name=Secure Delete (Shred)
+Comment=Overwrite and securely delete selected files/folders
+Exec=/usr/bin/shred -f -u -v -z -n 3 %F
+Selection=any
+Extensions=any
+EscapeSpaces=true

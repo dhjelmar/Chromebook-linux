@@ -61,6 +61,8 @@ cdl () {
 }
 alias ram="free -h"     # shows available RAM
 
+# remove secure (shred secure delete)
+alias rms="/usr/bin/shred -f -u -v -z -n 3"
 
 #------------------------
 # thunderbird

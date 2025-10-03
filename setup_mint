@@ -203,6 +203,13 @@ ln -s ~/Documents/GitHub/Chromebook-linux/_emacs_mint ~/.emacs.d/init.el
 
 
 ##-----------------------------------------------------------------------------
+# Nemo file manager
+# Nemo comes installed as the default file manager
+
+# add shred secure delete option to Nemo menu
+cp shred.nemo_action /home/david/.local/share/nemo/actions
+
+##-----------------------------------------------------------------------------
 # Thunderbird
 # uninstalled system version that came with LMDE to use flatpack instead
 
