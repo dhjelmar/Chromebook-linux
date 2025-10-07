@@ -120,11 +120,14 @@ git config --global core.editor emacs
 cd ~/
 ## create SSH keys
 ssh-keygen -t ed25519 -C dlhjel@gmail.com
-## hit enter twice after above command or name it something like id_ed25519_github
+## hit enter twice after above command (use default id_ed25519 so ssh-add is simpler to use)
 ## copy the contents of the ~/.ssh/*pub key and add it to GitHub
 
 ## manually add ssh key to ssh agent
-ssh-add ~/.ssh/id_ed25519_github
+#  if used some unique name, then need to specify full path
+#       ssh-add ~/.ssh/id_ed25519_github
+# if used default name, then can just enter
+ssh-add
 
 ## will need to run the above every time you log in
 ## instead, try following to make it persistent but may need to enter password each time
@@ -223,6 +226,19 @@ conda activate py39
 conda install pandas numpy matplotlib seaborn
 # for python packages that do not load with conda, try conda pip
 
+
+#------------------------
+# Thunderbird
+
+# install flatpak version of Thunderbird
+flatpak install flathub org.mozilla.Thunderbird
+
+
+# https://superuser.com/questions/13518/change-the-default-sorting-order-in-thunderbird
+# go into settings / config editor (advanced preferences) / mailnews.default
+# see above to change default: sort order (2  = decending)
+#                              sort type  (21 = based on order received)
+#                              sort flag  (0  = unthreaded)
 
 
 #------------------------
