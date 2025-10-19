@@ -31,7 +31,7 @@ UUID=106B-9258	/boot/efi	vfat	defaults	0	1
 #
 # https://wiki.debian.org/fstab
 # defaults = rw,suid,dev,exec,auto,nouser,async
-UUID="01DADF95638D80B0" /mnt/HDD_backup_ntfs  ntfs defaults 0 2
-UUID="460155A0314B03D3" /mnt/LMDE_SSD_ntfs    ntfs defaults 0 2
-#UUID="6248DC0048DBD0C1" /mnt/Windows_SSD_ntfs ntfs defaults 0 2
-UUID="6248DC0048DBD0C1" ~/Windows_SSD_ntfs ntfs defaults 0 2
+UUID="01DADF95638D80B0" /mnt/HDD_backup_ntfs  ntfs defaults,nofail 0 2
+UUID="460155A0314B03D3" /mnt/LMDE_SSD_ntfs    ntfs defaults,nofail 0 2
+#UUID="6248DC0048DBD0C1" /mnt/Windows_SSD_ntfs ntfs defaults,nofail 0 2
+UUID="6248DC0048DBD0C1" ~/Windows_SSD_ntfs ntfs defaults 0,nofail 2
