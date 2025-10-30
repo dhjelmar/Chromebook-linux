@@ -1,0 +1,271 @@
+; Make desktop shortcut of runemacs
+; Right click on shortcut and select properties / shortcut
+; Set Target to:
+;     "C:\Program Files\EMACS\emacs-21.3\bin\runemacs.exe" . -load "C:\.emacs"
+; Set "Start In" to:
+;     "C:\Documents and Settings\Owner\My Documents\Dave's Stuff"
+; Note reason for above location for .emacs file is that this is considered "home".
+;; To see this, enter "M-x getenv" and enter environment variable "home".
+;; To change HOME on Windows (this will affect more than just Emacs):
+;;    - in Start (search) box, enter env to find "Edit the system environment variables"
+;;    - This opens System Properties window.
+;;    - Select Environment Variables and change HOME and possibly HOMEPATH to new location
+
+
+;; USEFUL COMMANDS
+;; ---------------
+;; from within dired, to mark files that contain regular expression: %g
+
+
+; A CUSTOM LOOK
+; -------------
+
+;; set colors
+;;(setq set-background-color blue)
+
+;; colorcode dired mode emacs' font-lock conventions
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+;; (package-initialize)    ; commented out because got a warning that it was not necessary
+
+(add-hook 'dired-mode-hook 'turn-on-font-lock)
+
+;; colorcode all visited files
+(add-hook 'find-file-hooks 'turn-on-font-lock)
+
+;; Make display-time display day and date also
+(setq display-time-day-and-date t)
+;; Display time, day and date in modeline
+(display-time)
+
+;; List full filename with path
+(set-default  'mode-line-buffer-identification
+           '(buffer-file-name ("%f") ("%b")))
+
+;; following replaced with a color theme using M-x customize-theme
+;; then saved results which added it further below under custom-set-variables
+;; ;; Set display colors (use M-x list-faces to view displays that can be changed)
+;; ;;                    (use M-x list-colors to view color choices)
+;; (set-face-foreground 'mode-line  "white")   
+;; (set-face-background 'mode-line  "firebrick")   
+;; (set-face-background 'region    "violet")   
+;; (set-face-background 'highlight "salmon")
+;; (set-foreground-color           "antique white")   
+;; (set-background-color           "midnightblue")   
+;; (set-cursor-color               "green")
+;; (set-mouse-color                "green")   
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(font-lock-comment-face ((t (:foreground "green1"))))
+ '(font-lock-function-name-face ((t (:foreground "green1")))))
+
+; A CUSTOM FEEL
+; -------------
+
+;; do not add new lines when down arrow is used to move past end of file
+(set-variable (quote next-line-add-newlines) nil)
+
+;; set various variables
+(set-variable (quote auto-save-default) nil)
+(set-variable (quote version-control) nil)
+(set-variable (quote scroll-step) 1)
+
+; not sure why, but following were disabled and I want them
+(put 'narrow-to-region 'disabled nil)
+(put 'upcase-region    'disabled nil)
+(put 'downcase-region  'disabled nil)
+(put 'eval-expression  'disabled nil)
+
+; control sequence bindings
+(global-set-key "\C-xn"    'narrow-to-region)
+(global-set-key "\C-xw"    'widen)
+(global-set-key [M-left]  '(lambda() (interactive) (scroll-left 10))) ; executed as Alt-left arrow
+(global-set-key [M-right] '(lambda() (interactive) (scroll-right 10))) ; executed as Alt-right arrow
+
+;; User defined functions
+(defun truncate-toggle ()
+   "Toggle continuation lines on and off"
+   (interactive)
+   (setq truncate-lines (not truncate-lines))
+   (scroll-up 0))
+(defun copy-line ()
+   "Duplicate a line from anywhere inside it"
+   (interactive)
+   (beginning-of-line)
+   (let ((start (point)))
+     (forward-line)
+     (copy-region-as-kill start (point))
+     (yank)
+     (forward-line -1)))
+;; The following defines keyboard macro yessir
+;; C-x (
+;; yes
+;; C-x )
+;; M-x name-last-kbd-macro RET yessir RET
+;; M-x insert-kbd-macro RET truncate-t RET
+(fset 'yessir
+   [?y ?e ?s return])
+
+;; User customized key bindings
+;; use F1 c then hit key to identify map for specific key
+;; use F1 b to find all bindings
+(global-set-key [f1] 'help-for-help)
+(global-set-key [f2] 'copy-line)
+(global-set-key [f3] 'what-line)
+(global-set-key [f4] 'what-cursor-position)
+(global-set-key [f5] 'fortran-split-line)
+(global-set-key [f6] 'query-replace)
+(global-set-key [f8] 'shell-command)
+(global-set-key [f9]  'kill-rectangle)
+(global-set-key [f10] 'yank-rectangle)
+(global-set-key [f11] 'truncate-toggle)
+;; (global-set-key [f12] 'kill-line)
+(fset 'delete-line
+   [?\C-a ?\C-  ?\C-e ?\C-w delete])
+(global-set-key [f12] 'delete-line)
+
+;; map for the keypad
+(global-set-key [kp-0] 'other-window)
+(global-set-key [kp-subtract] 'list-buffers)
+(global-set-key [kp-add] 'enlarge-window)
+(global-set-key [kp-enter] 'shrink-window)
+(global-set-key [kp-decimal] 'call-last-kbd-macro)
+(global-set-key [kp-multiply] 'yessir)
+(global-set-key [kp-divide] 'truncate-toggle)
+
+;; to get ediff to work
+;; If have git installed:
+;;     Add following to PATH (find path using env command)
+;;         C:\Program Files\Git\usr\bin\
+;;     Or add following to .emacs file
+(setq ediff-diff-program "C:/Program Files/Git/usr/bin/diff.exe")
+;; Or if have CYGWIN installed:
+;; https://emacs.stackexchange.com/questions/12864/comparing-two-text-files-on-a-windows-system
+;;     Add following to PATH (find path using env command)
+;;         c:/CYGWIN64/bin
+;;     Or add following to .emacs file
+;;        (setq ediff-diff-program "c:/CYGWIN64/bin/diff.exe")
+
+
+;; tips
+;; ----
+;; to find C-L, search for C-q C-L
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+
+
+;; OCTAVE MODE
+;; -----------
+;; Associate .m files with octave (or matlab)
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+;;
+;; Problem with standard octave-mode where comments get thrown many characters to the right
+;;
+;; Found solution here:
+;; https://emacs.stackexchange.com/questions/15164/commented-lines-shoot-off-to-column-32-in-octave-mode
+;;
+;; In share/emacs/26.3/lisp/progmodes/octave.el, I redefined octave-indent-comment which originally goes like this:
+;; (defun octave-indent-comment ()
+;;  "A function for `smie-indent-functions' (which see)."
+;;  (save-excursion
+;;    (back-to-indentation)
+;;    (cond
+;;     ((octave-in-string-or-comment-p) nil)
+;;     ((looking-at-p "\\(\\s<\\)\\1\\{2,\\}")
+;;      0)
+;;     ;; Exclude %{, %} and %!.
+;;     ((and (looking-at-p "\\s<\\(?:[^{}!]\\|$\\)")
+;;           (not (looking-at-p "\\(\\s<\\)\\1")))
+;;      (comment-choose-indent)))))
+;;
+;; I copied the last bit and appended to octave-mode-hook here in init file like so:
+;;
+(setq octave-mode-hook
+      (lambda () (progn (setq octave-comment-char ?%)
+                        (setq comment-start "%")
+                        (setq indent-tabs-mode t)
+                        (setq comment-add 0)
+                        (setq tab-width 2)
+                        (setq tab-stop-list (number-sequence 2 200 2))
+                        (setq octave-block-offset 2)
+
+                        (defun octave-indent-comment ()
+                          "A function for `smie-indent-functions' (which see)."
+                          (save-excursion
+                            (back-to-indentation)
+                            (cond
+                             ((octave-in-string-or-comment-p) nil)
+                             ((looking-at-p "\\(\\s<\\)\\1\\{2,\\}") 0)))))))
+
+;; R mode
+;;-------
+;; A note on comments
+;; ### comment indents to beginning of line
+;; ##  comment indents to same level as code
+;; #   comment indents far to right
+
+;; Elisp file for R coding with Emacs
+;; https://opensource.com/article/20/5/r-emacs-data-science
+
+;; Add MELPA repository and initialise the package manager
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+
+;; Install use-package,in case it does not exist yet
+;; The use-package software will install all other packages as required
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+;; ESS configurationEmacs Speaks Statistics
+(use-package ess
+  :ensure t
+)
+
+;; Auto completion
+(use-package company
+  :ensure t
+  :config
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 2)
+  (global-company-mode t)
+)
+
+; Parentheses
+(use-package highlight-parentheses
+  :ensure t
+  :config
+  (progn
+    (highlight-parentheses-mode)
+    (global-highlight-parentheses-mode))
+  )
+
+
+
+;;-------------------------------------------------------------
+
+; C-h m              <- to identify current major mode
+; M-x octave-mode    <- to set octave mode, although above coding takes care of it
+; M-x customize      <- creaets customization buffere to add to init file but may mess up
+ 
+;;-------------------------------------------------------------
+;; BELOW HERE ARE THINGS EMACS ADDED BY ITSELF 
+ 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes '(deeper-blue))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages '(highlight-parentheses company ess use-package)))
