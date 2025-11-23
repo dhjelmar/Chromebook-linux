@@ -32,7 +32,7 @@ alias pp="popd"
 alias psa='ps -e'   # all processes
 alias gith="cd $git_path"                 # used on Windows
 alias gitw="cd $git_path/../GitHub_work"  # used on Windows
-alias gitu="git reset --soft HEAD~1"    # undo last commit and keep changes in working area
+alias gitundo="git reset --soft HEAD~1"    # undo last commit and keep changes in working area
 alias ff="find . -print | grep -i"
 if [[ "$os" == 'windows' ]]; then
     alias pictures="pd 'D:\\MY Pictures'"     # only need in Git Bash
