@@ -269,12 +269,30 @@ sudo apt install code -y
 
 ##-----------------------------------------------------------------------------
 # R and RSTUDIO
-# https://in2techs.com/how-to-install-uninstall-r-and-rstudio-in-linux/?doing_wp_cron=1658515336.9373800754547119140625
-# https://www.charlesbordet.com/en/how-to-upgrade-to-R-4-0-0-on-debian/#the-good-solution
-# https://cran.r-project.org/bin/linux/debian/#debian-bullseye
+
+# determine VERSION_CODENAME and add corresponding repository
+cat /etc/os-release | grep VERSION_CODENAME
+# I have bookworm (Debian 12) installed
+
+# https://ahmorris.org/post/2023-09-16-install-rstudio-on-debian-12-bookworm/
+sudo apt install r-base r-base-dev
+
+# check posit website for RStudio releases and download
+# https://posit.co/download/rstudio-desktop/
+
+cd ~/Downloads
+sudo apt install libssl-dev libclang-dev
+sudo dpkg -i rstudio-2025.09.1-401-amd64.deb
+
+
+#####
+# FOLLOWING WAS NOT DONE
+#####
 
 # install tool to add repositories to systems file /etc/apt/sources.list
 sudo apt install software-properties-common
+# determine VERSION_CODENAME and add corresponding repository
+cat /etc/os-release | grep VERSION_CODENAME
 sudo add-apt-repository "deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/"
 
 # install key to repository
