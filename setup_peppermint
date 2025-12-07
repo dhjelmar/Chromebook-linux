@@ -42,6 +42,9 @@ sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw status verbose
 
+##-----------------------------------------------------------------------------
+# check disk usage
+sudo apt install ncdu
 
 ##-----------------------------------------------------------------------------
 # hBlock to block ads, tracking, and malware domains

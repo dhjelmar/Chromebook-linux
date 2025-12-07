@@ -61,6 +61,7 @@ cdl () {
     cd $lastfolder
 }
 alias ram="free -h"     # shows available RAM
+alias hog='sudo ncdu /' # identify largest files
 
 # remove secure (shred secure delete)
 alias rms="/usr/bin/shred -f -u -v -z -n 3"
