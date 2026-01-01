@@ -964,6 +964,21 @@ Configure the build: cmake ..
 Build Gramps: make
 Install Gramps: sudo make install 
 
+##-----------------------------------------------------------------------------
+# brightness and gamma applet
+# working great but then died; the applet may be out of date
+# options: use buttons on bottom right of monitor
+#          ddcutil to increase or decrease brightness
+
+# first check that DDC/CI is enabled in monitor setup (find using menu button)
+sudo apt install ddcutil
+
+# to increase brightness
+#     sudo ddcutil setvcp 10 + 10
+# to decrease brightness
+#     sudo ddcutil setvcp 10 - 10
+
+
 
 ##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------

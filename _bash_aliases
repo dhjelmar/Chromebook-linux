@@ -66,10 +66,20 @@ alias hog='sudo ncdu /' # identify largest files
 # remove secure (shred secure delete)
 alias rms="/usr/bin/shred -f -u -v -z -n 3"
 
+alias ioff='nmcli networking off'    # internet off
+alias  ion='nmcli networking on'     # internet on
+
+#------------------------
+# increase brightness
+alias bright='sudo ddcutil setvcp 10 + 10'
+alias dim='sudo ddcutil setvcp 10 - 10'
+
+
 #------------------------
 # thunderbird
 alias tb='thunderbird &'
 alias tb='flatpak run org.mozilla.Thunderbird 2>/dev/null &'
+
 
 #------------------------
 # Brave

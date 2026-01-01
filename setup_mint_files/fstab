@@ -34,4 +34,4 @@ UUID=106B-9258	/boot/efi	vfat	defaults	0	1
 # nofail was added to tell the boot process to give up trying to load the drive if the drive is bad
 UUID="01DADF95638D80B0" /mnt/HDD_backup_ntfs  ntfs defaults,nofail 0 2
 UUID="460155A0314B03D3" /mnt/LMDE_SSD_ntfs    ntfs defaults,nofail 0 2
-UUID="6248DC0048DBD0C1" /home/david/Windows_SSD_ntfs ntfs defaults,nofail 0 2
+UUID="01DC43AD304AE490" /home/david/Windows_SSD_ntfs ntfs defaults,nofail 0 2
