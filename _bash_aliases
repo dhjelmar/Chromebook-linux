@@ -69,6 +69,16 @@ alias rms="/usr/bin/shred -f -u -v -z -n 3"
 alias ioff='nmcli networking off'    # internet off
 alias  ion='nmcli networking on'     # internet on
 
+lock () {
+    # start screensaver
+    echo $XDG_CURRENT_DESKTOP
+    if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
+       xdg-screensaver activate
+    else
+       echo "unknown desktop: $XDG_CURRENT_DESKTOP"
+    fi
+}
+
 #------------------------
 # increase brightness
 alias bright='sudo ddcutil setvcp 10 + 10'
