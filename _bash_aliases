@@ -322,14 +322,7 @@ lo () { libreoffice --calc $1 ; }
 #------------------------
 # PICTURE TOOLS
 # exiftool to edit picture meta data
-# downloaded Linux version of exiftool (on Windows, download Windows version even though run in Git Bash)
-# dlh script to use folder names to rename pictures and add metadata tags
-alias exiftool='/c/Windows/exiftool.exe'
-exifname () {
-    # script to rename pictures based on folders
-    ~/GitHub_repos/photo_organize/exifname.sh
-}
-alias exdirclean='rm -r *.jpg_original'
+# alias functions defined in _bashrc_exiftool.sh
 
 
 #------------------------
@@ -375,7 +368,11 @@ update () {
     sudo apt autoremove
 }
 
-
+# the following fixed an "OpenPGP signature verification failed" message
+# that wats ue do an expired or missing key ring
+# sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+# echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+# sudo apt update
 
 
 #------------------------

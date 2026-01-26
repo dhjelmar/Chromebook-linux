@@ -235,6 +235,12 @@ cp shred.nemo_action /home/david/.local/share/nemo/actions
 #                              sort type  (21 = based on order received)
 #                              sort flag  (0  = unthreaded)
 
+
+##-----------------------------------------------------------------------------
+# exiftool
+sudo apt install exiftool
+
+
 ##-----------------------------------------------------------------------------
 # VLC
 # installed with software manager
@@ -399,64 +405,73 @@ sudo apt install ./zoom_amd64.deb
 
 ##-----------------------------------------------------------------------------
 # RSTUDIO (R was preinstalled with LMDE)
-# first, note that I installed LMDE 6 which is based on Debian 12 Bookworm
+# first, note that I installed LMDE 7 which is based on Debian 13 Trixie
 
-# https://linuxcapable.com/how-to-install-r-programming-language-on-debian-linux/
-# update system
 sudo apt update
-sudo apt upgrade
+sudo apt install r-base r-base-dev
 
-# update version of R
-apt remove r-base-core
-apt install -t bookworm-cran40 r-base
+# download deb file from: https://posit.co/download/rstudio-desktop/
+# double click deb file in file manager to install
 
-
-# https://cran.r-project.org/bin/linux/debian/
-# https://rpubs.com/hrpunio/1153216
-# install required packages
-sudo apt install dirmngr apt-transport-https ca-certificates software-properties-common -y
-# import CRAN respository
-R=https://cloud.r-project.org/bin/linux/debian bookworm-cran40/
-echo "deb [signed-by=/usr/share/keyrings/cran.gpg] ${R}" | sudo tee /etc/apt/sources.list.d/cran.list
-# update R packages
-apt install libv8-dev
-apt install lib-sodium.h
-apt install libopenblas-dev
-update.packages(ask = FALSE)
-sudo apt install r-base-core r-base-dev
-
-
-# deb http://cloud.r-project.org/bin/linux/debian bookworm-cran40/
-# sudo apt install r-base
-# R --version
-
-
-# https://computingforgeeks.com/how-to-install-r-and-rstudio-on-debian/
-# https://ahmorris.org/post/2023-09-16-install-rstudio-on-debian-12-bookworm/
-# https://cloud.r-project.org/bin/linux/debian/
-
-# install RStudio
-cd ~/Downloads
-sudo apt -y install wget
-# downloaded deb file from https://posit.co/download/rstudio-desktop/
-wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2024.12.1-563-amd64.deb
-
-# obtain public key
-gpg --keyserver keys.openpgp.org --search-keys 51C0B5BB19F92D60
-# asked to "Enger number(s), N)ext, or Q)uit". I entered 1.
-
-# validate signture
-gpg --verify rstudio-2024.12.1-563-amd64.deb
-
-# install
-sudo apt install -f ./rstudio-2024.12.1-563-amd64.deb
-
-# launch RStudio
-rstudio
-
-# install a couple things needed to support various packages (RTools not needed on Linux, only Windows)
-sudo apt install libcurl4-openssl-dev
-sudo apt install cmake
+##########
+# # OLD INSTRUCTIONS BELOW THAT MAY BE USEFUL IN THE FUTURE
+# 
+# # https://linuxcapable.com/how-to-install-r-programming-language-on-debian-linux/
+# # update system
+# sudo apt update
+# sudo apt upgrade
+# 
+# # update version of R
+# apt remove r-base-core
+# apt install -t bookworm-cran40 r-base
+# 
+# 
+# # https://cran.r-project.org/bin/linux/debian/
+# # https://rpubs.com/hrpunio/1153216
+# # install required packages
+# sudo apt install dirmngr apt-transport-https ca-certificates software-properties-common -y
+# # import CRAN respository
+# R=https://cloud.r-project.org/bin/linux/debian bookworm-cran40/
+# echo "deb [signed-by=/usr/share/keyrings/cran.gpg] ${R}" | sudo tee /etc/apt/sources.list.d/cran.list
+# # update R packages
+# apt install libv8-dev
+# apt install lib-sodium.h
+# apt install libopenblas-dev
+# update.packages(ask = FALSE)
+# sudo apt install r-base-core r-base-dev
+# 
+# 
+# # deb http://cloud.r-project.org/bin/linux/debian bookworm-cran40/
+# # sudo apt install r-base
+# # R --version
+# 
+# 
+# # https://computingforgeeks.com/how-to-install-r-and-rstudio-on-debian/
+# # https://ahmorris.org/post/2023-09-16-install-rstudio-on-debian-12-bookworm/
+# # https://cloud.r-project.org/bin/linux/debian/
+# 
+# # install RStudio
+# cd ~/Downloads
+# sudo apt -y install wget
+# # downloaded deb file from https://posit.co/download/rstudio-desktop/
+# wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2024.12.1-563-amd64.deb
+# 
+# # obtain public key
+# gpg --keyserver keys.openpgp.org --search-keys 51C0B5BB19F92D60
+# # asked to "Enger number(s), N)ext, or Q)uit". I entered 1.
+# 
+# # validate signture
+# gpg --verify rstudio-2024.12.1-563-amd64.deb
+# 
+# # install
+# sudo apt install -f ./rstudio-2024.12.1-563-amd64.deb
+# 
+# # launch RStudio
+# rstudio
+# 
+# # install a couple things needed to support various packages (RTools not needed on Linux, only Windows)
+# sudo apt install libcurl4-openssl-dev
+# sudo apt install cmake
 
 
 ##-----------------------------------------------------------------------------
