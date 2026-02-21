@@ -366,6 +366,7 @@ update () {
     sudo apt-get clean
     sudo apt-get autoclean
     sudo apt autoremove
+    sudo flatpak update
 }
 
 # the following fixed an "OpenPGP signature verification failed" message

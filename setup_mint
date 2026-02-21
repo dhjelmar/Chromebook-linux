@@ -996,6 +996,54 @@ sudo apt install ddcutil
 
 
 ##-----------------------------------------------------------------------------
+## Create VM on Windows SSD
+
+1. Use symbolic link to change location for VM from ~/.local/share
+        ```
+        cd /home/david/Windows_SSD_ntfs/Documents/01_Dave  
+        mkdir gnome-boxes  
+        cd /home/david/.local/share  
+        ln -s ~/Windows_SSD_ntfs/Documents/01_Dave/gnome-boxes gnome-boxes
+        ```
+2. Download Windows 11 ISO from Microsoft
+
+3. In boxes, create VM
+
+        Click on + then did the following:  
+        - On host, confirmed UEFI rather than BIOS firmware with:  
+          `test -d /sys/firmware/efi && echo UEFI || echo BIOS`  
+        - In Boxes, installed for UEFI firmware with 4 GB memory and 80 GB storage
+
+4. fix copy/paste from linux to VM
+    Different sources conflict in whether spice-vdagent needs to be running on just the guest or also the host.
+    I installed it on both.
+
+        - Linux host
+                - Download and install
+                - check that it is running: `ps aux | grep vdagent`
+        
+        - Windows Guest VM
+          https://itsfoss.com/share-files-gnome-boxes/
+                - Download and install **Windows SPICE Guest Tools** (`spice-guest-tools-latest.exe`) from https://www.spice-space.org/download.html.
+                - Download and install `virtio-win-guest-tools` needed to complete clipboard sharing and to enable full window VM. Found here:
+                  `
+                  https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.285-1/
+                  `
+           
+        - Linux guest OS (not tested)
+                `
+                sudo apt install spice-webdavd spice-client-gtk spice-vdagent
+                ` 
+        
+5. Fix Yubikey (not working yet; not really needed since I got copy/paste working between host and guest)
+
+        sudo apt install pcscd && sudo systemctl enable --now pcscd
+        
+   Possibly try  
+        `sudo usermod -aG plugdev \$USER` (Log out and back in for changes to take effect).
+ 
+
+##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
 # To update system
 # try peppermint_hub / hardware & software / update manager
