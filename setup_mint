@@ -826,17 +826,8 @@ remove_r() {
 
 #------------------------
 ## KeePassXC
-
-
-##-----------------------------------------------------------------------------
-## KEEPASS
-## keyanywhere plugin does not seem to work on Linux so cannot link to dropbox
-## could map to dropbox but I do not want to because of space issues
-sudo apt-get update
-sudo apt-get install keepass2
-## launch with "keepass2" or "kp2" alias
-sudo apt-get install keepassxc
 ## launch with "keepassxc" or "kpx" alias
+sudo apt-get install keepassxc
 
 
 ##-----------------------------------------------------------------------------
@@ -1041,7 +1032,7 @@ sudo apt install ddcutil
         
    Possibly try  
         `sudo usermod -aG plugdev \$USER` (Log out and back in for changes to take effect).
- 
+
 
 ##-----------------------------------------------------------------------------
 ##-----------------------------------------------------------------------------
