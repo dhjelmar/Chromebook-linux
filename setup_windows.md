@@ -1,4 +1,19 @@
-# transfer windows 10 new motherboard
+# Things to do and software to install
+
+- Disable OneDrive so you don't automatically sync everything in Documents to the cloud
+  - TaskManager / Startup Apps
+  - Select OneDrive.exe
+  - Press Disable
+
+- Thunderbird
+  - find profile here: hamburger / help / troubleshooting information
+  - add folder "chrome"
+  - add "userChrome.css" customization file within chrome folder
+
+- Revo Uninstaller
+
+
+# Transfer windows 10 new motherboard
 
 https://answers.microsoft.com/en-us/windows/forum/all/transfer-windows-10-to-new-motherboard/eee49b69-6830-4942-a19d-b6eac63f7249
 
@@ -16,28 +31,12 @@ https://partner.support.services.microsoft.com/en-us/contactus/windows/account/
 https://support.microsoft.com/en-us/help/13948/global-customer-service-phone-numbers
 
 
-##########################
+# Installs
 
-
-LV internet PC has
+## LV internet PC has
 - full retail license for Windows 11 that can be activated from my microsoft account
   - did not need to uninstall first on old PC
   - if I was not scrapping the old motherboard, it would be a problem if that old PC tried to use the internet
 - full retail license for Word 2016 that can be activated from my microsoft account
 
-
-#############################################################################
-#############################################################################
-
-10/4/24 reinstalled windows 11 from USB
-
-
-
-
-
-##########################
-
-# Thunderbird
-# find profile here: hamburger / help / troubleshooting information
-# add folder "chrome"
-# add "userChrome.css" customization file within chrome folder
+## 10/4/24 reinstalled windows 11 from USB
