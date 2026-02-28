@@ -1,0 +1,9 @@
+[Nemo Action]
+Active=true
+Name=Smart Secure Delete
+Comment=Securely delete file based on SSD or HDD type
+Exec=<smart_secure_delete.sh %F>
+Icon-Name=edit-delete
+Selection=any
+Extensions=any;
+Quote=double

@@ -208,10 +208,24 @@ source ~/Documents/GitHub/Chromebook-linux/_bash_aliases
 
 # Nemo file manager (already installed as default file manager)
 
-# add shred secure delete option to Nemo menu
-```
-cp shred.nemo_action /home/david/.local/share/nemo/actions
-```
+# secure delete
+- Standard file shredders that overwrite files with zeros (like `/usr/bin/shred -f -u -v -z -n 3 filename`) are good for an HHD but useless on and bad for an SSD. An SSD uses wear leveling so wehn shred tries to overwrite a block of memory, the SSD controller just writes the zeros to a new physical block to save wear on the old one.
+- For most modern SSDs and operating systems (Windows 10/11, macOS, modern Linux), simply deleting a file and emptying the Trash is actually quite secure.
+- By default, Linux usually runs TRIM on a weekly schedule via a systemd timer. To ensure the data is cleared right now, manually trigger the fstrim command on the partition where the file lived (usually /).
+  ```
+  # to run on current drive
+  sudo fstrim -v /
+
+  # to run on a different drive (e.g., Windows_SSD_ntfs)
+  sudo fstrim -v /mnt/Windows_SSD_ntfs
+  ```
+
+- added smart secure delete option to nemo file manager based on whether on SSD or HDD
+  ```
+  cd /home/david/Documents/GitHub/Chromebook-linux/setup_mint_files
+  cp smart_secure_delete.sh          /home/david/.local/share/nemo/actions
+  cp smart_secure_delete.nemo_action /home/david/.local/share/nemo/actions
+  ```
 
 # Thunderbird
 - using system version

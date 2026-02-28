@@ -63,8 +63,21 @@ cdl () {
 alias ram="free -h"     # shows available RAM
 alias hog='sudo ncdu /' # identify largest files
 
-# remove secure (shred secure delete)
-alias rms="/usr/bin/shred -f -u -v -z -n 3"
+rms() {
+    # rms = remove securely (i.e., secure delete)
+    local FILE=$1
+    local DISK=$(lsblk -no pkname $(df "$FILE" | tail -1 | awk '{print $1}'))
+    local TYPE=$(cat /sys/block/$DISK/queue/rotational)
+
+    if [ "$TYPE" -eq 0 ]; then
+        echo "SSD detected: Using rm + fstrim..."
+        rm "$FILE" && sudo fstrim -v /
+    else
+        echo "HDD detected: Using shred..."
+        #/usr/bin/shred -f -u -v -z -n 3 @
+        shred -u -n 3 -v "$FILE"
+    fi
+}
 
 alias ioff='nmcli networking off'    # internet off
 alias  ion='nmcli networking on'     # internet on
