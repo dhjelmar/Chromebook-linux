@@ -27,7 +27,7 @@ fi
 alias bashrc="source $HOME/.bashrc"
 alias lsl="ls -alF"
 alias lsd="ls -d */"
-alias pd="pushd"
+alias pd="pushd"    # same as: pd() { pushd $1 ; }
 alias pp="popd"
 alias psa='ps -e'   # all processes
 alias gith="cd $git_path"                 # used on Windows
@@ -60,8 +60,11 @@ cdl () {
     local lastfolder=`echo ${lastfolderv##* }`
     cd $lastfolder
 }
-alias ram="free -h"     # shows available RAM
-alias hog='sudo ncdu /' # identify largest files
+
+# disk usage
+alias ram="free -h"       # shows available RAM
+alias hog='sudo ncdu /'   # identify largest folders and files; arrows to navigate;  d=delete; q=quit 
+alais hog_gui='baobab &'  # similar to Windows WinDirStat
 
 rms() {
     # rms = remove securely (i.e., secure delete)

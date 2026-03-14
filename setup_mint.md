@@ -791,6 +791,13 @@ sudo apt install openssh-client
 	 - I did not need to do this either. Windows Defender was fine with no changes.
 
 
+# Disk Usage
+Useful and quick tool to identify largest folders and files
+`sudo apt install ncdu`
+Graphical tool like WinDirStat that comes with Linux Mint
+`baobab`
+
+
 # To update system
 - run the system update manager when there is a notification in lower right of window
 - automatic method to update `apt` and `flatpak` aps in _bash_aliases
