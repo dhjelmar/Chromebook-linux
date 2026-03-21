@@ -102,6 +102,20 @@ lsb_release -a
   timedatectl set-local-rtc 1
   '
 
+
+# Grub setup using `grub-customizer`
+- Install `grub-customizer`
+  `sudo apt install grub-customizer`
+- Run `grub-customizer`
+  - In List Configuration, define order for which option to boot
+  - In General Settings, uncheck `look for other operating systems` to protect VM from os-prober
+- Reboot to check that it is working
+  - Enters grub when boots
+  - Waits 10 sec
+  - Boots 1st listed OS if not changed
+  - Down arrow and enter to boot into a different OS
+
+
 # Software Installation in order of preference:
 1. Flatpack (Flathub)
 2. System package
@@ -351,6 +365,11 @@ sudo apt install code -y
 # sudo rm /etc/apt/sources.list.d/vscode.list
 # sudo rm /usr/share/keyrings/vscode.gpg
 ```
+
+
+# yq - YAML processor needed for uv-setup function in _bash_aliases
+sudo apt install yq
+
 
 # OnlyOffice
 - sofware manager / onlyoffice <-- flatpak available
