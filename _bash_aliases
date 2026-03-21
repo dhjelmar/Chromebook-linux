@@ -25,6 +25,7 @@ fi
 
 #------------------------
 alias bashrc="source $HOME/.bashrc"
+alias python='python3'
 alias lsl="ls -alF"
 alias lsd="ls -d */"
 alias pd="pushd"    # same as: pd() { pushd $1 ; }
@@ -64,7 +65,7 @@ cdl () {
 # disk usage
 alias ram="free -h"       # shows available RAM
 alias hog='sudo ncdu /'   # identify largest folders and files; arrows to navigate;  d=delete; q=quit 
-alais hog_gui='baobab &'  # similar to Windows WinDirStat
+alias hog_gui='baobab &'  # similar to Windows WinDirStat
 
 rms() {
     # rms = remove securely (i.e., secure delete)
@@ -235,12 +236,13 @@ ytdl () {
 # CONDA (Anaconda or Miniconda)
 
 if [[ "$OSTYPE" = "msys"* ]]; then
+    # running windows
     # Get conda running in the base environment, activate sub-environment
     ## system is Windows (not sure this is needed; it probably gets run through .profile)
     ## enable use of miniconda from within Git Bash
     . C:/Users/dlhje/anaconda3/etc/profile.d/conda.sh
     # change to a specific enviroment
-    conda activate py39
+    # conda activate py39
 fi
 
 # may not need following
@@ -289,6 +291,41 @@ fi
 # https://code.visualstudio.com/docs/terminal/shell-integration
 # Note: as of 1/3/24, use in Git Bash is experimental
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
+
+
+# Disable Conda's automatic prompt prefixing
+conda config --set auto_activate_base false 2>/dev/null
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# Custom Python/UV Tools
+if [ -f "$HOME/Documents/GitHub/Chromebook-linux/setup_mint_files/uv-setup.sh" ]; then
+    # add ability to switch between uv and conda
+    # usage: to use uv   : `uv-setup` or `source .venv/bin/activate`
+    #        to use conda: `conda activate [env_name]`
+    # Create a new UV project and configure VS Code automatically
+    # Setup a uv environment + VS Code in a new or existing repo
+    source "$HOME/Documents/GitHub/Chromebook-linux/setup_mint_files/uv-setup.sh"
+fi
+
+# The Custom Prompt (Keep this here at the very bottom)
+get_py_env_info() {
+    if [ -n "$CONDA_DEFAULT_ENV" ]; then
+        echo -e " \033[38;5;69m(conda:$CONDA_DEFAULT_ENV)\033[0m"
+        return
+    fi
+    if [ -n "$VIRTUAL_ENV" ]; then
+        local ver=$("$VIRTUAL_ENV/bin/python" -c "import sys; print(f'{sys.version_info[0]}.{sys.version_info[1]}')" 2>/dev/null)
+        echo -e " \033[38;5;208m(uv:$ver)\033[0m"
+    fi
+}
+export PS1="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$(get_py_env_info)\$ "
+
+
+# go back to a clean shell
+alias pure="deactivate 2>/dev/null; conda deactivate 2>/dev/null"
+
+# if vscode hangs, use following to get rid of .lock files but to leave uv.lock alone
+alias uv-clean="pkill -9 uv; find . -name '*.lock' ! -name 'uv.lock' -delete"
 
 
 #------------------------
@@ -406,3 +443,4 @@ eval "$(dircolors $git_path/Chromebook-linux/setup_mint_files/.dircolors)"
 # define other aliases and functions for use with photos
 echo "source $git_path/photo_organize/_bashrc_exiftool.sh"
      source "$git_path/photo_organize/_bashrc_exiftool.sh"
+
