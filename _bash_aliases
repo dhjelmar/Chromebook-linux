@@ -307,22 +307,26 @@ if [ -f "$HOME/Documents/GitHub/Chromebook-linux/setup_mint_files/uv-setup.sh" ]
     source "$HOME/Documents/GitHub/Chromebook-linux/setup_mint_files/uv-setup.sh"
 fi
 
-# The Custom Prompt (Keep this here at the very bottom)
-get_py_env_info() {
-    if [ -n "$CONDA_DEFAULT_ENV" ]; then
-        echo -e " \033[38;5;69m(conda:$CONDA_DEFAULT_ENV)\033[0m"
-        return
-    fi
+# The Custom Prompt
+# This stops Conda from prepending (base) automatically
+export CONDA_CHANGEPS1=false
+# Helper function to check environments
+get_env_info() {
     if [ -n "$VIRTUAL_ENV" ]; then
-        local ver=$("$VIRTUAL_ENV/bin/python" -c "import sys; print(f'{sys.version_info[0]}.{sys.version_info[1]}')" 2>/dev/null)
-        echo -e " \033[38;5;208m(uv:$ver)\033[0m"
+        # If in a uv/venv, show the folder name in Cyan
+        echo -e "(\033[0;36m$(basename "$VIRTUAL_ENV")\033[0m) "
+    elif [ -n "$CONDA_DEFAULT_ENV" ]; then
+        # If in Conda, show the env name in Green
+        echo -e "(\033[0;32m$CONDA_DEFAULT_ENV\033[0m) "
     fi
 }
-export PS1="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$(get_py_env_info)\$ "
+Set the PS1 (The \$(...) is the secret sauce)
+# We use \[ \] here to wrap the function call so Bash calculates width correctly
+export PS1='\[$(get_env_info)\]\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;32m\]\w\[\033[00m\]\$ '
 
 
-# go back to a clean shell
-alias pure="deactivate 2>/dev/null; conda deactivate 2>/dev/null"
+# deactivate conda and uv
+alias noenv="deactivate 2>/dev/null; conda deactivate 2>/dev/null"
 
 # if vscode hangs, use following to get rid of .lock files but to leave uv.lock alone
 alias uv-clean="pkill -9 uv; find . -name '*.lock' ! -name 'uv.lock' -delete"
