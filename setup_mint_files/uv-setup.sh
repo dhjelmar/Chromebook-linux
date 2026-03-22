@@ -3,7 +3,32 @@
 # --- THE UNIVERSAL UV-SETUP SCRIPT ---
 
 uv-setup() {
-    # 0. Root Discovery
+
+    # 0. Process Arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -h|--help)
+            echo "Usage  : uv-setup [URL] [--clean | -c] [--help | -h]"
+            echo "Options: clean = removes .venv and .vscode prior to rebuilding"
+            return 0
+            ;;
+            -c|--clean)
+            local clean=true
+            shift # This "removes" --clean from the list
+            ;;
+            # -f|--file)
+            # filename="$2"
+            # shift # This removes --file
+            # shift # This removes the actual filename value (the argument after -f)
+            # ;;
+            *)
+            local target = "$1"
+            shift # Move to the next argument anyway
+            ;;
+        esac
+    done
+
+    # 1. Root Discovery
     local original_dir=$(pwd)
     local project_root=""
     while [[ "$PWD" != "/" ]]; do
@@ -20,23 +45,13 @@ uv-setup() {
         echo "📂 Project root identified at: $project_root"
     fi
 
-    # 1. The Nuclear Reset
+    # 2. The Nuclear Reset
     # Note: 'deactivate' and 'conda' are shell functions, so we check if they exist
     [ "$(type -t deactivate)" = "function" ] && deactivate 2>/dev/null
     [ "$(type -t conda)" = "function" ] && conda deactivate 2>/dev/null
     pkill -9 uv 2>/dev/null
 
-    # 2. Flags & Help
-    if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
-        echo "Usage: uv-setup [URL] [--clean]"
-        return 0
-    fi
-
-    local clean=false
-    [[ "$*" == *"--clean"* ]] && clean=true
-
     # 3. Clone Logic
-    local target="$1"
     if [[ $target == http* ]] || [[ $target == git@* ]]; then
         git clone "$target"
         cd "$(basename "$target" .git)" || return
