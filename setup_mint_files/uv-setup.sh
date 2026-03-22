@@ -14,6 +14,9 @@ uv-setup() {
             -h|--help)
                 echo "Usage  : uv-setup [URL] [--clean | -c]"
                 echo "Options: --clean : Forces removal of .venv and .vscode"
+		        echo "Notes  : To activate uv    environment, `uv-setup`"
+	         	echo "         To activate conda environment, `conda activate [conda-env]`"
+                echo "         To deactivate uv and conda   , `noenv`"
                 return 0
                 ;;
             -c|--clean)
