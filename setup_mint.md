@@ -372,7 +372,18 @@ sudo apt install yq
 
 
 # OnlyOffice
+
 - sofware manager / onlyoffice <-- flatpak available
+  - Installed flatpak because I read that is the only way to get templates to work from Nemo. I don't think that is correct. Instead, put blank .docx, .xlsx. and .pptx files in ~/Templates
+  - Black theme did not show cursor. Fixed with:
+    ```
+    flatpak override --user --env=XCURSOR_THEME=Adwaita desktopeditors.onlyoffice.DesktopEditors
+    ```
+  - Potential future fix to expose system fonts to OnlyOffice if they don't appear
+    ```
+    flatpak override --user --filesystem=/usr/share/fonts:ro --filesystem=~/.local/share/fonts:ro desktopeditors.onlyoffice.DesktopEditors
+    ```
+    
 - or do it the old fashioned way
   ```
   ## Add GPG key:
