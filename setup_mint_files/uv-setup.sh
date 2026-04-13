@@ -76,7 +76,27 @@ uv-setup() {
         rm -rf .venv .vscode
     fi
 
-    # --- 6. Python Version Logic ---
+    # --- 6. Project Initialization ---
+    if [[ ! -f "pyproject.toml" ]]; then
+        if [[ -f "environment.yml" ]]; then
+            echo "legacy environment.yml detected. Initializing uv project..."
+            uv init --quiet
+        elif [[ -f "requirements.txt" ]]; then
+            uv init --quiet
+        else
+            # Look for a main script
+            local main_script=$(ls *.py 2>/dev/null | head -n 1)
+            if [[ -n "$main_script" ]]; then
+                echo "📝 Generating pyproject.toml from $main_script..."
+                create_toml_from_imports "$main_script"
+            else
+                echo "🆕 No project files found. Initializing empty uv project..."
+                uv init --quiet
+            fi
+        fi
+    fi
+    
+    # --- 7. Scan for specified Python Version ---
     local py_version=""
     if [ -f "environment.yml" ]; then
         py_version=$(grep -E "python[:=]" environment.yml | sed -E 's/.*python[:=][[:space:]]*([^[:space:]]+).*/\1/' | head -n 1)
@@ -86,7 +106,12 @@ uv-setup() {
     # Final fallback: Latest installed Python
     [ -z "$py_version" ] && py_version=$(uv python list --only-installed | awk '{print $2}' | grep '^3\.' | sort -V | tail -n 1)
 
-    # --- 7. Build & Sync ---
+    # After detection of Python version, apply the pin if we are in a uv project
+    if [[ -f "pyproject.toml" && -n "$py_version" ]]; then
+        uv python pin "$py_version" --quiet
+    fi
+    
+    # --- 8. Build & Sync ---
     echo "🚀 Initializing with Python $py_version..."
     [ ! -d ".venv" ] && uv venv --python "$py_version"
     
@@ -104,12 +129,20 @@ EOF
     [ -d ".git" ] && (grep -q ".vscode/" .git/info/exclude || echo ".vscode/" >> .git/info/exclude)
 
     if [ -f "pyproject.toml" ]; then
+        # If we just created it from environment.yml, we might want to 
+        # import the dependencies. uv pip install works well here:
+        if [ -f "environment.yml" ]; then
+             echo "📦 Importing dependencies from environment.yml..."
+             uv pip install -r environment.yml
+             # Syncing creates/updates the uv.lock based on what's installed
+             uv lock
+        fi
         uv sync
     elif [ -f "requirements.txt" ]; then
         uv pip install -r requirements.txt
     fi
 
-    # --- 8. Activation ---
+    # --- 9. Activation ---
     source .venv/bin/activate 2>/dev/null || . .venv/bin/activate
     echo "✅ Setup complete. (uv:$py_version)"
 }
